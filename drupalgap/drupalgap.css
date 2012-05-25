@@ -1,0 +1,18 @@
+.messages {
+	border: 1px solid black;
+	padding: 1em;
+	margin-bottom: 1em;
+	min-height: 0px;
+	display: none;
+}
+
+fieldset {
+	padding: 1em;
+	border: 1px solid black;
+}
+fieldset legend {
+	font-style: bold;
+}
+label {
+	font-style: bold;
+}
