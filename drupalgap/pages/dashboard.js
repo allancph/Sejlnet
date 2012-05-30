@@ -33,14 +33,6 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
         	$('#drupalgap_page_dashboard_header_user h2').html("Hi, " + drupalgap_user.name);
         }
 		
-		// Load user access permissions.
-		access_content = drupalgap_services_user_access({"permission":"access content"});
-		access_comments = drupalgap_services_user_access({"permission":"access comments"});
-		
-		// Set visibility on other buttons.
-		if (access_content) { $('#drupalgap_button_content').show(); }
-		if (access_comments) { $('#drupalgap_button_comments').show(); }
-		
 	}
 	catch (error) {
 		console.log("drupalgap_page_dashboard");
