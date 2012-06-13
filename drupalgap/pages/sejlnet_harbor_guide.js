@@ -25,7 +25,7 @@ $('#sejlent_harbor_guide').live('pageshow',function(){
 						// sejlnet - we must access Nid and 'titel' because views won't let us
 						// change the var name.
 						html = "<a href='node.html' id='" + obj.node.Nid + "'>" + obj.node.titel + "</a>";
-						$("#drupalgap_page_content_list").append($("<li></li>",{"html":html}));
+						$("#sejlent_harbor_guide_content_list").append($("<li></li>",{"html":html}));
 					});
 				}
 				else {

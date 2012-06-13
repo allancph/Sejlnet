@@ -48,7 +48,8 @@ function drupalgap_settings_load () {
 	drupalgap_settings = window.localStorage.getItem("drupalgap_settings");
 	if (!drupalgap_settings) { // no settings found in local storage, setup defaults...
 		drupalgap_settings = {};
-		drupalgap_settings.site_path = "http://10.0.2.2/sejlnet.dk/www"; // examples: http://my-drupal-site.com, http://10.0.2.2/my-localhost-drupal
+		//drupalgap_settings.site_path = "http://10.0.2.2/sejlnet.dk/www";
+		drupalgap_settings.site_path = "http://sejlnet.dk"; // examples: http://my-drupal-site.com, http://10.0.2.2/my-localhost-drupal
 		drupalgap_settings.base_path = "/?q=";
 		drupalgap_settings.services_endpoint_default = "drupalgap";
 		drupalgap_settings.demo = false;
