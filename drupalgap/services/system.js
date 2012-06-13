@@ -16,9 +16,6 @@ var drupalgap_services_system_connect = {
 			
 			try {
 				
-				// Clear the last result.
-				//this.resource_result = null;
-				
 				// Set default options.
 				options = {
 					"resource_path":this.resource_path,
@@ -35,7 +32,14 @@ var drupalgap_services_system_connect = {
 					options.hook_success = caller_options.success;
 				}
 				
-				//this.resource_result = drupalgap_services_resource_call(options);
+				// Attach load-from/save-to local storage options if provided.
+				if (caller_options.load_from_local_storage != null) {
+					options.load_from_local_storage = caller_options.load_from_local_storage;
+				}
+				if (caller_options.save_to_local_storage != null) {
+					options.save_to_local_storage = caller_options.save_to_local_storage;
+				}
+				
 				drupalgap_services.resource_call(options);
 			}
 			catch (error) {

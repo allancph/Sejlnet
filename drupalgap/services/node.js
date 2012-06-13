@@ -110,6 +110,11 @@ var drupalgap_services_node_retrieve = {
 					options.hook_success = caller_options.success;
 				}
 				
+				// Attach caller options.
+				// TODO - this is sloppy, this would be needed in every resource_call
+				// implementation, this needs to be cleaned up somehow.
+				options.caller_options = caller_options;
+				
 				// Retrieve the node.
 				drupalgap_services.resource_call(options);
 			}

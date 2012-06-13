@@ -36,6 +36,14 @@ var drupalgap_services_resource_system_connect = {
 				options.hook_success = caller_options.success;
 			}
 			
+			// Attach load-from/save-to local storage options if provided.
+			if (caller_options.load_from_local_storage != null) {
+				options.load_from_local_storage = caller_options.load_from_local_storage;
+			}
+			if (caller_options.save_to_local_storage != null) {
+				options.save_to_local_storage = caller_options.save_to_local_storage;
+			}
+			
 			// Send along the last system connect time, if there was one.
 			options.data = "";
 			if (last_system_connect_time) {

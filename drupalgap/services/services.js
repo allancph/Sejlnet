@@ -15,7 +15,8 @@ var drupalgap_services = {
 	 * options.base_path
 	 * 		The drupal base path (default: drupalgap_settings.base_path)
 	 * options.endpoint
-	 * 		The endpoint name (default : drupalgap_settings.services_endpoint_default)
+	 * 		The endpoint name (default : drupalgap_settings.services_endpoint_default),
+	 *      Set to 'drupalgap_none' to not use any endpoint.
 	 * options.type
 	 * 		The method to use: get, post (default), put, delete
 	 * options.dataType
@@ -35,6 +36,12 @@ var drupalgap_services = {
 	 * 		in local storage. Default key formula: [options.type].[service_resource_call_url]
 	 * 		For example, a POST on the system connect resource would have a default key of 
 	 * 		post.http://www.drupalgap.org/?q=drupalgap/system/connect.json
+	 * options.local_storage_expire
+	 * 		An integer value indicating how many seconds the resource call result should
+	 *      try to load from local storage. For example, pass in 86400 (60*60*24 = 1 day) and
+	 *      the function will try to return the resource call result from local storage 
+	 *      if it has not been 86400 seconds since the last time it retrieved the result from
+	 *      the server.
 	 * options.async
 	 * 		Whether or not to make the service call asynchronously.
 	 * 		false - make the call synchronously (default) - TODO default should be true
@@ -82,31 +89,86 @@ var drupalgap_services = {
 			// Build URL to service resource.
 			service_resource_call_url = drupalgap_services_resource_url(options);
 			
-			// Set default local storage key if one wasn't provided.
-			if (!options.local_storage_key) {
-				options.local_storage_key = drupalgap_services_default_local_storage_key(options.type,options.resource_path);
+			// Set default data string if one wasn't provided.
+			if (!options.data) {
+				options.data = "";
+			}
+			
+			// Attach caller options load-from/save-to local storage options if provided.
+			if (options.caller_options != null && options.caller_options.load_from_local_storage != null) {
+				options.load_from_local_storage = options.caller_options.load_from_local_storage;
+			}
+			if (options.caller_options != null && options.caller_options.save_to_local_storage != null) {
+				options.save_to_local_storage = options.caller_options.save_to_local_storage;
 			}
 			
 			// If no load_from_local_storage option was set, set the default.
-			if (!options.load_from_local_storage) {
+			if (options.load_from_local_storage == null) {
+				console.log("NOT instructed on load_from_local_storage (" + options.load_from_local_storage + ")");
 				options = drupalgap_services_get_load_from_local_storage_default(options);
 			}
 			else {
-				console.log("we were instructed on load_from_local_storage (" + options.load_from_local_storage + ")");
+				console.log("instructed on load_from_local_storage (" + options.load_from_local_storage + ")");
 			}
 			
 			// If no save to local storage option has been set, set the default.
-			if (!options.save_to_local_storage) {
+			// TODO - this doesn't work properly, if the user passes in false, there setting is
+			// ignored and the default function is called below. This is probably true for
+			// all variables set in this manner around here.
+			// UPDATE - this might be fixed now, see the caller_options attachments above... it is a little sloppy though.
+			if (options.save_to_local_storage == null) {
+				console.log("NOT instructed on save_to_local_storage (" + options.save_to_local_storage + ")");
 				options = drupalgap_services_get_save_to_local_storage_default(options);
 			}
 			else {
-				console.log("we were instructed on save_to_local_storage (" + options.save_to_local_storage + ")");
+				console.log("instructed on save_to_local_storage (" + options.save_to_local_storage + ")");
 			}
 			
+			// Set default local storage key if one wasn't provided and
+			// we are saving to local storage.
+			if (!options.local_storage_key && options.save_to_local_storage) {
+				options.local_storage_key = drupalgap_services_default_local_storage_key(options.type,options.resource_path,options.data);
+			}
+			
+			// Print service resource call debug info to console.
+	    	console.log(JSON.stringify({"path":service_resource_call_url,"options":options}));
+			
 			// If we are attempting to load the service resource result call from
-			// local storage, do it now.
-			if (options.load_from_local_storage == "1") {
-				result = window.localStorage.getItem(options.local_storage_key);
+			// local storage, do it now, unless an expiration time was supplied then
+			// turn off the load from local storage bit and continue with resource call.
+			if (options.load_from_local_storage == "1" || options.load_from_local_storage == true) {
+				if (options.local_storage_expire) {
+					// TODO - there should be a default cache life time specified
+					// in the drupal gap settings, that way stuff will eventually get 
+					// loaded again by default.
+					
+					// What time is it now (in secconds)?
+					var d = new Date();
+					var time_now = Math.floor(d.getTime()/1000);
+					// Load the expiration cache key from local storage so we
+					// know what time this result was placed into local storage.
+					var dg_cache_key = "dg_cache_" + options.local_storage_key;
+					var dg_cache_local_storage_item = window.localStorage.getItem(dg_cache_key);
+					if (dg_cache_local_storage_item != null) {
+						var dg_cache_keycreated_time = JSON.parse(dg_cache_local_storage_item);
+						// Compute how long the item should remain in local storage.
+						var how_long = dg_cache_keycreated_time + options.local_storage_expire;
+						// If that time has passed, then we'll overwrite the load from local
+						// storage option and continue execution as normal.
+						if (time_now > how_long) {
+							console.log("local storage cache has expired on resource");
+							options.load_from_local_storage = "0";
+						}
+						else {
+							// It hasn't yet expired, load it from local storage.
+							console.log("local storage cache has NOT expired on resource");
+							result = window.localStorage.getItem(options.local_storage_key);
+						}
+					}
+				}
+				else {
+					result = window.localStorage.getItem(options.local_storage_key);
+				}
 			}
 			
 			// Save the current options in drupalgap_services.options for backup.
@@ -138,9 +200,6 @@ var drupalgap_services = {
 			}
 			else {
 				
-				// Print service resource call debug info to console.
-			    console.log(JSON.stringify({"path":service_resource_call_url,"options":options}));
-				
 				// Make the call, synchronously or asynchronously...
 				
 			    if (options.async == false) {
@@ -151,6 +210,7 @@ var drupalgap_services = {
 					      type: options.type,
 					      data: options.data,
 					      dataType: options.dataType,
+					      contentType:options.contentType,
 					      async: options.async,
 					      error: function (jqXHR, textStatus, errorThrown) {
 				    			result = {
@@ -204,6 +264,7 @@ var drupalgap_services = {
 				      type: options.type,
 				      data: options.data,
 				      dataType: options.dataType,
+				      contentType:options.contentType,
 				      async: options.async,
 				      error: options.error,
 				      success: options.success
@@ -245,6 +306,10 @@ var drupalgap_services = {
 					//console.log(JSON.stringify(ajax_options.error));
 					//console.log(JSON.stringify(ajax_options.success));
 					
+					// Append the current options onto the ajax options so they will be available
+					// in the success callback (and not be overwritten by any other async calls)
+					ajax_options.drupalgap_options = options;
+					
 					// Make the asynchronous service call.
 					$.ajax(ajax_options);
 				}
@@ -278,25 +343,42 @@ var drupalgap_services = {
 	"resource_call_success":function (data) {
 		
 		// Hide the page loading message.
-		$.mobile.hidePageLoadingMsg();
+		$.mobile.hidePageLoadingMsg(); 
 		
 		// Print data to console.
+		//console.log(JSON.stringify($(this)));
 		console.log(JSON.stringify(data));
+		//console.log(JSON.stringify(options));
+		
+		// Extract the drupalgap options before the service call was made.
+		drupalgap_options = $(this)[0].drupalgap_options;
+		//console.log(JSON.stringify(drupalgap_options));
 		
 		// TODO - Understand why the options variable is available here,
 		// and why the this.options approach didn't work as expected earlier.
+		// TODO - Update, see note below about drupalgap_options being overwritten
+		// before due to more than one async call happening.
 		
 		// Save the result to local storage, if necessary.
-		if (options.save_to_local_storage == "1") {
-			window.localStorage.setItem(options.local_storage_key, JSON.stringify(data));
-			console.log("saving service resource to local storage (" + options.local_storage_key +")");
+		if (drupalgap_options.save_to_local_storage == "1") {
+			window.localStorage.setItem(drupalgap_options.local_storage_key, JSON.stringify(data));
+			console.log("saving service resource to local storage (" + drupalgap_options.local_storage_key +")");
+			
+			// Record the time (in seconds) at which this resource result was
+			// placed into local storage.
+			var d = new Date();
+			var created = Math.floor(d.getTime()/1000);
+			var dg_cache_key = "dg_cache_" + drupalgap_options.local_storage_key;
+			window.localStorage.setItem(dg_cache_key,created);
+			console.log("generated local storage cache creation data");
+			console.log(JSON.stringify(JSON.parse(window.localStorage.getItem(dg_cache_key))));
 		}
 		else {
-			console.log("NOT saving service resource to local storage (" + options.local_storage_key +")");
+			console.log("NOT saving service resource to local storage (" + drupalgap_options.local_storage_key +")");
 		}
 		
 		// Clean up service resource result local storage dependencies.
-		drupalgap_services_resource_clean_local_storage_dependencies(options);
+		drupalgap_services_resource_clean_local_storage_dependencies(drupalgap_options);
 	}
 };
 
@@ -320,10 +402,17 @@ function drupalgap_services_resource_url(options) {
 	if (!options.base_path) {
 		options.base_path = drupalgap_settings.base_path;
 	}
+	// Set the default endpoint if one wasn't provided, except if
+	// explicitly leaving out endpoint with 'drupalgap_none' flag.
 	if (!options.endpoint) {
 		options.endpoint = drupalgap_settings.services_endpoint_default;
 	}
-	return options.site_path + options.base_path + options.endpoint + "/" + options.resource_path;
+	else if (options.endpoint == "drupalgap_none") {
+		options.endpoint = "";
+	}
+	url = options.site_path + options.base_path + options.endpoint + "/" + options.resource_path;
+	console.log(url);
+	return url;
 }
 
 /*
@@ -334,8 +423,12 @@ function drupalgap_services_resource_url(options) {
  * url
  * 		The full URL to the service resource. (e.g. system/connect.json)
  */
-function drupalgap_services_default_local_storage_key(type,resource_path) {
-	return type + "." + resource_path;
+function drupalgap_services_default_local_storage_key(type,resource_path,data) {
+	key = type + "." + resource_path;
+	if (data) {
+		key += "." + data;
+	}
+	return key;
 }
 
 function drupalgap_services_resource_get_default_options(options) {
@@ -357,6 +450,10 @@ function drupalgap_services_resource_get_default_options(options) {
 	}
 	if (!options.dataType) {
 		options.dataType = "json";
+	}
+	// Only set this up if the user provided it.
+	if (!options.contentType && options.caller_options != null && options.caller_options.contentType != null) {
+		options.contentType = "application/json";
 	}
 	if (!options.async) {
 		options.async = false;
@@ -384,8 +481,15 @@ function drupalgap_services_get_load_from_local_storage_default(options) {
 						options.load_from_local_storage = "0";
 				}
 			}
+			// Comment retrieve resource.
 			else if (options.resource_path.indexOf("comment/") != -1) {
 				if ($.mobile.activePage.attr('id') == "drupalgap_page_comment_edit") {
+						options.load_from_local_storage = "0";
+				}
+			}
+			// User retrieve resource.
+			else if (options.resource_path.indexOf("user/") != -1) {
+				if ($.mobile.activePage.attr('id') == "drupalgap_page_user_edit") {
 						options.load_from_local_storage = "0";
 				}
 			}
@@ -542,6 +646,8 @@ function drupalgap_services_resource_clean_local_storage_dependencies(options) {
 				drupalgap_services_system_connect.local_storage_remove();
 				// Remove drupalgap_system/connect.json.
 				drupalgap_services_resource_system_connect.local_storage_remove();
+				// TODO - User id validation here.
+				drupalgap_services_user_retrieve.local_storage_remove({"uid":options.uid});
 			}
 			// Node update resource.
 			else if (options.resource_path.indexOf("node/") != -1) {

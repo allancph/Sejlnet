@@ -120,6 +120,99 @@ var drupalgap_services_user_logout = {
 	
 };
 
+var drupalgap_services_user_retrieve = {
+		
+	"resource_path":function(options) {
+		// TODO - Need nid validation here.
+		return "user/" + encodeURIComponent(options.uid) + ".json";
+	},
+	"resource_type":"get",
+	"resource_result":"",
+	
+	/** 
+	 * Retrieves a Drupal user.
+	 * 
+	 * caller_options
+	 * 		the user id you want to load
+	 */
+	"resource_call":function(caller_options) {
+		try {
+		
+			this.resource_result = null;
+			user = null;
+			
+			// Validate incoming parameters.
+			// TODO - Do a better job validating.
+			valid = true;
+			if (!caller_options.uid) {
+				alert("drupalgap_services_user_retrieve - no user id provided");
+				valid = false;
+			}
+			
+			if (valid) {
+				// Build the options for the service call.
+				options = {
+					"resource_path":this.resource_path(caller_options),
+					"type":this.resource_type,
+					"async":true,
+					"success":this.success,
+					"error":this.error
+				};
+				
+				// Attach error/success hooks if provided.
+				if (caller_options.error) {
+					options.hook_error = caller_options.error;
+				}
+				if (caller_options.success) {
+					options.hook_success = caller_options.success;
+				}
+				
+				if (caller_options.local_storage_expire != null) {
+					options.local_storage_expire = caller_options.local_storage_expire;
+				}
+				
+				// Attach caller options.
+				// TODO - this is sloppy, this would be needed in every resource_call
+				// implementation, this needs to be cleaned up somehow.
+				options.caller_options = caller_options;
+				
+				// Retrieve the user.
+				drupalgap_services.resource_call(options);
+			}
+		}
+		catch (error) {
+			console.log("drupalgap_services_user_retrieve");
+			console.log(error);
+		}
+	},
+	
+	"error":function(jqXHR, textStatus, errorThrown) {
+		if (errorThrown) {
+			alert(errorThrown);
+		}
+		else {
+			alert(textStatus);
+		}
+	},
+	
+	"success":function(data) {
+	},
+	
+	/**
+	 * Removes a user from local storage.
+	 * 
+	 * options.nid
+	 * 		The user id of the user to remove.
+	 */
+	"local_storage_remove":function(options) {
+		type = this.resource_type;
+		resource_path = this.resource_path(options);
+		key = drupalgap_services_default_local_storage_key(type,resource_path);
+		window.localStorage.removeItem(key);
+		console.log("Removed from local storage (" + key + ")");
+	},
+};
+
 var drupalgap_services_user_update = {
 		
 	"resource_path":function(options) {
