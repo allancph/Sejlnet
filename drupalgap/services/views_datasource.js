@@ -34,8 +34,6 @@ var drupalgap_views_datasource_retrieve = {
 			}
 			
 			// Make the call.
-			//this.resource_result = drupalgap_services.resource_call(options);
-			//return this.resource_result;
 			drupalgap_services.resource_call(options);
 		}
 		catch (error) {

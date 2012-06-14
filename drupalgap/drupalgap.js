@@ -8,7 +8,7 @@ var drupalgap_content_types_user_permissions;
 $(document).ready(function() {
 	
 	// Clear all local storage, used for testing.
-	window.localStorage.clear();
+	//window.localStorage.clear();
 	
 	drupalgap_settings_load();
 	
@@ -36,7 +36,9 @@ $(document).ready(function() {
 			},
 			"success":function(){
 				// Go to the dashboard.
-				$.mobile.changePage("drupalgap/pages/dashboard.html", { transition: "fade"});
+				$.mobile.changePage("drupalgap/pages/dashboard.html");
+				//drupalgap_page_node_harbor_nid = 3729;
+				//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 			}
 		};
 		drupalgap_services_resource_system_connect.resource_call(options);
@@ -49,8 +51,9 @@ function drupalgap_settings_load () {
 	if (!drupalgap_settings) { // no settings found in local storage, setup defaults...
 		drupalgap_settings = {};
 		//drupalgap_settings.site_path = "http://10.0.2.2/sejlnet.dk/www";
-		drupalgap_settings.site_path = "http://sejlnet.dk"; // examples: http://my-drupal-site.com, http://10.0.2.2/my-localhost-drupal
-		drupalgap_settings.base_path = "/?q=";
+		drupalgap_settings.site_path = "http://www.sejlnet.dk";
+		//drupalgap_settings.base_path = "/?q=";
+		drupalgap_settings.base_path = "/";
 		drupalgap_settings.services_endpoint_default = "drupalgap";
 		drupalgap_settings.demo = false;
 		drupalgap_settings_save(drupalgap_settings);

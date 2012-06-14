@@ -1,9 +1,15 @@
-$('#sejlent_harbor_guide').live('pageshow',function(){
+$('#sejlent_harbor_guide').live('pagebeforeshow',function(){
 	try {
-		
 		// Clear the list.
 		$("#sejlent_harbor_guide_content_list").html("");
-		
+	}
+	catch (error) {
+		alert("sejlent_harbor_guide - pagebeforeshow - " + error);
+	}
+});
+
+$('#sejlent_harbor_guide').live('pageshow',function(){
+	try {
 		// Build content retrieve resource call options.
 		views_options = {
 			"path":"views_datasource/harbor_guide",
@@ -22,9 +28,11 @@ $('#sejlent_harbor_guide').live('pageshow',function(){
 				// empty message.
 				if ($(content.nodes).length > 0) {
 					$.each(content.nodes,function(index,obj){
-						// sejlnet - we must access Nid and 'titel' because views won't let us
-						// change the var name.
-						html = "<a href='node.html' id='" + obj.node.Nid + "'>" + obj.node.titel + "</a>";
+						title = obj.node.title;
+						if (title == null) {
+							title = obj.node.titel; // the live site uses 'titel' for the field name
+						}
+						html = "<a href='#' id='" + obj.node.nid + "'>" + title + "</a>";
 						$("#sejlent_harbor_guide_content_list").append($("<li></li>",{"html":html}));
 					});
 				}
@@ -41,13 +49,13 @@ $('#sejlent_harbor_guide').live('pageshow',function(){
 		drupalgap_views_datasource_retrieve.resource_call(views_options);
 	}
 	catch (error) {
-		console.log("sejlent_harbor_guide");
-		console.log(error);
+		alert("sejlent_harbor_guide - pageshow - " + error);
 	}
 });
 
 // When a content list item is clicked...
 $('#sejlent_harbor_guide_content_list a').live("click",function(){
 	// Save a reference to the node id.
-	drupalgap_page_node_nid = $(this).attr('id');
+	drupalgap_page_node_harbor_nid = $(this).attr('id');
+	$.mobile.changePage("node_harbor.html");
 });
