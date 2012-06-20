@@ -1,10 +1,11 @@
 var drupalgap_page_node_harbor;
 var drupalgap_page_node_harbor_nid;
+var drupalgap_page_node_harbor_back;
 
 $('#drupalgap_page_node_harbor').live('pagebeforeshow',function(){
 	try {
 		// Clear the list.
-		$("#sejlent_harbor_facilities_list").html("");
+		$("#sejlnet_harbor_facilities_list").html("");
 	}
 	catch (error) {
 		alert("drupalgap_page_node_harbor - pagebeforeshow " + error);
@@ -69,14 +70,14 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				// Facilities.
 				if ($(harbor.facilities).length > 0) {
 					$.each(harbor.facilities,function(facility_index, facility_object){
-						$("#sejlent_harbor_facilities_list").append($("<li></li>",{"html":facility_object}));
+						$("#sejlnet_harbor_facilities_list").append($("<li></li>",{"html":facility_object}));
 					});
 				}
 				else {
 					html = "Sorry, there are no facilities here.";
-					$("#sejlent_harbor_facilities_list").append($("<li></li>",{"html":html}));
+					$("#sejlnet_harbor_facilities_list").append($("<li></li>",{"html":html}));
 				}
-				$("#sejlent_harbor_facilities_list").listview("destroy").listview();
+				$("#sejlnet_harbor_facilities_list").listview("destroy").listview();
 				
 				// Conditions.
 				$('#harbor_conditions').html(harbor.conditions);
@@ -89,5 +90,19 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 	}
 	catch (error) {
 		alert("drupalgap_page_node_harbor - pageshow " + error);
+	}
+});
+
+$('#drupalgap_page_node_harbor_back').live("click",function(){
+	switch (drupalgap_page_node_harbor_back) {
+		case "nearby":
+			$.mobile.changePage("sejlnet_harbor_guide_nearby.html");
+			break;
+		case "all":
+			$.mobile.changePage("sejlnet_harbor_guide.html");
+			break;
+		default:
+			$.mobile.changePage("sejlnet_harbor_guide.html");
+			break;
 	}
 });
