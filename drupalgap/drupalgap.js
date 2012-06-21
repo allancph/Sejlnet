@@ -8,7 +8,7 @@ var drupalgap_content_types_user_permissions;
 $(document).ready(function() {
 	
 	// Clear all local storage, used for testing.
-	//window.localStorage.clear();
+	window.localStorage.clear();
 	
 	drupalgap_settings_load();
 	
@@ -32,6 +32,9 @@ $(document).ready(function() {
 			//drupalgap_page_node_harbor_nid = 3729;
 			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
+			//sejlnet_group_nid = 2699;
+			//$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
+			//$.mobile.changePage("drupalgap/pages/sejlnet_groups.html");
 		}
 	};
 	drupalgap_services_resource_system_connect.resource_call(options);
@@ -39,8 +42,8 @@ $(document).ready(function() {
 });
 
 function drupalgap_settings_load () {
-	drupalgap_settings = window.localStorage.getItem("drupalgap_settings");
-	if (!drupalgap_settings) { // no settings found in local storage, setup defaults...
+	//drupalgap_settings = window.localStorage.getItem("drupalgap_settings");
+	//if (!drupalgap_settings) { // no settings found in local storage, setup defaults...
 		drupalgap_settings = {};
 		//drupalgap_settings.site_path = "http://10.0.2.2/sejlnet.dk/www";
 		drupalgap_settings.site_path = "http://www.sejlnet.dk";
@@ -48,11 +51,11 @@ function drupalgap_settings_load () {
 		drupalgap_settings.base_path = "/";
 		drupalgap_settings.services_endpoint_default = "drupalgap";
 		drupalgap_settings.demo = false;
-		drupalgap_settings_save(drupalgap_settings);
-	}
-	else {
-		drupalgap_settings = JSON.parse(drupalgap_settings);
-	}
+		//drupalgap_settings_save(drupalgap_settings);
+	//}
+	//else {
+		//drupalgap_settings = JSON.parse(drupalgap_settings);
+	//}
 	return drupalgap_settings;
 }
 

@@ -30,7 +30,7 @@ $('#sejlnet_groups').live('pageshow',function(){
 						if (title == null) {
 							title = obj.group.titel; // the live site uses 'titel' for the field name
 						}
-						html = "<a href='#' id='" + obj.group.nid + "'>(" + obj.group.member_count + ") " + title + "</a>";
+						html = "<a href='sejlnet_group.html' id='" + obj.group.nid + "'>(" + obj.group.member_count + ") " + title + "</a>";
 						$("#sejlnet_groups_list").append($("<li></li>",{"html":html}));
 					});
 				}
@@ -53,5 +53,5 @@ $('#sejlnet_groups').live('pageshow',function(){
 
 // When a content list item is clicked...
 $('#sejlnet_groups_list a').live("click",function(){
-	alert("clicked...");
+	sejlnet_group_nid = $(this).attr('id');
 });

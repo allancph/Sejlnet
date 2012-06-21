@@ -16,7 +16,7 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 	try {
 		// Load node via services call and then display it.
 		options = {
-			"path":"sejlnet/node/" + drupalgap_page_node_harbor_nid,
+			"path":"sejlnet/node/harbor/" + drupalgap_page_node_harbor_nid,
 			"error":function(jqXHR, textStatus, errorThrown) {
 				alert(errorThrown);
 			},
@@ -37,12 +37,12 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				if (title == null) {
 					title = harbor.titel; // the live site uses 'titel' for the field name
 				}
+				harbor.title = title;
 				$('#drupalgap_page_node_harbor h2').html(harbor.title);
 				
 				// Image (harbor map)
 				//img_src = drupalgap_settings.site_path + drupalgap_settings.base_path + harbor.map;
-				img_src = harbor.map;
-				console.log(img_src);
+				img_src = drupalgap_settings.site_path + drupalgap_settings.base_path + harbor.map;
 				$('#harbor_map').attr('src', img_src);
 				
 				// Phone number.

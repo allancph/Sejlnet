@@ -33,6 +33,11 @@ var drupalgap_views_datasource_retrieve = {
 				options.hook_success = caller_options.success;
 			}
 			
+			// Attach load from local storage option if it was provided.
+			if (caller_options.load_from_local_storage != null) {
+				options.load_from_local_storage = caller_options.load_from_local_storage;
+			}
+			
 			// Make the call.
 			drupalgap_services.resource_call(options);
 		}
