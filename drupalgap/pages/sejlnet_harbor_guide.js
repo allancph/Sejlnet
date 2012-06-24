@@ -32,7 +32,7 @@ $('#sejlnet_harbor_guide').live('pageshow',function(){
 						if (title == null) {
 							title = obj.node.titel; // the live site uses 'titel' for the field name
 						}
-						html = "<a href='#' id='" + obj.node.nid + "'>" + title + "</a>";
+						html = "<a href='node_harbor.html' id='" + obj.node.nid + "'>" + title + "</a>";
 						$("#sejlnet_harbor_guide_content_list").append($("<li></li>",{"html":html}));
 					});
 				}
@@ -58,5 +58,4 @@ $('#sejlnet_harbor_guide_content_list a').live("click",function(){
 	// Save a reference to the node id.
 	drupalgap_page_node_harbor_nid = $(this).attr('id');
 	drupalgap_page_node_harbor_back = "all";
-	$.mobile.changePage("node_harbor.html");
 });

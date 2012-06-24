@@ -32,7 +32,7 @@ $(document).ready(function() {
 			//drupalgap_page_node_harbor_nid = 3729;
 			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
-			//sejlnet_group_nid = 2699;
+			//sejlnet_group_nid = 4091;
 			//$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_groups.html");
 		}
