@@ -1,4 +1,5 @@
 var drupalgap_page_comments_nid; // others set this node id so this page knows which comments to load
+var drupalgap_page_comments_node;
 $('#drupalgap_page_comments').live('pageshow',function(){
 	try {
 		
@@ -15,7 +16,9 @@ $('#drupalgap_page_comments').live('pageshow',function(){
 			"error":function(jqXHR, textStatus, errorThrown) {
 				alert("drupalgap_page_comments - failed to load node (" + nid + ")");
 			},
-			"success":function(drupalgap_page_comments_node) {
+			"success":function(node) {
+				drupalgap_page_comments_node = node;
+				
 				// Set the comment edit node id.
 				drupalgap_page_comment_edit_nid = drupalgap_page_comments_node.nid;
 				
@@ -58,4 +61,17 @@ $('#drupalgap_page_comments').live('pageshow',function(){
 		console.log("drupalgap_page_comments");
 		console.log(error);
 	}
+});
+
+$('#drupalgap_page_comments_back').live("click",function(){
+	page = "node.html";
+	switch (drupalgap_page_comments_node.type) {
+		case "group_image":
+			page = "node_group_image.html";
+			break;
+		case "user_image":
+			page = "node_user_image.html";
+			break;
+	}
+	$.mobile.changePage(page);
 });

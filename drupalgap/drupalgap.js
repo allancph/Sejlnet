@@ -8,7 +8,7 @@ var drupalgap_content_types_user_permissions;
 $(document).ready(function() {
 	
 	// Clear all local storage, used for testing.
-	window.localStorage.clear();
+	//window.localStorage.clear();
 	
 	drupalgap_settings_load();
 	
@@ -29,6 +29,9 @@ $(document).ready(function() {
 		"success":function(){
 			// Go to the dashboard.
 			$.mobile.changePage("drupalgap/pages/dashboard.html");
+			//$.mobile.changePage("drupalgap/pages/sejlnet_gallery.html");
+			//node_group_image_nid = 6721;
+			//$.mobile.changePage("drupalgap/pages/node_group_image.html");
 			//drupalgap_page_node_harbor_nid = 3729;
 			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");

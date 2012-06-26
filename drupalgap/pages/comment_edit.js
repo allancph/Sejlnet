@@ -20,12 +20,12 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 				switch (drupalgap_page_comment_edit_node.comment) {
 					case "0": // Comments hidden.
 						alert("Comments are hidden for this node.");
-						$.mobile.changePage("node.html");
+						$.mobile.changePage("dashboard.html");
 						return false;
 						break;
 					case "1": // Comments closed.
 						alert("Comments are closed for this node.");
-						$.mobile.changePage("node.html");
+						$.mobile.changePage("dashboard.html");
 						return false;
 						break;
 					case "2": // Comments open.
@@ -134,7 +134,19 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 					  	},
 					  	"success":function(data) {
 					  		// Comment was updated properly.
-						  	$.mobile.changePage("node.html");
+					  		page = "";
+							switch (drupalgap_page_comment_edit_content_type) {
+								case "group_image":
+									page = "node_group_image.html";
+									break;
+								case "user_image":
+									page = "node_user_image.html";
+									break;
+								default:
+									page = "node.html";
+									break;
+							}
+							$.mobile.changePage(page);
 					  	},
 				  	};
 				  	drupalgap_services_comment_update.resource_call(comment_update_options);
@@ -157,7 +169,19 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 				},
 				"success":function(comment_create_result) {
 					alert("Comment posted!");
-			  		$.mobile.changePage("node.html");
+					page = "";
+					switch (drupalgap_page_comment_edit_content_type) {
+						case "group_image":
+							page = "node_group_image.html";
+							break;
+						case "user_image":
+							page = "node_user_image.html";
+							break;
+						default:
+							page = "node.html";
+							break;
+					}
+					$.mobile.changePage(page);
 				},
 			};
 			drupalgap_services_comment_create.resource_call(options);
@@ -175,7 +199,19 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 $('#drupalgap_page_comment_edit_cancel').live('click',function(){
 	try {
 		// Go back to the node.
-		$.mobile.changePage("node.html");
+		page = "";
+		switch (drupalgap_page_comment_edit_content_type) {
+			case "group_image":
+				page = "node_group_image.html";
+				break;
+			case "user_image":
+				page = "node_user_image.html";
+				break;
+			default:
+				page = "node.html";
+				break;
+		}
+		$.mobile.changePage(page);
 	}
 	catch (error) {
 		console.log("drupalgap_page_comment_edit_cancel");
@@ -199,7 +235,19 @@ $('#drupalgap_page_comment_edit_delete').live('click',function(){
 							alert(result.errorThrown);
 						},
 						"success":function(data) {
-							$.mobile.changePage("node.html");
+							page = "";
+							switch (drupalgap_page_comment_edit_content_type) {
+								case "group_image":
+									page = "node_group_image.html";
+									break;
+								case "user_image":
+									page = "node_user_image.html";
+									break;
+								default:
+									page = "node.html";
+									break;
+							}
+							$.mobile.changePage(page);
 						},
 					};
 					drupalgap_services_comment_delete.resource_call(comment_delete_options);
