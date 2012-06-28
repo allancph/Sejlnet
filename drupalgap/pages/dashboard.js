@@ -30,7 +30,7 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
         }
         else { // user is logged in...
         	$('#drupalgap_page_dashboard_navbar_authenticated').show();
-        	$('#drupalgap_page_dashboard_header_user h2').html("Hi, " + drupalgap_user.name);
+        	$('#drupalgap_page_dashboard_header_user h2').html("Hi " + drupalgap_user.name + "!");
         }
 		
 	}

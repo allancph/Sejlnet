@@ -11,7 +11,7 @@
   	</div><!-- /header -->
   	
   	<div data-role="content" style='text-align: center;'>
-  		<img src='' id='harbor_map' />
+  	 <p id='harbor_map'></p>
   	</div><!-- /content -->
   	
   	<div data-role="header" data-theme="c">
@@ -19,10 +19,18 @@
   	</div><!-- /header -->
   	
   	<div data-role="content">
-  		<p id='harbor_phone'><strong>Harbor phone number</strong>: <span></span></p>
+  		<p id='harbor_phone' style='text-align: center;'><strong>Harbor phone number</strong>: <span></span></p>
   		<p id='harbor_address' style='text-align: center;'></p>
   		<p id='harbor_coordinates' style='text-align: center;'></p>
   	</div><!-- /content -->
+  	
+  	<div data-role="header" data-theme="c">
+      <h3>Map</h2>
+    </div><!-- /header -->
+    
+    <div data-role="content"> 
+      <div id="map_canvas" style="width:100%; height:240px;"></div>
+    </div>
   	
   	<div data-role="header" data-theme="c">
     	<h3>Information</h2>
@@ -40,7 +48,7 @@
   	</div><!-- /header -->
   	
   	<div data-role="content">
-  		<ul data-role="listview" data-theme="d" id="sejlnet_harbor_facilities_list"></ul>
+      <div id="sejlnet_harbor_facilities"></div>
   	</div><!-- /content -->
   	
   	<div data-role="header" data-theme="c">

@@ -41,12 +41,24 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				$('#drupalgap_page_node_harbor h2').html(harbor.title);
 				
 				// Image (harbor map)
-				//img_src = drupalgap_settings.site_path + drupalgap_settings.base_path + harbor.map;
-				img_src = drupalgap_settings.site_path + drupalgap_settings.base_path + harbor.map;
-				$('#harbor_map').attr('src', img_src);
+				if (harbor.map) {
+					image = "";
+					if (harbor.map_full_size) {
+						image += "<a href='" + harbor.map_full_size + "'>";
+					}
+					image += "<img src='" + harbor.map + "' />";
+					if (harbor.map_full_size) {
+						image += "</a>";
+					}		
+					$('#harbor_map').html(image);
+				}
 				
 				// Phone number.
-				$('#harbor_phone span').html(harbor.phone);
+				phone = harbor.phone;
+				if (!phone) {
+					phone = "N/A";
+				}
+				$('#harbor_phone span').html(phone);
 				
 				// Address.
 				address = harbor.street + "<br />" + harbor.city + " " + harbor.postal_code + "<br />" + harbor.country;
@@ -55,35 +67,69 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				// Coordinates.
 				$('#harbor_coordinates').html(harbor.coordinates);
 				
+				// Google map.
+				//$('#harbor_google_map').html("Google Map");
+				//if(navigator.geolocation) {
+					//navigator.geolocation.getCurrentPosition(function(position){
+				if (harbor.latitude && harbor.longitude) {
+					node_harbor_map_initialize(harbor.latitude, harbor.longitude);
+				}
+					//});
+				//}
+				
 				// Fees.
-				$('#harbor_fees span').html(harbor.fees);
+				fees = harbor.fees;
+				if (!fees) {
+					fees = "N/A";
+				}
+				$('#harbor_fees span').html(fees);
 				
 				// Spaces.
-				$('#harbor_spaces span').html(harbor.spaces);
+				spaces = harbor.spaces;
+				if (!spaces) {
+					spaces = "N/A";
+				}
+				$('#harbor_spaces span').html(spaces);
 				
 				// Free member.
-				$('#harbor_free_member span').html(harbor.free_member);
+				free_member = harbor.free_member;
+				if (!free_member) {
+					free_member = "N/A";
+				}
+				$('#harbor_free_member span').html(free_member);
 				
 				// Blue flag.
-				$('#harbor_free_blue_flag span').html(harbor.blue_flag);
+				blue_flag = harbor.blue_flag;
+				if (!blue_flag) {
+					blue_flag = "N/A";
+				}
+				$('#harbor_free_blue_flag span').html(blue_flag);
 				
 				// Facilities.
+				facilities = "";
 				if ($(harbor.facilities).length > 0) {
 					$.each(harbor.facilities,function(facility_index, facility_object){
-						$("#sejlnet_harbor_facilities_list").append($("<li></li>",{"html":facility_object}));
+						facilities += '<div>' + facility_object +'</div>';
 					});
 				}
 				else {
-					html = "Sorry, there are no facilities here.";
-					$("#sejlnet_harbor_facilities_list").append($("<li></li>",{"html":html}));
+					facilities = "Sorry, there are no facilities here.";
 				}
-				$("#sejlnet_harbor_facilities_list").listview("destroy").listview();
+				$('#sejlnet_harbor_facilities').html(facilities);
 				
 				// Conditions.
-				$('#harbor_conditions').html(harbor.conditions);
+				conditions = harbor.conditions;
+				if (!conditions) {
+					conditions = "N/A";
+				}
+				$('#harbor_conditions').html(conditions);
 				
 				// Body.
-				$('#drupalgap_page_node_harbor .content').html(harbor.body);
+				body = harbor.body;
+				if (!body) {
+					body = harbor.indhold; // indhold = body in danish
+				}
+				$('#drupalgap_page_node_harbor .content').html(body);
 			},
 		};
 		drupalgap_views_datasource_retrieve.resource_call(options);
@@ -106,3 +152,20 @@ $('#drupalgap_page_node_harbor_back').live("click",function(){
 			break;
 	}
 });
+
+function node_harbor_map_initialize(lat,lng) {
+	//alert("loading map (" + lat + ", " + lng + ")");
+	var myOptions = {
+		zoom: 8,
+		center: new google.maps.LatLng(lat, lng),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+    
+    var myLatLng = new google.maps.LatLng(lat, lng);
+    var myMarkerOptions = {
+      position: myLatLng,
+      map: map
+    }
+    var marker = new google.maps.Marker(myMarkerOptions);
+}
