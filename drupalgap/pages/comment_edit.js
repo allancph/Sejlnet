@@ -1,9 +1,8 @@
 var drupalgap_page_comment_edit_nid; // other's set this nid so this page knows which node to load
 var drupalgap_page_comment_edit_content_type;
 var drupalgap_page_comment_edit_cid; // other's set this cid so this page knows which comment to load (if any)
-$('#drupalgap_page_comment_edit').live('pageshow',function(){
+$('#drupalgap_page_comment_edit').live('pagebeforeshow',function(){
 	try {
-		
 		// Load node.
 		nid = drupalgap_page_comment_edit_nid;
 		options = {
@@ -89,6 +88,15 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 		drupalgap_services_node_retrieve.resource_call(options);
 	}
 	catch (error) {
+		alert("drupalgap_page_comment_edit - pagebeforeshow - " + error);
+	}
+});
+
+$('#drupalgap_page_comment_edit').live('pageshow',function(){
+	try {
+		
+	}
+	catch (error) {
 		console.log("drupalgap_page_comment_edit");
 		console.log(error);
 	}
@@ -134,19 +142,7 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 					  	},
 					  	"success":function(data) {
 					  		// Comment was updated properly.
-					  		page = "";
-							switch (drupalgap_page_comment_edit_content_type) {
-								case "group_image":
-									page = "node_group_image.html";
-									break;
-								case "user_image":
-									page = "node_user_image.html";
-									break;
-								default:
-									page = "node.html";
-									break;
-							}
-							$.mobile.changePage(page);
+					  		drupalgap_page_comment_back();
 					  	},
 				  	};
 				  	drupalgap_services_comment_update.resource_call(comment_update_options);
@@ -169,19 +165,7 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 				},
 				"success":function(comment_create_result) {
 					alert("Comment posted!");
-					page = "";
-					switch (drupalgap_page_comment_edit_content_type) {
-						case "group_image":
-							page = "node_group_image.html";
-							break;
-						case "user_image":
-							page = "node_user_image.html";
-							break;
-						default:
-							page = "node.html";
-							break;
-					}
-					$.mobile.changePage(page);
+					drupalgap_page_comment_back();
 				},
 			};
 			drupalgap_services_comment_create.resource_call(options);
@@ -198,20 +182,7 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 // cancel button clicked...
 $('#drupalgap_page_comment_edit_cancel').live('click',function(){
 	try {
-		// Go back to the node.
-		page = "";
-		switch (drupalgap_page_comment_edit_content_type) {
-			case "group_image":
-				page = "node_group_image.html";
-				break;
-			case "user_image":
-				page = "node_user_image.html";
-				break;
-			default:
-				page = "node.html";
-				break;
-		}
-		$.mobile.changePage(page);
+		drupalgap_page_comment_back();
 	}
 	catch (error) {
 		console.log("drupalgap_page_comment_edit_cancel");
@@ -235,19 +206,7 @@ $('#drupalgap_page_comment_edit_delete').live('click',function(){
 							alert(result.errorThrown);
 						},
 						"success":function(data) {
-							page = "";
-							switch (drupalgap_page_comment_edit_content_type) {
-								case "group_image":
-									page = "node_group_image.html";
-									break;
-								case "user_image":
-									page = "node_user_image.html";
-									break;
-								default:
-									page = "node.html";
-									break;
-							}
-							$.mobile.changePage(page);
+							drupalgap_page_comment_back();
 						},
 					};
 					drupalgap_services_comment_delete.resource_call(comment_delete_options);
@@ -262,3 +221,19 @@ $('#drupalgap_page_comment_edit_delete').live('click',function(){
 	}
 	return false;
 });
+
+function drupalgap_page_comment_back() {
+	page = "node.html";
+	switch (drupalgap_page_comment_edit_content_type.type) {
+		case "group_image":
+			page = "node_group_image.html";
+			break;
+		case "group_post":
+			page = "node_group_post.html";
+			break;
+		case "user_image":
+			page = "node_user_image.html";
+			break;
+	}
+	$.mobile.changePage(page);
+}

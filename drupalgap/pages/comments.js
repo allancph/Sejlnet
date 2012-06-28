@@ -64,14 +64,5 @@ $('#drupalgap_page_comments').live('pageshow',function(){
 });
 
 $('#drupalgap_page_comments_back').live("click",function(){
-	page = "node.html";
-	switch (drupalgap_page_comments_node.type) {
-		case "group_image":
-			page = "node_group_image.html";
-			break;
-		case "user_image":
-			page = "node_user_image.html";
-			break;
-	}
-	$.mobile.changePage(page);
+	drupalgap_page_comment_back();
 });

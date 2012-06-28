@@ -11,7 +11,6 @@ $('#sejlnet_gallery').live('pageshow',function(){
 		// Retrieve the photos and display them.
 		views_options = {
 			"path":"sejlnet/gallery",
-			"load_from_local_storage":false,
 			"error":function(jqXHR, textStatus, errorThrown) {
 				if (errorThrown) {
 					alert(errorThrown);
@@ -90,4 +89,18 @@ $('#sejlnet_gallery').live('pageshow',function(){
 $(".sejlnet_gallery_item").live("click",function(){
 	node_group_image_nid = $(this).attr('nid');
 	node_user_image_nid = $(this).attr('nid');
+});
+
+$("#sejlnet_gallery_photo_add_button").live("click",function(){
+	if (drupalgap_user.uid == 0) {
+		if (confirm("You must be logged in to add a photo.")) {
+			$.mobile.changePage("user_login.html");
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		$.mobile.changePage("sejlnet_gallery_photo_add.html");
+	}
 });

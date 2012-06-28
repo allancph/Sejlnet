@@ -333,10 +333,6 @@ var drupalgap_services = {
 		};
 		console.log(JSON.stringify(result));
 
-		// Alert the user.
-		if (errorThrown) { alert(errorThrown); }
-		else { alert(textStatus); }
-
 	},
 	
 	/* Asynchronous ajax success call back function. */
