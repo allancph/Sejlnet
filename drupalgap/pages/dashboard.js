@@ -40,6 +40,12 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
 	}
 });
 
+$('#drupalgap_button_user_account').live("click",function(){
+	dg_page_user_back_button_destination = "dashboard.html";
+	drupalgap_page_user_uid = drupalgap_user.uid;
+	$.mobile.changePage("user.html");
+});
+
 $('#drupalgap_button_user_logout').live("click",function(){
 	try {
 		// Build the service call options.
@@ -55,7 +61,7 @@ $('#drupalgap_button_user_logout').live("click",function(){
 			"success":function(){
 				// TODO - changing to the dashboard here has strange behavior,
 				// it would be best to go to the dashboard instead.
-				$.mobile.changePage("user_login.html", "slideup");
+				$.mobile.changePage("user_login.html");
 				//$.mobile.changePage("dashboard.html",{reloadPage:true},{allowSamePageTranstion:true},{transition:'none'});
 			},
 		};

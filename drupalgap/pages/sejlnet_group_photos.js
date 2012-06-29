@@ -26,16 +26,7 @@ $('#sejlnet_group_photos').live('pageshow',function(){
 				html = "";
 				if ($(images.nodes).length > 0) {
 					$.each(images.nodes,function(index,obj){
-						if (obj.node.image || obj.node.billede) {
-							img_src = drupalgap_settings.site_path + drupalgap_settings.base_path;
-							if (obj.node.image) {
-								img_src += obj.node.image;
-							}
-							else if (obj.node.billede) { // the live site defaults to 'billede' for image
-								img_src += obj.node.billede;
-							}
-							html += "<p style='text-align: center;'><img src='" + img_src + "'/></p>";
-						}
+						html += sejlnet_gallery_photo_list_item_render(obj.node);
 					});
 				}
 				else {

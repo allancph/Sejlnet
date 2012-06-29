@@ -49,5 +49,6 @@ $('#sejlnet_group_members').live('pageshow',function(){
 });
 
 $('#sejlnet_group_members_list a').live("click",function(){
+	dg_page_user_back_button_destination = "sejlnet_group_members.html";
 	drupalgap_page_user_uid = $(this).attr('id');
 });

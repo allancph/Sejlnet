@@ -1,6 +1,7 @@
 var drupalgap_page_user_uid;
 var drupalgap_page_user_object;
 var drupalgap_page_user_object_expiration = 86400; // 60*60*24 = 1 day = 86400
+var dg_page_user_back_button_destination = "dashboard.html";
 
 $('#drupalgap_page_user').live('pagebeforeshow',function(){
 	try {
@@ -24,9 +25,11 @@ $('#drupalgap_page_user').live('pageshow',function(){
 		
 		// If the user is looking at their own profile...
 		if (drupalgap_user.uid == drupalgap_page_user_uid) {
+			$('#drupalgap_page_user h1').html("My Account");
 		}
 		else {
 			// The user is looking at someone else's profile...
+			$('#drupalgap_page_user h1').html("Member");
 		}
 		
 		// Build service call options to load the user.
@@ -66,4 +69,9 @@ $('#drupalgap_page_user').live('pageshow',function(){
 	catch (error) {
 		alert("drupalgap_page_user - pageshow - " + error);
 	}
+});
+
+$('#dg_page_user_back_button').live("click",function(){
+	// Go to the page specified by the page that sent us here.
+	$.mobile.changePage(dg_page_user_back_button_destination);
 });
