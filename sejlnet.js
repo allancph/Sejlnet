@@ -1,3 +1,5 @@
+var sejlnet_location_timeout = 10000;
+
 // This function renders photo list items generated from the json
 // data returned by the following views:
 // 		drupalgap_sejlnet_gallery

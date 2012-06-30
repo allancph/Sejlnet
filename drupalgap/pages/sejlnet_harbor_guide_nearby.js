@@ -19,7 +19,7 @@ $('#sejlnet_harbor_guide_nearby').live('pageshow',function(){
 
 function onDeviceReady() {
 	$('#sejlnet_harbor_guide_nearby_msg').html("Waiting for location...");
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 30000, enableHighAccuracy: true });
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
 }
 
 function onSuccess(position) {

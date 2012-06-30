@@ -28,7 +28,7 @@ $(document).ready(function() {
 		},
 		"success":function(){
 			// Go to the dashboard.
-			$.mobile.changePage("drupalgap/pages/dashboard.html");
+			//$.mobile.changePage("drupalgap/pages/dashboard.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_gallery.html");
 			//node_group_image_nid = 6721;
 			//$.mobile.changePage("drupalgap/pages/node_group_image.html");
@@ -38,6 +38,8 @@ $(document).ready(function() {
 			//sejlnet_group_nid = 4471;
 			//$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_groups.html");
+			$.mobile.changePage("drupalgap/pages/sejlnet_gallery_photo_add.html");
+			
 		}
 	};
 	drupalgap_services_resource_system_connect.resource_call(options);
