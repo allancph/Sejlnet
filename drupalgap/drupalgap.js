@@ -8,7 +8,7 @@ var drupalgap_content_types_user_permissions;
 $(document).ready(function() {
 	
 	// Clear all local storage, used for testing.
-	window.localStorage.clear();
+	//window.localStorage.clear();
 	
 	drupalgap_settings_load();
 	
