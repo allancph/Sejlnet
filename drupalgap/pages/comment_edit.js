@@ -165,6 +165,28 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 				},
 				"success":function(comment_create_result) {
 					alert("Comment posted!");
+					// If this was an image comment, clear out the local storage dependencies.
+					if (drupalgap_page_comment_edit_content_type.type == "user_image" || 
+						drupalgap_page_comment_edit_content_type.type == "group_image") {
+						
+						// The image node.
+						sejlnet_local_storage_key = 
+							"get.sejlnet/node/" + drupalgap_page_comment_edit_content_type.type + 
+							"/" + drupalgap_page_comment_edit_nid;
+						window.localStorage.removeItem(sejlnet_local_storage_key);
+						
+						// The group's photos.
+						if (sejlnet_group_nid) {
+							sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+							window.localStorage.removeItem(sejlnet_local_storage_key);
+						}
+						else {
+							// Gallery photos.
+							sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+							window.localStorage.removeItem("get.sejlnet/gallery");
+						}
+						
+					}
 					drupalgap_page_comment_back();
 				},
 			};
@@ -226,13 +248,15 @@ function drupalgap_page_comment_back() {
 	page = "node.html";
 	switch (drupalgap_page_comment_edit_content_type.type) {
 		case "group_image":
-			page = "node_group_image.html";
+			//page = "node_group_image.html";
+			page = "sejlnet_image.html";
 			break;
 		case "group_post":
 			page = "node_group_post.html";
 			break;
 		case "user_image":
-			page = "node_user_image.html";
+			//page = "node_user_image.html";
+			page = "sejlnet_image.html";
 			break;
 	}
 	$.mobile.changePage(page);
