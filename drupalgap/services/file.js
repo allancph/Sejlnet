@@ -10,6 +10,7 @@ var drupalgap_services_file_create = {
 				"type":this.resource_type,
 				"data":caller_options.data,
 				"async":true,
+				"load_from_local_storage":false,
 				"save_to_local_storage":false,
 				"success":this.success,
 				"error":this.error

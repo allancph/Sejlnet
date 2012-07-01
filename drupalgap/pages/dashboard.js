@@ -73,3 +73,9 @@ $('#drupalgap_button_user_logout').live("click",function(){
 	}
 	return false;
 });
+
+$('#sejlnet_button_gallery').live("click", function(){
+	// Clear out the group id so the gallery add photo page
+	// won't think we are working with a group.
+	sejlnet_group_nid = null;
+});

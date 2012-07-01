@@ -1,4 +1,4 @@
-var sejlnet_location_timeout = 10000;
+var sejlnet_location_timeout = 15000;
 var sejlnet_location_latitude = 55.9492;
 var sejlnet_location_longitude = 10.986328;
 

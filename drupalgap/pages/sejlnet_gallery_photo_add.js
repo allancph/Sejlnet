@@ -143,6 +143,9 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 	
 	// Clear the image gallery from local storage.
 	window.localStorage.removeItem("get.sejlnet/gallery");
+	if (sejlnet_group_nid) {
+		window.localStorage.removeItem("get.sejlnet/group/photos/" + sejlnet_group_nid);
+	}
 	
 	data = {"file":{
 		"file":sejlnet_gallery_photo_add_img_data,
@@ -152,7 +155,10 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 	options = {
 		"data":data,
 		"error":function(jqXHR, textStatus, errorThrown) {
-		
+			alert(textStatus + " - " + errorThrown);
+			if (jqXHR.responseText) {
+				alert(jqXHR.responseText);
+			}
 		},
 		"success":function(result){
 			
@@ -161,10 +167,24 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 			// Extract the newly created file id.
 			file_id = result.fid;
 			
+			// Determine the node type.
+			node_type = "";
+			if (sejlnet_group_nid) {
+				node_type = "group_image";
+			}
+			else {
+				node_type = "user_image";
+			}
+			
 			// Build the data string.
-			data = "type=user_image" +
+			data = "type=" + node_type +
 			"&title=" + encodeURIComponent(title) +
 			"&field_image[0][fid]=" + file_id;
+			
+			// If we are attaching the image node to a group, set the og data argument.
+			if (sejlnet_group_nid) {
+				data += "&og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
+			}
 			
 			// Now that we have the new file id, let's create a new node
 			// with the new file id on the node's image field.
@@ -176,11 +196,18 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 				"data":data,
 				"async":true,
 				"error":function(jqXHR, textStatus, errorThrown) {
-				
+					alert(textStatus + " - " + errorThrown);
+					if (jqXHR.responseText) {
+						alert(jqXHR.responseText);
+					}
 				},
 				"success":function(node_create_result){
-					
-					$.mobile.changePage("sejlnet_gallery.html");
+					if (sejlnet_group_nid) {
+						$.mobile.changePage("sejlnet_group_photos.html");
+					}
+					else {
+						$.mobile.changePage("sejlnet_gallery.html");
+					}
 				}
 			};
 			drupalgap_services.resource_call(node_create_options);
@@ -206,8 +233,7 @@ function sejlnet_gallery_photo_add_onSuccess(position) {
                         'Accuracy: '           + position.coords.accuracy              + '<br />' +
                         'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
                         'Heading: '            + position.coords.heading               + '<br />' +
-                        'Speed: '              + position.coords.speed                 + '<br />' +
-                        'Timestamp: '          + position.timestamp          + '<br />';
+                        'Speed: '              + position.coords.speed                 + '<br />';
     
     $('#geo_location_msg').html(location_message);
     
@@ -229,9 +255,9 @@ function sejlnet_gallery_photo_add_onError(error) {
 	}
 	else {
 		$('#geo_location_msg').html("If you know your current latitude and longitude you may enter it in the text fields provided.");
-		$('#sejlnet_gallery_photo_add_set').show();
-		$('#sejlnet_gallery_photo_add_latitude').val("42.177000");
-		$('#sejlnet_gallery_photo_add_longitude').val("-83.652000");
+		$('#sejlnet_gallery_photo_add_update').show();
+		//$('#sejlnet_gallery_photo_add_latitude').val("42.177000");
+		//$('#sejlnet_gallery_photo_add_longitude').val("-83.652000");
 	}    
 }
 
@@ -252,7 +278,7 @@ function sejlnet_gallery_photo_add_map_init(lat,lng) {
     var marker = new google.maps.Marker(myMarkerOptions);
 }
 
-$('#sejlnet_gallery_photo_add_set').live("click", function(){
+$('#sejlnet_gallery_photo_add_update').live("click", function(){
 	lat = $('#sejlnet_gallery_photo_add_latitude').val();
 	lng = $('#sejlnet_gallery_photo_add_longitude').val();
 	sejlnet_gallery_photo_add_map_init(lat, lng);
@@ -278,3 +304,64 @@ function sejlnet_gallery_photo_add_data_success(imageData) {
   //
   smallImage.src = "data:image/jpeg;base64," + imageData;
 }
+
+$('#sejlnet_gallery_photo_add_back').live("click", function(){
+	if (sejlnet_group_nid) {
+		$.mobile.changePage("sejlnet_group_photos.html");
+	}
+	else {
+		$.mobile.changePage("sejlnet_gallery.html");
+	}
+});
+
+/*[locations] => Array
+(
+    [0] => Array
+        (
+            [lid] => 2264
+            [name] => 
+            [street] => 
+            [additional] => 
+            [city] => 
+            [province] => 
+            [postal_code] => 
+            [country] => dk
+            [latitude] => 42.177000
+            [longitude] => -83.652000
+            [source] => 1
+            [is_primary] => 0
+            [locpick] => Array
+                (
+                    [user_latitude] => 42.177000
+                    [user_longitude] => -83.652000
+                )
+
+            [province_name] => 
+            [country_name] => Danmark
+        )
+
+)
+
+[location] => Array
+(
+    [lid] => 2264
+    [name] => 
+    [street] => 
+    [additional] => 
+    [city] => 
+    [province] => 
+    [postal_code] => 
+    [country] => dk
+    [latitude] => 42.177000
+    [longitude] => -83.652000
+    [source] => 1
+    [is_primary] => 0
+    [locpick] => Array
+        (
+            [user_latitude] => 42.177000
+            [user_longitude] => -83.652000
+        )
+
+    [province_name] => 
+    [country_name] => Danmark
+)*/
