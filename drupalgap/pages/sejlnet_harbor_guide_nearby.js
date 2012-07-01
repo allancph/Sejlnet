@@ -2,6 +2,7 @@ $('#sejlnet_harbor_guide_nearby').live('pagebeforeshow',function(){
 	try {
 		// Clear the list.
 		$("#sejlnet_harbor_guide_nearby_content_list").html("");
+		$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
 	}
 	catch (error) {
 		alert("sejlnet_harbor_guide_nearby - pagebeforeshow - " + error);
@@ -10,7 +11,7 @@ $('#sejlnet_harbor_guide_nearby').live('pagebeforeshow',function(){
 
 $('#sejlnet_harbor_guide_nearby').live('pageshow',function(){
 	try {
-		document.addEventListener("deviceready", onDeviceReady, false);
+		document.addEventListener("deviceready", sejlnet_harbor_guide_nearby_onDeviceReady, false);
 	}
 	catch (error) {
 		alert("sejlnet_harbor_guide_nearby - pageshow - " + error);
@@ -18,16 +19,28 @@ $('#sejlnet_harbor_guide_nearby').live('pageshow',function(){
 });
 
 $('#sejlnet_harbor_guide_nearby_get_current_location').live("click",function(){
-	navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
+	$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
+	$('#sejlnet_harbor_guide_nearby_msg').html("Waiting for location...");
+	navigator.geolocation.getCurrentPosition(
+		sejlnet_harbor_guide_nearby_onSuccess, 
+		sejlnet_harbor_guide_nearby_onError, 
+		{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
+	);
 });
 
-function onDeviceReady() {
+function sejlnet_harbor_guide_nearby_onDeviceReady() {
+	$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
 	$('#sejlnet_harbor_guide_nearby_msg').html("Waiting for location...");
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
-    sejlnet_harbor_guide_nearby_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
+	navigator.geolocation.getCurrentPosition(
+		sejlnet_harbor_guide_nearby_onSuccess, 
+		sejlnet_harbor_guide_nearby_onError, 
+		{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
+	);
 }
 
-function onSuccess(position) {
+function sejlnet_harbor_guide_nearby_onSuccess(position) {
+	$('#sejlnet_harbor_guide_nearby_get_current_location').show();
+	
     location_message = 'Latitude: '           + position.coords.latitude              + '<br />' +
                         'Longitude: '          + position.coords.longitude             + '<br />' +
                         'Altitude: '           + position.coords.altitude              + '<br />' +
@@ -41,33 +54,33 @@ function onSuccess(position) {
     );
     
     // Fill in the form with the lat/lng and start the search.
-    $('#sejlnet_harbor_guide_nearby_latitude').val(position.coords.latitude);
-    $('#sejlnet_harbor_guide_nearby_longitude').val(position.coords.longitude);
+    //$('#sejlnet_harbor_guide_nearby_latitude').val(position.coords.latitude);
+    //$('#sejlnet_harbor_guide_nearby_longitude').val(position.coords.longitude);
     
-    sejlnet_harbor_guide_nearby_map_init(position.coords.latitude, position.coords.longitude);
+    //sejlnet_harbor_guide_nearby_map_init(position.coords.latitude, position.coords.longitude);
 	
     sejlnet_harbor_guide_nearby_location_search(position.coords.latitude, position.coords.longitude);
 }
 
-// onError Callback receives a PositionError object
-//
-function onError(error) {
+function sejlnet_harbor_guide_nearby_onError(error) {
 	//alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 	confirm_msg = "We were unable to determine your current location. " + 
 	"Would you like to try again?";
 	if (confirm(confirm_msg)) {
-		onDeviceReady();
+		sejlnet_harbor_guide_nearby_onDeviceReady();
 	}
 	else {
-		$('#sejlnet_harbor_guide_nearby_msg').html("If you know your current latitude and longitude " + 
+		$('#sejlnet_harbor_guide_nearby_get_current_location').show();
+		$('#sejlnet_harbor_guide_nearby_msg').html("We were unable to determine your current location.");
+		/*$('#sejlnet_harbor_guide_nearby_msg').html("If you know your current latitude and longitude " + 
 				"you may enter it in the text boxes provided.");
 		// Fill in the form with the lat/lng and start the search.
 	    $('#sejlnet_harbor_guide_nearby_latitude').val(sejlnet_location_latitude);
-	    $('#sejlnet_harbor_guide_nearby_longitude').val(sejlnet_location_longitude);
+	    $('#sejlnet_harbor_guide_nearby_longitude').val(sejlnet_location_longitude);*/
 	}    
 }
 
-$('#sejlnet_harbor_guide_nearby_search').live("click",function(){
+/*$('#sejlnet_harbor_guide_nearby_search').live("click",function(){
 	latitude = $('#sejlnet_harbor_guide_nearby_latitude').val();
 	longitude = $('#sejlnet_harbor_guide_nearby_longitude').val();
 	if (!latitude) {
@@ -81,7 +94,7 @@ $('#sejlnet_harbor_guide_nearby_search').live("click",function(){
 	$('#sejlnet_harbor_guide_nearby_msg').html("Searching for nearby harbors...");
 	sejlnet_harbor_guide_nearby_location_search(latitude, longitude);
 	sejlnet_harbor_guide_nearby_map_init(latitude, longitude);
-});
+});*/
 
 function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 	try {
@@ -175,20 +188,3 @@ $('#sejlnet_harbor_guide_nearby_content_list a').live("click",function(){
 	drupalgap_page_node_harbor_nid = $(this).attr('id');
 	drupalgap_page_node_harbor_back = "nearby";
 });
-
-function sejlnet_harbor_guide_nearby_map_init(lat,lng) {
-	$('#sejlnet_gallery_photo_add_map_canvas').show();
-	var myOptions = {
-		zoom: 5,
-		center: new google.maps.LatLng(lat, lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("sejlnet_harbor_guide_nearby_map_canvas"),myOptions);
-    
-    var myLatLng = new google.maps.LatLng(lat, lng);
-    var myMarkerOptions = {
-      position: myLatLng,
-      map: map
-    }
-    var marker = new google.maps.Marker(myMarkerOptions);
-}

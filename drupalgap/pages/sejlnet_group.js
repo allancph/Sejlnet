@@ -66,7 +66,7 @@ $('#sejlnet_group').live('pageshow',function(){
 	}
 });
 
-$('#drupalgap_page_node_harbor_back').live("click",function(){
+/*$('#sejlnet_group_back').live("click",function(){
 	switch (drupalgap_page_node_harbor_back) {
 		case "nearby":
 			$.mobile.changePage("sejlnet_harbor_guide_nearby.html");
@@ -78,4 +78,4 @@ $('#drupalgap_page_node_harbor_back').live("click",function(){
 			$.mobile.changePage("sejlnet_harbor_guide.html");
 			break;
 	}
-});
+});*/

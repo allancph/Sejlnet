@@ -1,4 +1,4 @@
-var sejlnet_location_timeout = 4000;
+var sejlnet_location_timeout = 15000;
 // Denmark Default
 var sejlnet_location_latitude = 55.9492;
 var sejlnet_location_longitude = 10.986328;
@@ -126,7 +126,6 @@ $(".sejlnet_photo_item").live("click",function(){
 function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
     //Radius of the earth in:  1.609344 miles,  6371 km  | var R = (6371 / 1.609344);
     //var R = 3958.7558657440545; // Radius of earth in Miles
-	//var R = 6371 / 1.609344; // Radius of the earth in km
 	var R = 6371; // Radius of the earth in km
     var dLat = toRad(lat2-lat1);
     var dLon = toRad(lon2-lon1); 
@@ -136,7 +135,6 @@ function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c;
     //return d;
-    //return (d/100).toFixed(2);
     return d.toFixed(2);
 }
 

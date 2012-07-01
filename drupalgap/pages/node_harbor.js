@@ -140,17 +140,19 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 });
 
 $('#drupalgap_page_node_harbor_back').live("click",function(){
+	go_back = "sejlnet_harbor_guide.html";
 	switch (drupalgap_page_node_harbor_back) {
 		case "nearby":
-			$.mobile.changePage("sejlnet_harbor_guide_nearby.html");
+			go_back = "sejlnet_harbor_guide_nearby.html";
 			break;
 		case "all":
-			$.mobile.changePage("sejlnet_harbor_guide.html");
+			go_back = "sejlnet_harbor_guide.html";
 			break;
-		default:
-			$.mobile.changePage("sejlnet_harbor_guide.html");
+		case "map":
+			go_back = "sejlnet_harbor_guide_map.html";
 			break;
 	}
+	$.mobile.changePage(go_back);
 });
 
 function node_harbor_map_initialize(lat,lng) {
