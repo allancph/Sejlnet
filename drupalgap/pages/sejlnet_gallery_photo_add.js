@@ -54,7 +54,7 @@ function sejlnet_gallery_photo_add_capture() {
 function sejlnet_gallery_photo_add_get(source) {
 	$('#largeImage_msg').html("Loading image...");
   // Retrieve image file location from specified source
-  navigator.camera.getPicture(sejlnet_gallery_photo_add_uri_success, sejlnet_gallery_photo_add_fail, { quality: 50, 
+  navigator.camera.getPicture(sejlnet_gallery_photo_add_data_success, sejlnet_gallery_photo_add_fail, { quality: 50, 
     /*destinationType: sejlnet_gallery_photo_add_destination_type.FILE_URI,*/
 	  destinationType: sejlnet_gallery_photo_add_destination_type.DATA_URL,
     sourceType: source });
@@ -71,7 +71,7 @@ function sejlnet_gallery_photo_add_fail(message) {
 
 // Called when a photo is successfully retrieved
 //function sejlnet_gallery_photo_add_uri_success(imageURI) {
-function sejlnet_gallery_photo_add_uri_success(imageData) {
+function sejlnet_gallery_photo_add_data_success(imageData) {
 	
 	// Save a copy of the image data so we can upload it later.
 	sejlnet_gallery_photo_add_img_data = imageData;
@@ -256,8 +256,8 @@ function sejlnet_gallery_photo_add_onError(error) {
 	else {
 		$('#geo_location_msg').html("If you know your current latitude and longitude you may enter it in the text fields provided.");
 		$('#sejlnet_gallery_photo_add_update').show();
-		//$('#sejlnet_gallery_photo_add_latitude').val("42.177000");
-		//$('#sejlnet_gallery_photo_add_longitude').val("-83.652000");
+		$('#sejlnet_gallery_photo_add_latitude').val(sejlnet_location_latitude);
+		$('#sejlnet_gallery_photo_add_longitude').val(sejlnet_location_longitude);
 	}    
 }
 
@@ -283,27 +283,6 @@ $('#sejlnet_gallery_photo_add_update').live("click", function(){
 	lng = $('#sejlnet_gallery_photo_add_longitude').val();
 	sejlnet_gallery_photo_add_map_init(lat, lng);
 });
-
-//Called when a photo is successfully retrieved
-function sejlnet_gallery_photo_add_data_success(imageData) {
-	alert("not yet");
-	return false;
-  // Uncomment to view the base64 encoded image data
-  //console.log(imageData);
-
-  // Get image handle
-  //
-  var smallImage = document.getElementById('smallImage');
-
-  // Unhide image elements
-  //
-  smallImage.style.display = 'block';
-
-  // Show the captured photo
-  // The inline CSS rules are used to resize the image
-  //
-  smallImage.src = "data:image/jpeg;base64," + imageData;
-}
 
 $('#sejlnet_gallery_photo_add_back').live("click", function(){
 	if (sejlnet_group_nid) {

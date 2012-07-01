@@ -28,13 +28,13 @@ $(document).ready(function() {
 		},
 		"success":function(){
 			// Go to the dashboard.
-			$.mobile.changePage("drupalgap/pages/dashboard.html");
+			//$.mobile.changePage("drupalgap/pages/dashboard.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_gallery.html");
 			//node_group_image_nid = 6721;
 			//$.mobile.changePage("drupalgap/pages/node_group_image.html");
 			//drupalgap_page_node_harbor_nid = 3729;
 			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
-			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
+			$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
 			//sejlnet_group_nid = 4471;
 			//$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_groups.html");
