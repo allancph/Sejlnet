@@ -4,15 +4,13 @@ var drupalgap_services_file_create = {
 	"resource_call":function (caller_options) {
 		try {
 			
-			// Build service call data string.
-			data = "";
-			
 			// Build options for service call.
 			options = {
 				"resource_path":this.resource_path,
 				"type":this.resource_type,
-				"data":data,
+				"data":caller_options.data,
 				"async":true,
+				"save_to_local_storage":false,
 				"success":this.success,
 				"error":this.error
 			};
@@ -38,12 +36,10 @@ var drupalgap_services_file_create = {
 		}
 		else {
 			console.log("drupalgap_services_file_create - " + textStatus);
-			alert(textStatus);
 		}
 	},
 	
 	"success":function (data) {
 		console.log(JSON.stringify(data));
-		alert("success");
 	},
 }; 

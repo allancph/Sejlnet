@@ -3,6 +3,7 @@ var sejlnet_gallery_photo_add_destination_type; // sets the format of returned v
 
 var sejlnet_gallery_photo_add_img_width;
 var sejlnet_gallery_photo_add_img_height;
+var sejlnet_gallery_photo_add_img_data = null;
 
 $('#sejlnet_gallery_photo_add').live('pagebeforeshow',function(){
 	try {
@@ -15,6 +16,7 @@ $('#sejlnet_gallery_photo_add').live('pagebeforeshow',function(){
 $('#sejlnet_gallery_photo_add').live('pageshow',function(){
 	try {
 		document.addEventListener("deviceready",sejlnet_gallery_photo_add_ready,false);
+		sejlnet_gallery_photo_add_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
 	}
 	catch (error) {
 		alert("sejlnet_gallery_photo_add - pageshow " + error);
@@ -29,10 +31,14 @@ $('#sejlnet_gallery_photo_add_from_library').live("click",function(){
 	sejlnet_gallery_photo_add_get(sejlnet_gallery_photo_add_source.PHOTOLIBRARY);
 });
 
+$('#sejlnet_gallery_photo_add_get_current_location').live("click",function(){
+	sejlnet_gallery_photo_add_get_location();
+});
+
+
 function sejlnet_gallery_photo_add_ready() {
 	sejlnet_gallery_photo_add_source = navigator.camera.PictureSourceType;
 	sejlnet_gallery_photo_add_destination_type = navigator.camera.DestinationType;
-	sejlnet_gallery_photo_add_get_location();
 }
 
 //A button will call this function
@@ -45,18 +51,12 @@ function sejlnet_gallery_photo_add_capture() {
 
 // A button will call this function
 //
-/*function sejlnet_gallery_photo_add_edit() {
-  // Take picture using device camera, allow edit, and retrieve image as base64-encoded string  
-  navigator.camera.getPicture(sejlnet_gallery_photo_add_data_success, sejlnet_gallery_photo_add_fail, { quality: 20, allowEdit: true,
-    destinationType: sejlnet_gallery_photo_add_destination_type.DATA_URL });
-}*/
-
-// A button will call this function
-//
 function sejlnet_gallery_photo_add_get(source) {
+	$('#largeImage_msg').html("Loading image...");
   // Retrieve image file location from specified source
   navigator.camera.getPicture(sejlnet_gallery_photo_add_uri_success, sejlnet_gallery_photo_add_fail, { quality: 50, 
-    destinationType: sejlnet_gallery_photo_add_destination_type.FILE_URI,
+    /*destinationType: sejlnet_gallery_photo_add_destination_type.FILE_URI,*/
+	  destinationType: sejlnet_gallery_photo_add_destination_type.DATA_URL,
     sourceType: source });
 }
 
@@ -66,40 +66,24 @@ function sejlnet_gallery_photo_add_fail(message) {
 	if (message != "") {
 		console.log(message);
 	}
+	$('#largeImage_msg').html("");
 }
 
 // Called when a photo is successfully retrieved
-function sejlnet_gallery_photo_add_data_success(imageData) {
-  // Uncomment to view the base64 encoded image data
-  // console.log(imageData);
-
-  // Get image handle
-  //
-  var smallImage = document.getElementById('smallImage');
-
-  // Unhide image elements
-  //
-  smallImage.style.display = 'block';
-
-  // Show the captured photo
-  // The inline CSS rules are used to resize the image
-  //
-  smallImage.src = "data:image/jpeg;base64," + imageData;
-}
-
-// Called when a photo is successfully retrieved
-function sejlnet_gallery_photo_add_uri_success(imageURI) {
-  // Uncomment to view the image file URI 
-  // console.log(imageURI);
+//function sejlnet_gallery_photo_add_uri_success(imageURI) {
+function sejlnet_gallery_photo_add_uri_success(imageData) {
+	
+	// Save a copy of the image data so we can upload it later.
+	sejlnet_gallery_photo_add_img_data = imageData;
 
   // Get image handle
   var largeImage = document.getElementById('largeImage');
-
-  // Unhide image elements
-  largeImage.style.display = 'block';
+  
+  $('#largeImage_msg').html("");
 
   // Show the captured photo  
-  largeImage.src = imageURI;
+  //largeImage.src = imageURI;
+  largeImage.src = "data:image/jpeg;base64," + imageData;
   
   // When the photo is shown...
   largeImage.onload = function () {
@@ -114,36 +98,54 @@ function sejlnet_gallery_photo_add_uri_success(imageURI) {
 	  largeImage.height = new_height;
 	  
 	  // Hide the two photo buttons.
-	  $('#sejlnet_gallery_photo_add_capture').hide();
-	  $('#sejlnet_gallery_photo_add_from_library').hide();
+	  //$('#sejlnet_gallery_photo_add_capture').hide();
+	  //$('#sejlnet_gallery_photo_add_from_library').hide();
 	  
 	  // Show the photo upload button.
-	  $('#sejlnet_gallery_photo_add_upload').show();
+	  //$('#sejlnet_gallery_photo_add_upload').show();
   };
   
 }
 
 $('#sejlnet_gallery_photo_add_upload').live("click", function(){
+	
+	// If they didn't enter a title notify them.
+	title = $('#sejlnet_gallery_photo_add_title').val();
+	if (!title) {
+		alert("Enter the image title.");
+		return false;
+	}
+	
+	// If they didn't select a photo, notify them.
+	if (!sejlnet_gallery_photo_add_img_data) {
+		alert("You must select an image.");
+		return false;
+	}
+	
 	// If they didn't enter a latitude and longitude, notify them.
 	lat = $('#sejlnet_gallery_photo_add_latitude').val();
 	lng = $('#sejlnet_gallery_photo_add_longitude').val();
 	
 	if (!lat || !lng) {
-		alert("Please enter your latitude and longitude.");
+		alert("Enter the image latitude and longitude.");
 		return false;
 	}
 	
-	alert("Uploading photo...");
+	// Hide the upload button.
+	$('#sejlnet_gallery_photo_add_upload').hide();
 	
 	// Get image.
 	var largeImage = document.getElementById('largeImage');
 	
-	// Get image file name.
-	var image_file_name_index = largeImage.src.lastIndexOf("/") + 1;
-	var image_file_name = largeImage.src.substr(image_file_name_index);
+	// Create a unique file name using the UTC integer value.
+	var d = new Date();
+	var image_file_name = "" + d.valueOf() + ".jpg";
+	
+	// Clear the image gallery from local storage.
+	window.localStorage.removeItem("get.sejlnet/gallery");
 	
 	data = {"file":{
-		"file":"",
+		"file":sejlnet_gallery_photo_add_img_data,
 		"filename":image_file_name,
 		"filepath":"sites/default/files/" + image_file_name
 	}};
@@ -153,11 +155,42 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 		
 		},
 		"success":function(result){
+			
 			console.log(JSON.stringify(result));
+			
+			// Extract the newly created file id.
+			file_id = result.fid;
+			
+			// Build the data string.
+			data = "type=user_image" +
+			"&title=" + encodeURIComponent(title) +
+			"&field_image[0][fid]=" + file_id;
+			
+			// Now that we have the new file id, let's create a new node
+			// with the new file id on the node's image field.
+			node_create_options = {
+				"resource_path":"node.json",
+				"type":"post",
+				"load_from_local_storage":false,
+				"save_to_local_storage":false,
+				"data":data,
+				"async":true,
+				"error":function(jqXHR, textStatus, errorThrown) {
+				
+				},
+				"success":function(node_create_result){
+					
+					$.mobile.changePage("sejlnet_gallery.html");
+				}
+			};
+			drupalgap_services.resource_call(node_create_options);
+			
 		}
 	};
 	console.log(JSON.stringify(data));
-	//drupalgap_services_file_create.resource_call(options);
+	drupalgap_services_file_create.resource_call(options);
+	
+	
 });
 
 function sejlnet_gallery_photo_add_get_location() {
@@ -178,8 +211,6 @@ function sejlnet_gallery_photo_add_onSuccess(position) {
     
     $('#geo_location_msg').html(location_message);
     
-    $('#sejlnet_gallery_photo_add_location_wrapper').show();
-    
     // Fill in the form with the lat/lng and start the search.
     $('#sejlnet_gallery_photo_add_latitude').val(position.coords.latitude);
     $('#sejlnet_gallery_photo_add_longitude').val(position.coords.longitude);
@@ -198,13 +229,16 @@ function sejlnet_gallery_photo_add_onError(error) {
 	}
 	else {
 		$('#geo_location_msg').html("If you know your current latitude and longitude you may enter it in the text fields provided.");
-		$('#sejlnet_gallery_photo_add_location_wrapper').show();
+		$('#sejlnet_gallery_photo_add_set').show();
+		$('#sejlnet_gallery_photo_add_latitude').val("42.177000");
+		$('#sejlnet_gallery_photo_add_longitude').val("-83.652000");
 	}    
 }
 
 function sejlnet_gallery_photo_add_map_init(lat,lng) {
+	$('#sejlnet_gallery_photo_add_map_canvas').show();
 	var myOptions = {
-		zoom: 8,
+		zoom: 5,
 		center: new google.maps.LatLng(lat, lng),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -223,3 +257,24 @@ $('#sejlnet_gallery_photo_add_set').live("click", function(){
 	lng = $('#sejlnet_gallery_photo_add_longitude').val();
 	sejlnet_gallery_photo_add_map_init(lat, lng);
 });
+
+//Called when a photo is successfully retrieved
+function sejlnet_gallery_photo_add_data_success(imageData) {
+	alert("not yet");
+	return false;
+  // Uncomment to view the base64 encoded image data
+  //console.log(imageData);
+
+  // Get image handle
+  //
+  var smallImage = document.getElementById('smallImage');
+
+  // Unhide image elements
+  //
+  smallImage.style.display = 'block';
+
+  // Show the captured photo
+  // The inline CSS rules are used to resize the image
+  //
+  smallImage.src = "data:image/jpeg;base64," + imageData;
+}

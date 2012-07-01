@@ -1,4 +1,6 @@
 var sejlnet_location_timeout = 10000;
+var sejlnet_location_latitude = 55.9492;
+var sejlnet_location_longitude = 10.986328;
 
 // This function renders photo list items generated from the json
 // data returned by the following views:
