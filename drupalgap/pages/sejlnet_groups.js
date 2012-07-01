@@ -53,5 +53,9 @@ $('#sejlnet_groups').live('pageshow',function(){
 
 // When a content list item is clicked...
 $('#sejlnet_groups_list a').live("click",function(){
+	// Set the group node id.
 	sejlnet_group_nid = $(this).attr('id');
+	// Clear out group paging variables.
+	sejlnet_group_posts_page = 0;
+	sejlnet_group_photos_page = 0;
 });

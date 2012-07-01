@@ -11,6 +11,14 @@ $('#sejlnet_image').live('pagebeforeshow',function(){
 		
 		// Clear any previous node comment nid reference.
 		drupalgap_page_comment_edit_nid = null;
+	}
+	catch (error) {
+		alert("sejlnet_image - pagebeforeshow - " + error);
+	}
+});
+
+$('#sejlnet_image').live('pageshow',function(){
+	try {
 		
 		// Build service call options to load the node.
 		views_options = {
@@ -24,8 +32,7 @@ $('#sejlnet_image').live('pagebeforeshow',function(){
 		drupalgap_views_datasource_retrieve.resource_call(views_options);
 	}
 	catch (error) {
-		console.log("sejlnet_image");
-		console.log(error);
+		alert("sejlnet_image - pageshow - " + error);
 	}
 });
 

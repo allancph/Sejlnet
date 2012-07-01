@@ -1,5 +1,13 @@
+var sejlnet_group_posts_page = 0;
+var sejlnet_group_posts_empty = false;
+
 $('#sejlnet_group_posts').live('pagebeforeshow',function(){
 	try {
+		// Set the group title.
+		$('#sejlnet_group_posts h1').html(sejlnet_group_node.title);
+		// Append the page count to the title.
+		page_display_number = sejlnet_group_posts_page + 1;
+		$('#sejlnet_group_posts h2').append("Page " + page_display_number);
 	}
 	catch (error) {
 		alert("sejlnet_group_posts - pagebeforeshow " + error);
@@ -9,12 +17,9 @@ $('#sejlnet_group_posts').live('pagebeforeshow',function(){
 $('#sejlnet_group_posts').live('pageshow',function(){
 	try {
 		
-		// Set the group title.
-		$('#sejlnet_group_posts h2').html(sejlnet_group_node.title);
-		
 		// Retrieve the group members and display them in a list.
 		views_options = {
-			"path":"sejlnet/group/posts/" + sejlnet_group_nid,
+			"path":"sejlnet/group/posts/" + sejlnet_group_nid + "?page=" + sejlnet_group_posts_page,
 			"error":function(jqXHR, textStatus, errorThrown) {
 				if (errorThrown) {
 					alert(errorThrown);
@@ -37,9 +42,14 @@ $('#sejlnet_group_posts').live('pageshow',function(){
 					});
 				}
 				else {
+					sejlnet_group_posts_empty = true;
 					html = "Sorry, there are no posts in this group.";
 					$("#sejlnet_group_posts_list").append($("<li></li>",{"html":html}));
 				}
+				
+				// Show the pager buttons.
+				$('#sejlnet_group_posts_prev').show();
+				$('#sejlnet_group_posts_next').show();
 				
 				// Refresh the list.
 				$("#sejlnet_group_posts_list").listview("destroy").listview();
@@ -54,4 +64,40 @@ $('#sejlnet_group_posts').live('pageshow',function(){
 
 $('#sejlnet_group_posts_list a').live("click",function(){
 	node_group_post_nid = $(this).attr('nid');
+});
+
+$('#sejlnet_group_posts_next').live("click",function(){
+	try {
+		// If the gallery is empty, don't go to the next page.
+		if (sejlnet_group_posts_empty) {
+			return false;
+		}
+		if (sejlnet_group_posts_page >= 0) {
+			sejlnet_group_posts_page++;
+			$.mobile.changePage(
+				"sejlnet_group_posts.html",
+				{allowSamePageTransition:true, reloadPage:true}
+			);
+		}
+	}
+	catch (error) {
+		alert('sejlnet_group_posts_next - ' + error);
+	}
+});
+
+$('#sejlnet_group_posts_prev').live("click",function(){
+	try {
+		// If we're not on the first page, then go back.
+		if (sejlnet_group_posts_page > 0) {
+			sejlnet_group_posts_page--;
+			$.mobile.changePage(
+				"sejlnet_group_posts.html",
+				{allowSamePageTransition:true, reloadPage:true}
+			);
+		}
+	}
+	catch (error) {
+		alert('sejlnet_group_posts_prev - ' + error);
+	}
+	return false;
 });
