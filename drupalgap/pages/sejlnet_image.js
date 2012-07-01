@@ -29,11 +29,6 @@ $('#sejlnet_image').live('pagebeforeshow',function(){
 	}
 });
 
-$('#sejlnet_image_button_comments').live("click",function(){
-	// Set the comment nid.
-	drupalgap_page_comments_nid = sejlnet_image_nid;
-});
-
 $('#sejlnet_image_button_comment_edit').live("click",function(){
 	
 	if (drupalgap_user.uid == 0) {
@@ -77,12 +72,10 @@ function sejlnet_image_success(json) {
 			case "0": // comments hidden
 				$('#sejlnet_image_comments').hide();
 				$('#sejlnet_image_button_comment_edit').hide();
-				$('#sejlnet_image_button_comments').hide();
 				break;
 			case "1": // comments closed
 				$('#sejlnet_image_comments').show();
 				$('#sejlnet_image_button_comment_edit').hide();
-				$('#sejlnet_image_button_comments').show();
 				break;
 			case "Read / write": // comments open
 			case "Læse/skrive":
@@ -90,19 +83,8 @@ function sejlnet_image_success(json) {
 				// @todo - check user's permissions for comments before showing buttons
 				$('#sejlnet_image_comments').show();
 				$('#sejlnet_image_button_comment_edit').show();
-				$('#sejlnet_image_button_comments').show();
 				break;
 		}
-		
-		// As a last resort, check the user's access permissions for comments.
-		// Check to make sure the user has permission view comments.
-		/*if (!drupalgap_services_user_access({"permission":"access comments"})) {
-			$('#sejlnet_image_button_comments').hide();
-		}
-		// Check to make sure the user has permission to post comments.
-		if (!drupalgap_services_user_access({"permission":"post comments"})) {
-			$('#sejlnet_image_button_comment_edit').hide();
-		}*/
 		
 		// If there are any comments, retrieve and display them.
 		if (sejlnet_image.comment_count) {
@@ -129,26 +111,6 @@ function sejlnet_image_success(json) {
 				drupalgap_services_comment_node_comments.resource_call(comment_options);
 			}
 		}
-		
-		
-		// If there are any comments, show the comment count on the view comments button.
-		// Otherwise, hide the view comments button
-		/*if (sejlnet_image.comment_count) {
-			count = parseInt(sejlnet_image.comment_count);
-			if (count > 0) {
-				text = "View " + count + " Comments";
-				if (count == 1) { text = "View " + count + " Comment" }
-				$('#sejlnet_image_button_comments span').html(text);
-			}
-			else {
-				$('#sejlnet_image_button_comments').hide();
-			}
-		}
-		else {
-			$('#sejlnet_image_button_comments').hide();
-		}*/
-		
-		
 	}
 	catch (error) {
 		alert("sejlnet_image_success - " + error);

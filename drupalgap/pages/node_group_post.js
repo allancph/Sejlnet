@@ -28,14 +28,22 @@ $('#node_group_post').live('pagebeforeshow',function(){
 	}
 });
 
-$('#node_group_post_button_comments').live("click",function(){
-	// Set the comment nid.
-	drupalgap_page_comments_nid = node_group_post_nid;
-});
-
 $('#node_group_post_button_comment_edit').live("click",function(){
-	// Set the comment nid.
-	drupalgap_page_comment_edit_nid = node_group_post_nid;
+	
+	if (drupalgap_user.uid == 0) {
+		if (confirm("You must be logged in to add a comment.")) {
+			$.mobile.changePage("user_login.html");
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		// Set the comment nid.
+		drupalgap_page_comment_edit_nid = node_group_post_nid;
+		$.mobile.changePage("comment_edit.html");
+	}
+	
 });
 
 function node_group_post_success(node_group_post) {
@@ -51,45 +59,44 @@ function node_group_post_success(node_group_post) {
 		case "0": // comments hidden
 			$('#node_group_post_comments').hide();
 			$('#node_group_post_button_comment_edit').hide();
-			$('#node_group_post_button_comments').hide();
 			break;
 		case "1": // comments closed
 			$('#node_group_post_comments').show();
 			$('#node_group_post_button_comment_edit').hide();
-			$('#node_group_post_button_comments').show();
 			break;
-		case "2": // comments open
+		case "Read / write": // comments open
+		case "Læse/skrive":
+		case "L\u00e6se/skrive":
+		case "2":
 			// @todo - check user's permissions for comments before showing buttons
 			$('#node_group_post_comments').show();
 			$('#node_group_post_button_comment_edit').show();
-			$('#node_group_post_button_comments').show();
 			break;
 	}
 	
-	// If there are any comments, show the comment count on the view comments button.
-	// Otherwise, hide the view comments button
+	// If there are any comments, retrieve and display them.
 	if (node_group_post.comment_count) {
 		count = parseInt(node_group_post.comment_count);
 		if (count > 0) {
-			text = "View " + count + " Comments";
-			if (count == 1) { text = "View " + count + " Comment" }
-			$('#node_group_post_button_comments span').html(text);
+			// Retrieve comments.
+			comment_options = {
+				"nid":node_group_post_nid,
+				"error":function(jqXHR, textStatus, errorThrown) {
+				},
+				"success":function(results) {
+					
+					// If there are any comments, add each to the container, otherwise show an empty message.
+					$.each(results.comments,function(index,obj){
+						
+						// Build comment html.
+						html = drupalgap_services_comment_render(obj.comment);
+						
+						// Add comment html to comment container.
+						$("#node_group_post_comments_list").append(html);
+					});
+				},
+			}
+			drupalgap_services_comment_node_comments.resource_call(comment_options);
 		}
-		else {
-			$('#node_group_post_button_comments').hide();
-		}
-	}
-	else {
-		$('#node_group_post_button_comments').hide();
-	}
-	
-	// As a last resort, check the user's access permissions for comments.
-	// Check to make sure the user has permission view comments.
-	if (!drupalgap_services_user_access({"permission":"access comments"})) {
-		$('#node_group_post_button_comments').hide();
-	}
-	// Check to make sure the user has permission to post comments.
-	if (!drupalgap_services_user_access({"permission":"post comments"})) {
-		$('#node_group_post_button_comment_edit').hide();
 	}
 }
