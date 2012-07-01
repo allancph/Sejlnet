@@ -14,15 +14,23 @@ var drupalgap_services_node_create = {
 			// Build the body parameter.
 			var body;
 			if (drupalgap_site_settings.variable.drupal_core == "6") {
-				body = "node[body]=" + encodeURIComponent(node.body);
+				//body = "node[body]=" + encodeURIComponent(node.body);
+				body = "body=" + encodeURIComponent(node.body);
 			}
 			else if (drupalgap_site_settings.variable.drupal_core == "7") {
 				body = "node[language]=und&node[body][und][0][value]=" + encodeURIComponent(node.body);
 			}
 			
 			// Build service call data string.
-			data = "node[type]=" + encodeURIComponent(node.type);
-			data += "&node[title]=" + encodeURIComponent(node.title) + "&" + body;
+			//data = "node[type]=" + encodeURIComponent(node.type);
+			data = "type=" + encodeURIComponent(node.type);
+			//data += "&node[title]=" + encodeURIComponent(node.title) + "&" + body;
+			data += "&title=" + encodeURIComponent(node.title) + "&" + body;
+			
+			// If organic groups were past along, place them in the data string.
+			if (caller_options.og) {
+				data += "&" + caller_options.og; 
+			}
 			
 			// Build options for service call.
 			options = {

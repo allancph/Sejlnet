@@ -101,3 +101,19 @@ $('#sejlnet_group_posts_prev').live("click",function(){
 	}
 	return false;
 });
+
+$('#sejlnet_group_posts_add').live("click", function(){
+	if (drupalgap_user.uid == 0) {
+		if (confirm("You must be logged in to add a post.")) {
+			$.mobile.changePage("user_login.html");
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		drupalgap_page_node_edit_type = "group_post";
+		drupalgap_page_node_edit_og = "og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
+		$.mobile.changePage("node_edit.html");
+	}
+});

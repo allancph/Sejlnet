@@ -1,5 +1,6 @@
 var drupalgap_page_node_edit_nid;
 var drupalgap_page_node_edit_type;
+var drupalgap_page_node_edit_og;
 $('#drupalgap_page_node_edit').live('pageshow',function(){
 	try {
 		
@@ -13,7 +14,7 @@ $('#drupalgap_page_node_edit').live('pageshow',function(){
 				alert("drupalgap_page_node_edit - failed to load content type (" + drupalgap_page_node_edit_type + ")");
 				return false;
 			}
-			$('#drupalgap_page_node_edit h1').html("Create " + content_type.name);
+			$('#drupalgap_page_node_edit h1').html(content_type.name);
 			$('#drupalgap_page_node_edit_delete').hide();
 		}
 		else { // existing node...
@@ -30,7 +31,7 @@ $('#drupalgap_page_node_edit').live('pageshow',function(){
 					content_type = drupalgap_services_content_type_load(node.type);
 					
 					// Fill in page place holders.
-					$('#drupalgap_page_node_edit h1').html("Edit " + content_type.name);
+					$('#drupalgap_page_node_edit h1').html(content_type.name);
 					$('#drupalgap_page_node_edit_title').val(node.title);
 					// TODO - the body should really be filled in by the node retrieve
 					// resource, that way the body can be accessed through node.body here
@@ -76,11 +77,22 @@ $('#drupalgap_page_node_edit_submit').live('click',function(){
 	  				alert("drupalgap_page_node_edit_submit - Failed to create " + drupalgap_page_node_edit_type + ", review the debug console log for more information.");
 		  		},
 		  		"success":function(node) {
-		  			// Created node successfully, view the node.
-		  			drupalgap_page_node_nid = node.nid;
-				  	$.mobile.changePage("node.html");
+		  			// Created node successfully...
+		  			
+		  			// Clear the group posts local storage.
+		  			window.localStorage.removeItem("get.sejlnet/group/posts/" + sejlnet_group_nid + "?page=0");
+		  			
+		  			// Go back to the group posts list.
+		  			$.mobile.changePage("sejlnet_group_posts.html");
 		  		},
 	  		};
+	  		
+	  		// If any organic groups query string parameters were set, include them.
+	  		if (drupalgap_page_node_edit_og) {
+	  			options.og = drupalgap_page_node_edit_og;
+	  		}
+	  		
+	  		// Make the service call.
 		  	drupalgap_services_node_create.resource_call(options);
 	  	}
 	  	else { // existing nodes...
@@ -107,6 +119,8 @@ $('#drupalgap_page_node_edit_submit').live('click',function(){
 				  	drupalgap_services_node_update.resource_call(node_update_options);
 		  		},
 	  		};
+	  		
+	  		// Make the service call.
 		  	drupalgap_services_node_retrieve.resource_call(options);
 	  	}
 	}
@@ -121,10 +135,14 @@ $('#drupalgap_page_node_edit_submit').live('click',function(){
 $('#drupalgap_page_node_edit_cancel').live('click',function(){
 	try {
 		// if it's a new node, send back to content add, otherwise send back to node
-		if (!drupalgap_page_node_edit_nid)
-			$.mobile.changePage("content_add.html");
-		else
-			$.mobile.changePage("node.html");
+		if (!drupalgap_page_node_edit_nid) {
+			//$.mobile.changePage("content_add.html");
+			$.mobile.changePage("sejlnet_group_posts.html");
+		}
+		else {
+			//$.mobile.changePage("node.html");
+			$.mobile.changePage("sejlnet_group_posts.html");
+		}
 	}
 	catch (error) {
 		console.log("drupalgap_page_node_edit_cancel");
@@ -149,7 +167,8 @@ $('#drupalgap_page_node_edit_delete').live('click',function(){
 							alert(errorThrown);
 						},
 						"success":function(data) {
-							$.mobile.changePage("content.html");
+							//$.mobile.changePage("content.html");
+							$.mobile.changePage("sejlnet_group_posts.html");
 						},
 					};
 					drupalgap_services_node_delete.resource_call(node_delete_options);
