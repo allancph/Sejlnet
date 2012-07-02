@@ -39,7 +39,8 @@ $('#sejlnet_group_photos').live('pageshow',function(){
 					});
 				}
 				else {
-					html = "Sorry, there are no photos for this group.";
+					// No photos for group.
+					html = "Beklager, der er ingen foto i denne gruppe.";
 					sejlnet_group_photos_empty = true;
 				}
 				$("#sejlnet_group_photos_container").html(html);
@@ -58,7 +59,7 @@ $('#sejlnet_group_photos').live('pageshow',function(){
 
 $('#sejlnet_group_photos_add_button').live("click", function(){
 	if (drupalgap_user.uid == 0) {
-		if (confirm("You must be logged in to add a photo.")) {
+		if (confirm("Du skal være logget ind for at tilføje foto.")) {
 			$.mobile.changePage("user_login.html");
 		}
 		else {

@@ -43,7 +43,8 @@ $('#sejlnet_group_posts').live('pageshow',function(){
 				}
 				else {
 					sejlnet_group_posts_empty = true;
-					html = "Sorry, there are no posts in this group.";
+					// No posts in group.
+					html = "Beklager, der er ingen indlæg i denne gruppe.";
 					$("#sejlnet_group_posts_list").append($("<li></li>",{"html":html}));
 				}
 				

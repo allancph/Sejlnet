@@ -107,7 +107,8 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 					});
 				}
 				else {
-					facilities = "Sorry, there are no facilities here.";
+					// No facilities.
+					facilities = "Beklager, der er ingen faciliteter her";
 				}
 				$('#sejlnet_harbor_facilities').html(facilities);
 				

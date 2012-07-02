@@ -184,15 +184,15 @@ function sejlnet_gallery_photo_list_item_render(node) {
 		if (node.comment_count && node.comment_count > 0) {
 			comments += node.comment_count;
 			if (node.comment_count == 1) {
-				comments += " Comment";
+				comments += " Kommentar";
 			}
 			else {
-				comments += " Comments";
+				comments += " Kommentarer";
 			}
 			
 		}
 		else {
-			comments += "0 Comments";
+			comments += "0 Kommentarer";
 		}
 		comments += "<br />";
 		

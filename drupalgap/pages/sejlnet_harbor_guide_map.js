@@ -48,25 +48,6 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 				    }
 				    var marker = new google.maps.Marker(myMarkerOptions);
 				    
-				    /*google.maps.event.addListener(marker, 'click', (function(marker, index) {
-				        return function() {
-				        	title = obj.node.title;
-							if (title == null) {
-								title = obj.node.titel; // the live site uses 'titel' for the field name
-							}
-							javascript_code = "alert('on');";
-							infowindow.setContent("<a href='#' id='" + obj.node.nid + "' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>");
-							//infowindow.setContent("<a href='#' onclick='javascript:alert(\"howdy\");'>" + title + "</a>");
-							infowindow.open(sejlnet_harbor_guide_map_object, marker);
-				        }
-				      })(marker, index));*/
-				    
-				    /*google.maps.event.addListener(marker, 'click', function() {
-				    	new google.maps.InfoWindow({
-				    	    content: 
-				    	}).open(sejlnet_harbor_guide_map_object,marker);
-			    	});*/
-				    
 				    var title = obj.node.title;
 					if (title == null) {
 						title = obj.node.titel; // the live site uses 'titel' for the field name
@@ -79,7 +60,8 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 				});
 			}
 			else {
-				alert("Sorry, there are no published harbors.");
+				// No published harbors.
+				alert("Beklager, der er ingen havne.");
 			}
 		},
 	};
@@ -96,17 +78,6 @@ function sejlnet_harbor_guide_map_init(lat,lng) {
     };
     sejlnet_harbor_guide_map_object = new google.maps.Map(document.getElementById("sejlnet_harbor_guide_map_canvas"),myOptions);
 }
-
-// When a content list item is clicked...
-/*$('#sejlnet_harbor_guide_content_list a').live("click",function(){
-	// Save a reference to the node id.
-	drupalgap_page_node_harbor_nid = $(this).attr('id');
-	drupalgap_page_node_harbor_back = "all";
-});*/
-
-/*var infowindow = new google.maps.InfoWindow({
-    content: "Howdy"
-});*/
 
 $('.sejlnet_harbor_guide_map_harbor').live("click",function(){
 	// Save a reference to the node id.

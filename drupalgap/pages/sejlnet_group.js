@@ -65,17 +65,3 @@ $('#sejlnet_group').live('pageshow',function(){
 		alert("drupalgap_page_node_harbor - pageshow " + error);
 	}
 });
-
-/*$('#sejlnet_group_back').live("click",function(){
-	switch (drupalgap_page_node_harbor_back) {
-		case "nearby":
-			$.mobile.changePage("sejlnet_harbor_guide_nearby.html");
-			break;
-		case "all":
-			$.mobile.changePage("sejlnet_harbor_guide.html");
-			break;
-		default:
-			$.mobile.changePage("sejlnet_harbor_guide.html");
-			break;
-	}
-});*/

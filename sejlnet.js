@@ -30,3 +30,13 @@ function toRad(Value) {
     /** Converts numeric degrees to radians */
     return Value * Math.PI / 180;
 }
+
+function sejlnet_render_geo_location_info (position) {
+	return '<ul><li>Breddegrad: '    + position.coords.latitude              + '</li>' +
+    '<li>Længdegrad: '          + position.coords.longitude             + '</li>' +
+    '<li>Højde: '           + position.coords.altitude              + '</li>' +
+    '<li>Nøjagtighed: '           + position.coords.accuracy              + '</li>' +
+    '<li>Højde Nøjagtighed: '  + position.coords.altitudeAccuracy      + '</li>' +
+    '<li>Kurs: '            + position.coords.heading               + '</li>' +
+    '<li>Hastighed: '              + position.coords.speed + '</li></ul>';
+}

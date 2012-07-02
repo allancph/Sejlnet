@@ -10,14 +10,6 @@ $('#drupalgap_page_user_login').live('pageshow',function(){
           $.mobile.changePage("dashboard.html", "slideup");
           return;
         }
-	    
-	    // if in demo mode, prepopulate login fields
-	    // TODO - this type of code should live in the future idea of
-	    // hook_page_user_login, since it is custom for a particular app
-	    if (drupalgap_settings.demo) {
-	    	$('#drupalgap_user_login_name').val("demo");
-	    	$('#drupalgap_user_login_pass').val("drupalgap2012");
-	    }
   }
   catch (error) {
 	  console.log("drupalgap_page_user_login");
