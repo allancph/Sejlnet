@@ -27,7 +27,6 @@ $('#node_harbor_map_back').live("click",function(){
 });
 
 function node_harbor_map_initialize(lat,lng) {
-	//alert("loading map (" + lat + ", " + lng + ")");
 	var myOptions = {
 		zoom: 8,
 		center: new google.maps.LatLng(lat, lng),

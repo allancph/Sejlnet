@@ -1,0 +1,52 @@
+<div data-role="page" data-theme="b" id="sejlnet_image_add">
+  	
+  	<div data-role="header">
+  		<a href="dashboard.html" data-icon="home" class="ui-btn-left">Home</a>
+    	<h1>Add Photo</h1>
+  	</div><!-- /header -->
+  	
+  	<div data-role="header" data-theme="d">
+      <a href="#" data-icon="back" class="ui-btn-left" id='sejlnet_image_add_back'>Back</a>
+      <h2>Gallery</h2>
+    </div><!-- /header -->
+  	
+  	<div data-role="content">
+  		<label for="sejlnet_image_add_title">Image Title</label>
+      	<input type="text" id="sejlnet_image_add_title" />
+  	</div><!-- /content -->
+  	
+  	<div data-role="header" data-theme="c">
+      <h3>Image File</h3>
+    </div><!-- /header -->
+    <div data-role="content">
+    	<a href="#" data-role="button" data-icon="star" id="sejlnet_image_add_capture">Capture Photo</a>
+  		<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_from_library">Add From Library</a>
+    	<div style='text-align: center;'>
+    		<div id='largeImage_msg'></div>
+    		<img id="largeImage" src="../../images/sejlnet_icon.png" />
+    	</div>
+    </div>
+    
+    <div data-role="header" data-theme="c">
+      <h3>Image Location</h3>
+    </div><!-- /header -->
+    <div data-role="content">
+    	<a href="#" data-role="button" data-icon="refresh" id="sejlnet_image_add_get_current_location">Get Current Location</a>
+    	<div id="geo_location_msg" style='text-align: center;'></div>
+    	<div id="sejlnet_image_add_map_canvas" style="width:100%; height:240px; display: none;"></div>
+    	<a href="#" data-role="button" id="sejlnet_image_add_update" style='display: none;'>Update Map</a>
+    	<div id='sejlnet_image_add_location_wrapper'>
+	    	<label for="sejlnet_image_add_latitude">Latitude</label>
+	    	<input type="number" id="sejlnet_image_add_latitude" />
+	    	<label for="sejlnet_image_add_longitude">Longitude</label>
+	    	<input type="number" id="sejlnet_image_add_longitude" />
+	    	
+    	</div>
+    </div>
+    
+    <div data-role="content">
+    	<hr />
+    	<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_upload">Upload Photo</a>
+    </div>
+  	
+</div><!-- /page -->

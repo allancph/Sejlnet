@@ -66,7 +66,7 @@ $('#sejlnet_group_photos_add_button').live("click", function(){
 		}
 	}
 	else {
-		$.mobile.changePage("sejlnet_group_photos_photo_add.html");
+		$.mobile.changePage("sejlnet_image_add.html");
 	}
 });
 

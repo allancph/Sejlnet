@@ -33,12 +33,12 @@ $(document).ready(function() {
 			//node_group_image_nid = 6721;
 			//$.mobile.changePage("drupalgap/pages/node_group_image.html");
 			//drupalgap_page_node_harbor_nid = 3729;
-			drupalgap_page_node_harbor_nid = 2638; // harbor with comments
-			$.mobile.changePage("drupalgap/pages/node_harbor.html");
+			//drupalgap_page_node_harbor_nid = 2638; // harbor with comments
+			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_map.html");
-			//sejlnet_group_nid = 4471;
-			//$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
+			sejlnet_group_nid = 4471;
+			$.mobile.changePage("drupalgap/pages/sejlnet_group.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_groups.html");
 			//$.mobile.changePage("drupalgap/pages/sejlnet_gallery_photo_add.html");
 			

@@ -1,68 +1,68 @@
-var sejlnet_gallery_photo_add_source;   // picture source
-var sejlnet_gallery_photo_add_destination_type; // sets the format of returned value
+var sejlnet_image_add_source;   // picture source
+var sejlnet_image_add_destination_type; // sets the format of returned value
 
-var sejlnet_gallery_photo_add_img_width;
-var sejlnet_gallery_photo_add_img_height;
-var sejlnet_gallery_photo_add_img_data = null;
+var sejlnet_image_add_img_width;
+var sejlnet_image_add_img_height;
+var sejlnet_image_add_img_data = null;
 
-$('#sejlnet_gallery_photo_add').live('pagebeforeshow',function(){
+$('#sejlnet_image_add').live('pagebeforeshow',function(){
 	try {
 	}
 	catch (error) {
-		alert("sejlnet_gallery_photo_add - pagebeforeshow " + error);
+		alert("sejlnet_image_add - pagebeforeshow " + error);
 	}
 });
 
-$('#sejlnet_gallery_photo_add').live('pageshow',function(){
+$('#sejlnet_image_add').live('pageshow',function(){
 	try {
-		document.addEventListener("deviceready",sejlnet_gallery_photo_add_ready,false);
-		sejlnet_gallery_photo_add_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
+		document.addEventListener("deviceready",sejlnet_image_add_ready,false);
+		sejlnet_image_add_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
 	}
 	catch (error) {
-		alert("sejlnet_gallery_photo_add - pageshow " + error);
+		alert("sejlnet_image_add - pageshow " + error);
 	}
 });
 
-$('#sejlnet_gallery_photo_add_capture').live("click",function(){
-	sejlnet_gallery_photo_add_capture();
+$('#sejlnet_image_add_capture').live("click",function(){
+	sejlnet_image_add_capture();
 });
 
-$('#sejlnet_gallery_photo_add_from_library').live("click",function(){
-	sejlnet_gallery_photo_add_get(sejlnet_gallery_photo_add_source.PHOTOLIBRARY);
+$('#sejlnet_image_add_from_library').live("click",function(){
+	sejlnet_image_add_get(sejlnet_image_add_source.PHOTOLIBRARY);
 });
 
-$('#sejlnet_gallery_photo_add_get_current_location').live("click",function(){
-	sejlnet_gallery_photo_add_get_location();
+$('#sejlnet_image_add_get_current_location').live("click",function(){
+	sejlnet_image_add_get_location();
 });
 
 
-function sejlnet_gallery_photo_add_ready() {
-	sejlnet_gallery_photo_add_source = navigator.camera.PictureSourceType;
-	sejlnet_gallery_photo_add_destination_type = navigator.camera.DestinationType;
+function sejlnet_image_add_ready() {
+	sejlnet_image_add_source = navigator.camera.PictureSourceType;
+	sejlnet_image_add_destination_type = navigator.camera.DestinationType;
 }
 
 //A button will call this function
 //
-function sejlnet_gallery_photo_add_capture() {
+function sejlnet_image_add_capture() {
   // Take picture using device camera and retrieve image as base64-encoded string
-  navigator.camera.getPicture(sejlnet_gallery_photo_add_data_success, sejlnet_gallery_photo_add_fail, { quality: 50,
-    destinationType: sejlnet_gallery_photo_add_destination_type.DATA_URL });
+  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50,
+    destinationType: sejlnet_image_add_destination_type.DATA_URL });
 }
 
 // A button will call this function
 //
-function sejlnet_gallery_photo_add_get(source) {
+function sejlnet_image_add_get(source) {
 	$('#largeImage_msg').html("Loading image...");
   // Retrieve image file location from specified source
-  navigator.camera.getPicture(sejlnet_gallery_photo_add_data_success, sejlnet_gallery_photo_add_fail, { quality: 50, 
-    /*destinationType: sejlnet_gallery_photo_add_destination_type.FILE_URI,*/
-	  destinationType: sejlnet_gallery_photo_add_destination_type.DATA_URL,
+  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50, 
+    /*destinationType: sejlnet_image_add_destination_type.FILE_URI,*/
+	  destinationType: sejlnet_image_add_destination_type.DATA_URL,
     sourceType: source });
 }
 
 // Called if something bad happens.
 // 
-function sejlnet_gallery_photo_add_fail(message) {
+function sejlnet_image_add_fail(message) {
 	if (message != "") {
 		console.log(message);
 	}
@@ -70,11 +70,11 @@ function sejlnet_gallery_photo_add_fail(message) {
 }
 
 // Called when a photo is successfully retrieved
-//function sejlnet_gallery_photo_add_uri_success(imageURI) {
-function sejlnet_gallery_photo_add_data_success(imageData) {
+//function sejlnet_image_add_uri_success(imageURI) {
+function sejlnet_image_add_data_success(imageData) {
 	
 	// Save a copy of the image data so we can upload it later.
-	sejlnet_gallery_photo_add_img_data = imageData;
+	sejlnet_image_add_img_data = imageData;
 
   // Get image handle
   var largeImage = document.getElementById('largeImage');
@@ -89,50 +89,49 @@ function sejlnet_gallery_photo_add_data_success(imageData) {
   largeImage.onload = function () {
 	  
 	  // Resize it to fit a 320px display.
-	  sejlnet_gallery_photo_add_img_width = this.width;
-	  sejlnet_gallery_photo_add_img_height = this.height;
-	  ratio = sejlnet_gallery_photo_add_img_width/280;
-	  new_width = sejlnet_gallery_photo_add_img_width/ratio;
-	  new_height = sejlnet_gallery_photo_add_img_height/ratio;
+	  sejlnet_image_add_img_width = this.width;
+	  sejlnet_image_add_img_height = this.height;
+	  ratio = sejlnet_image_add_img_width/280;
+	  new_width = sejlnet_image_add_img_width/ratio;
+	  new_height = sejlnet_image_add_img_height/ratio;
 	  largeImage.width = new_width;
 	  largeImage.height = new_height;
 	  
 	  // Hide the two photo buttons.
-	  //$('#sejlnet_gallery_photo_add_capture').hide();
-	  //$('#sejlnet_gallery_photo_add_from_library').hide();
+	  //$('#sejlnet_image_add_capture').hide();
+	  //$('#sejlnet_image_add_from_library').hide();
 	  
 	  // Show the photo upload button.
-	  //$('#sejlnet_gallery_photo_add_upload').show();
+	  //$('#sejlnet_image_add_upload').show();
   };
   
 }
 
-$('#sejlnet_gallery_photo_add_upload').live("click", function(){
+$('#sejlnet_image_add_upload').live("click", function(){
 	
 	// If they didn't enter a title notify them.
-	title = $('#sejlnet_gallery_photo_add_title').val();
+	title = $('#sejlnet_image_add_title').val();
 	if (!title) {
 		alert("Enter the image title.");
 		return false;
 	}
 	
 	// If they didn't select a photo, notify them.
-	if (!sejlnet_gallery_photo_add_img_data) {
+	if (!sejlnet_image_add_img_data) {
 		alert("You must select an image.");
 		return false;
 	}
 	
-	// If they didn't enter a latitude and longitude, notify them.
-	lat = $('#sejlnet_gallery_photo_add_latitude').val();
-	lng = $('#sejlnet_gallery_photo_add_longitude').val();
-	
-	if (!lat || !lng) {
-		alert("Enter the image latitude and longitude.");
+	// If they entered a lat/lng, make sure they entered both.
+	lat = $('#sejlnet_image_add_latitude').val();
+	lng = $('#sejlnet_image_add_longitude').val();
+	if ((lat && !lng) || (lng && !lat)) {
+		alert("Enter both latitude and longitude.");
 		return false;
 	}
 	
 	// Hide the upload button.
-	$('#sejlnet_gallery_photo_add_upload').hide();
+	$('#sejlnet_image_add_upload').hide();
 	
 	// Get image.
 	var largeImage = document.getElementById('largeImage');
@@ -144,11 +143,11 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 	// Clear the image gallery from local storage.
 	window.localStorage.removeItem("get.sejlnet/gallery");
 	if (sejlnet_group_nid) {
-		window.localStorage.removeItem("get.sejlnet/group/photos/" + sejlnet_group_nid);
+		window.localStorage.removeItem("get.sejlnet/group/photos/" + sejlnet_group_nid + "?page=0");
 	}
 	
 	data = {"file":{
-		"file":sejlnet_gallery_photo_add_img_data,
+		"file":sejlnet_image_add_img_data,
 		"filename":image_file_name,
 		"filepath":"sites/default/files/" + image_file_name
 	}};
@@ -186,6 +185,12 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 				data += "&og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
 			}
 			
+			// Append the location module parameters if we have a lat and lng.
+			if (lat && lng) {
+				data += "&locations[0][locpick][user_latitude]=" + lat +
+				"&locations[0][locpick][user_longitude]=" + lng; 
+			}
+			
 			// Now that we have the new file id, let's create a new node
 			// with the new file id on the node's image field.
 			node_create_options = {
@@ -220,13 +225,13 @@ $('#sejlnet_gallery_photo_add_upload').live("click", function(){
 	
 });
 
-function sejlnet_gallery_photo_add_get_location() {
+function sejlnet_image_add_get_location() {
 	// Now let's get the user's current location and show it on the google map.
 	$('#geo_location_msg').html("Waiting for location...");
-	navigator.geolocation.getCurrentPosition(sejlnet_gallery_photo_add_onSuccess, sejlnet_gallery_photo_add_onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
+	navigator.geolocation.getCurrentPosition(sejlnet_image_add_onSuccess, sejlnet_image_add_onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
 }
 
-function sejlnet_gallery_photo_add_onSuccess(position) {
+function sejlnet_image_add_onSuccess(position) {
     location_message = 'Latitude: '           + position.coords.latitude              + '<br />' +
                         'Longitude: '          + position.coords.longitude             + '<br />' +
                         'Altitude: '           + position.coords.altitude              + '<br />' +
@@ -238,37 +243,37 @@ function sejlnet_gallery_photo_add_onSuccess(position) {
     $('#geo_location_msg').html(location_message);
     
     // Fill in the form with the lat/lng and start the search.
-    $('#sejlnet_gallery_photo_add_latitude').val(position.coords.latitude);
-    $('#sejlnet_gallery_photo_add_longitude').val(position.coords.longitude);
+    $('#sejlnet_image_add_latitude').val(position.coords.latitude);
+    $('#sejlnet_image_add_longitude').val(position.coords.longitude);
 	
-    sejlnet_gallery_photo_add_map_init(position.coords.latitude, position.coords.longitude);
+    sejlnet_image_add_map_init(position.coords.latitude, position.coords.longitude);
 }
 
 // onError Callback receives a PositionError object
 //
-function sejlnet_gallery_photo_add_onError(error) {
+function sejlnet_image_add_onError(error) {
 	//alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 	confirm_msg = "We were unable to determine your current location. " + 
 	"Would you like to try again?";
 	if (confirm(confirm_msg)) {
-		sejlnet_gallery_photo_add_get_location();
+		sejlnet_image_add_get_location();
 	}
 	else {
 		$('#geo_location_msg').html("If you know your current latitude and longitude you may enter it in the text fields provided.");
-		$('#sejlnet_gallery_photo_add_update').show();
-		$('#sejlnet_gallery_photo_add_latitude').val(sejlnet_location_latitude);
-		$('#sejlnet_gallery_photo_add_longitude').val(sejlnet_location_longitude);
+		$('#sejlnet_image_add_update').show();
+		$('#sejlnet_image_add_latitude').val(sejlnet_location_latitude);
+		$('#sejlnet_image_add_longitude').val(sejlnet_location_longitude);
 	}    
 }
 
-function sejlnet_gallery_photo_add_map_init(lat,lng) {
-	$('#sejlnet_gallery_photo_add_map_canvas').show();
+function sejlnet_image_add_map_init(lat,lng) {
+	$('#sejlnet_image_add_map_canvas').show();
 	var myOptions = {
 		zoom: 5,
 		center: new google.maps.LatLng(lat, lng),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("sejlnet_gallery_photo_add_map_canvas"),myOptions);
+    var map = new google.maps.Map(document.getElementById("sejlnet_image_add_map_canvas"),myOptions);
     
     var myLatLng = new google.maps.LatLng(lat, lng);
     var myMarkerOptions = {
@@ -278,13 +283,13 @@ function sejlnet_gallery_photo_add_map_init(lat,lng) {
     var marker = new google.maps.Marker(myMarkerOptions);
 }
 
-$('#sejlnet_gallery_photo_add_update').live("click", function(){
-	lat = $('#sejlnet_gallery_photo_add_latitude').val();
-	lng = $('#sejlnet_gallery_photo_add_longitude').val();
-	sejlnet_gallery_photo_add_map_init(lat, lng);
+$('#sejlnet_image_add_update').live("click", function(){
+	lat = $('#sejlnet_image_add_latitude').val();
+	lng = $('#sejlnet_image_add_longitude').val();
+	sejlnet_image_add_map_init(lat, lng);
 });
 
-$('#sejlnet_gallery_photo_add_back').live("click", function(){
+$('#sejlnet_image_add_back').live("click", function(){
 	if (sejlnet_group_nid) {
 		$.mobile.changePage("sejlnet_group_photos.html");
 	}

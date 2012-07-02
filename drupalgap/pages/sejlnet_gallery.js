@@ -51,7 +51,7 @@ $('#sejlnet_gallery').live('pageshow',function(){
 	}
 });
 
-$("#sejlnet_gallery_photo_add_button").live("click",function(){
+$("#sejlnet_image_add_button").live("click",function(){
 	if (drupalgap_user.uid == 0) {
 		if (confirm("You must be logged in to add a photo.")) {
 			$.mobile.changePage("user_login.html");
@@ -61,7 +61,7 @@ $("#sejlnet_gallery_photo_add_button").live("click",function(){
 		}
 	}
 	else {
-		$.mobile.changePage("sejlnet_gallery_photo_add.html");
+		$.mobile.changePage("sejlnet_image_add.html");
 	}
 });
 

@@ -74,6 +74,16 @@ function sejlnet_image_success(json) {
 		img = sejlnet_gallery_photo_list_item_render(sejlnet_image);
 		$('#sejlnet_image .content').html(img);
 		
+		// Image location.
+		// Show the harbor google map.
+		if (sejlnet_image.latitude && sejlnet_image.longitude) {
+			$('#sejlnet_image_map').show();
+			sejlnet_image_map_initialize(sejlnet_image.latitude, sejlnet_image.longitude);
+		}
+		else {
+			$('#sejlnet_image_map_wrapper span').html("N/A");
+		}
+		
 		// Set comments and comment button visibility.
 		switch (sejlnet_image.comment_status) {
 			case "0": // comments hidden
@@ -193,16 +203,6 @@ function sejlnet_gallery_photo_list_item_render(node) {
 			link = node.image_full_size;
 		}
 		else {
-			/*switch (node.type) {
-				// (Group Image)
-				case "group_image":
-					link = "node_group_image.html";
-					break;
-				// (Sailing Image)
-				case "user_image":
-					link = "node_user_image.html";
-					break;
-			}*/
 			link = "sejlnet_image.html";
 		}
 		link_attributes = "class='sejlnet_photo_item' nid='" + node.nid + "' node_type='" + node.type + "'";
@@ -248,3 +248,19 @@ $(".sejlnet_photo_item").live("click",function(){
 	}
 
 });
+
+function sejlnet_image_map_initialize(lat,lng) {
+	var myOptions = {
+		zoom: 8,
+		center: new google.maps.LatLng(lat, lng),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("sejlnet_image_map"),myOptions);
+    
+    var myLatLng = new google.maps.LatLng(lat, lng);
+    var myMarkerOptions = {
+      position: myLatLng,
+      map: map
+    }
+    var marker = new google.maps.Marker(myMarkerOptions);
+}
