@@ -5,14 +5,18 @@
     	<h1>Harbor</h1>
   	</div><!-- /header -->
   	
-  	<div data-role="header" data-theme="b">
+  	<div data-role="header" data-theme="c">
   		<a href="#" data-icon="back" class="ui-btn-left" id="drupalgap_page_node_harbor_back">Back</a>
     	<h2></h2>
   	</div><!-- /header -->
   	
-  	<div data-role="content" style='text-align: center;'>
-  	 <p id='harbor_map'></p>
-  	</div><!-- /content -->
+  	<div data-role="navbar">
+  		<ul>
+  			<li><a href="#" data-icon="info" class="ui-btn-active ui-state-persist">Info</a></li>
+  			<li><a href="node_harbor_map.html" data-icon="star">Map</a></li>
+	    	<li><a href="node_harbor_comments.html" data-icon="check">Comments</a></li>
+	  	</ul>
+	</div><!-- /navbar -->
   	
   	<div data-role="header" data-theme="c">
     	<h3>Location</h3>
@@ -22,15 +26,8 @@
   		<p id='harbor_phone' style='text-align: center;'><strong>Harbor phone number</strong>: <span></span></p>
   		<p id='harbor_address' style='text-align: center;'></p>
   		<p id='harbor_coordinates' style='text-align: center;'></p>
+  		<p id='harbor_map'></p>
   	</div><!-- /content -->
-  	
-  	<div data-role="header" data-theme="c">
-      <h3>Map</h3>
-    </div><!-- /header -->
-    
-    <div data-role="content"> 
-      <div id="map_canvas" style="width:100%; height:240px;"></div>
-    </div>
   	
   	<div data-role="header" data-theme="c">
     	<h3>Information</h3>

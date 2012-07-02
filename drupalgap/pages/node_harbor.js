@@ -40,6 +40,10 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				harbor.title = title;
 				$('#drupalgap_page_node_harbor h2').html(harbor.title);
 				
+				// After we've saved the language barrier title above, let's save a copy
+				// of this harbor node so others can use it.
+				drupalgap_page_node_harbor = harbor;
+				
 				// Image (harbor map)
 				if (harbor.map) {
 					image = "";
@@ -66,16 +70,6 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				
 				// Coordinates.
 				$('#harbor_coordinates').html(harbor.coordinates);
-				
-				// Google map.
-				//$('#harbor_google_map').html("Google Map");
-				//if(navigator.geolocation) {
-					//navigator.geolocation.getCurrentPosition(function(position){
-				if (harbor.latitude && harbor.longitude) {
-					node_harbor_map_initialize(harbor.latitude, harbor.longitude);
-				}
-					//});
-				//}
 				
 				// Fees.
 				fees = harbor.fees;
@@ -140,6 +134,10 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 });
 
 $('#drupalgap_page_node_harbor_back').live("click",function(){
+	node_harbor_go_back();
+});
+
+function node_harbor_go_back() {
 	go_back = "sejlnet_harbor_guide.html";
 	switch (drupalgap_page_node_harbor_back) {
 		case "nearby":
@@ -153,21 +151,4 @@ $('#drupalgap_page_node_harbor_back').live("click",function(){
 			break;
 	}
 	$.mobile.changePage(go_back);
-});
-
-function node_harbor_map_initialize(lat,lng) {
-	//alert("loading map (" + lat + ", " + lng + ")");
-	var myOptions = {
-		zoom: 8,
-		center: new google.maps.LatLng(lat, lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-    
-    var myLatLng = new google.maps.LatLng(lat, lng);
-    var myMarkerOptions = {
-      position: myLatLng,
-      map: map
-    }
-    var marker = new google.maps.Marker(myMarkerOptions);
 }

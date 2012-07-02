@@ -3,6 +3,15 @@ var drupalgap_page_comment_edit_content_type;
 var drupalgap_page_comment_edit_cid; // other's set this cid so this page knows which comment to load (if any)
 $('#drupalgap_page_comment_edit').live('pagebeforeshow',function(){
 	try {
+		
+	}
+	catch (error) {
+		alert("drupalgap_page_comment_edit - pagebeforeshow - " + error);
+	}
+});
+
+$('#drupalgap_page_comment_edit').live('pageshow',function(){
+	try {
 		// Load node.
 		nid = drupalgap_page_comment_edit_nid;
 		options = {
@@ -88,15 +97,6 @@ $('#drupalgap_page_comment_edit').live('pagebeforeshow',function(){
 		drupalgap_services_node_retrieve.resource_call(options);
 	}
 	catch (error) {
-		alert("drupalgap_page_comment_edit - pagebeforeshow - " + error);
-	}
-});
-
-$('#drupalgap_page_comment_edit').live('pageshow',function(){
-	try {
-		
-	}
-	catch (error) {
 		console.log("drupalgap_page_comment_edit");
 		console.log(error);
 	}
@@ -166,26 +166,30 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 				"success":function(comment_create_result) {
 					alert("Comment posted!");
 					// If this was an image comment, clear out the local storage dependencies.
-					if (drupalgap_page_comment_edit_content_type.type == "user_image" || 
-						drupalgap_page_comment_edit_content_type.type == "group_image") {
-						
-						// The image node.
-						sejlnet_local_storage_key = 
-							"get.sejlnet/node/" + drupalgap_page_comment_edit_content_type.type + 
-							"/" + drupalgap_page_comment_edit_nid;
-						window.localStorage.removeItem(sejlnet_local_storage_key);
-						
-						// The group's photos.
-						if (sejlnet_group_nid) {
-							sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+					switch (drupalgap_page_comment_edit_content_type.type) {
+						case "user_image":
+						case "group_image":
+							// The image node.
+							sejlnet_local_storage_key = 
+								"get.sejlnet/node/" + drupalgap_page_comment_edit_content_type.type + 
+								"/" + drupalgap_page_comment_edit_nid;
 							window.localStorage.removeItem(sejlnet_local_storage_key);
-						}
-						else {
-							// Gallery photos.
-							sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
-							window.localStorage.removeItem("get.sejlnet/gallery");
-						}
-						
+							
+							// The group's photos.
+							if (sejlnet_group_nid) {
+								sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+								window.localStorage.removeItem(sejlnet_local_storage_key);
+							}
+							else {
+								// Gallery photos.
+								sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+								window.localStorage.removeItem("get.sejlnet/gallery");
+							}
+							break;
+						case "harbour":
+							sejlnet_local_storage_key = "get.views_datasource/drupalgap_comments/" + drupalgap_page_node_harbor_nid;
+							window.localStorage.removeItem(sejlnet_local_storage_key);
+							break;
 					}
 					drupalgap_page_comment_back();
 				},
@@ -248,15 +252,16 @@ function drupalgap_page_comment_back() {
 	page = "node.html";
 	switch (drupalgap_page_comment_edit_content_type.type) {
 		case "group_image":
-			//page = "node_group_image.html";
 			page = "sejlnet_image.html";
 			break;
 		case "group_post":
 			page = "node_group_post.html";
 			break;
 		case "user_image":
-			//page = "node_user_image.html";
 			page = "sejlnet_image.html";
+			break;
+		case "harbour":
+			page = "node_harbor_comments.html";
 			break;
 	}
 	$.mobile.changePage(page);
