@@ -48,12 +48,7 @@ var drupalgap_views_datasource_retrieve = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_views_datasource_retrieve - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {

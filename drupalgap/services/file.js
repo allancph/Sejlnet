@@ -32,12 +32,7 @@ var drupalgap_services_file_create = {
 		}
 	},
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			console.log("drupalgap_services_file_create - " + errorThrown);
-		}
-		else {
-			console.log("drupalgap_services_file_create - " + textStatus);
-		}
+		console.log("drupalgap_services_file_create - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {

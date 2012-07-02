@@ -49,12 +49,7 @@ var drupalgap_services_system_connect = {
 		},
 		
 		"error":function (jqXHR, textStatus, errorThrown) {
-			if (errorThrown) {
-				alert(errorThrown);
-			}
-			else {
-				alert(textStatus);
-			}
+			console.log("drupalgap_services_system_connect - " + textStatus + " - " + errorThrown);
 		},
 		
 		"success":function (data) {

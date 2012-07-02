@@ -41,7 +41,7 @@ var drupalgap_services_comment_create  = {
 					data += "&subject=" + encodeURIComponent(comment.subject);
 				}
 				
-				// Make the call.
+				// Build the service call options.
 				options = {
 					"resource_path":this.resource_path,
 					"type":this.resource_type,
@@ -49,6 +49,7 @@ var drupalgap_services_comment_create  = {
 					"data":data,
 					"nid":comment.nid,
 					"error":function(jqXHR, textStatus, errorThrown) {
+						console.log("drupalgap_services_comment_create - " + textStatus + " - " + errorThrown);
 					},
 					"success":function(data) {
 					},
@@ -62,6 +63,7 @@ var drupalgap_services_comment_create  = {
 					options.hook_success = caller_options.success;
 				}
 				
+				// Make the call.
 				drupalgap_services.resource_call(options);
 			}
 		}
@@ -105,6 +107,7 @@ var drupalgap_services_comment_retrieve = {
 					"type":this.resource_type,
 					"async":true,
 					"error":function(jqXHR, textStatus, errorThrown) {
+						console.log("drupalgap_services_comment_retrieve - " + textStatus + " - " + errorThrown);
 					},
 					"success":function(data) {
 						
@@ -180,6 +183,7 @@ var drupalgap_services_comment_update = {
 				"nid":comment.nid,
 				"async":true,
 				"error":function(jqXHR, textStatus, errorThrown) {
+					console.log("drupalgap_services_comment_update - " + textStatus + " - " + errorThrown);
 				},
 				"success":function(data) {
 					// Clear the comment edit cid.
@@ -232,6 +236,7 @@ var drupalgap_services_comment_delete = {
 						"cid":comment.cid,
 						"nid":comment.nid,
 						"error":function(jqXHR, textStatus, errorThrown) {
+							console.log("drupalgap_services_comment_delete - " + textStatus + " - " + errorThrown);
 						},
 						"success":function(data) {
 							// Clear the comment edit cid.

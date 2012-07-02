@@ -1,9 +1,46 @@
 $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
 	try {
+		dashboard_init();
+	}
+	catch (error) {
+		console.log("drupalgap_page_dashboard - pagebeforeshow - " + error);
+	}
+});
+
+$('#drupalgap_page_dashboard').live('pageshow',function(){
+	try {
+		
+		// If we're offline and this is not our first time visiting the
+		// dashboard, re-initialize it because the pagebeforeshow event
+		// will not be fired again.
+		if (!drupalgap_first_time) {
+			dashboard_init();
+		}
+	}
+	catch (error) {
+		console.log("drupalgap_page_dashboard - pageshow - " + error);
+	}
+});
+
+function dashboard_init() {
+	try {
+		
+		// If we're offline, show the 'go online' button.
+		if (!drupalgap_online) {
+			$('#sejlnet_button_online').show();
+		}
+		else {
+			$('#sejlnet_button_online').hide();
+		}
 		
 		// Display site name.
-		site_name = drupalgap_site_settings.variable.site_name;
-		if (!site_name) { site_name = "DrupalGap"; }
+		if (drupalgap_site_settings) {
+			site_name = drupalgap_site_settings.variable.site_name;
+			if (!site_name) { site_name = "DrupalGap"; }
+		}
+		else {
+			site_name = "Offline";
+		}
 		$('#drupalgap_page_dashboard h1').html(site_name);
 		
 		// Hide both navbars (logic below will show them).
@@ -15,17 +52,19 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
 			$('#drupalgap_page_dashboard_header_user h2').hide();
 			
 			// determine what to do with the user registration button based on the site settings
-			switch (drupalgap_site_settings.variable.user_register) {
-				case 0: // Administrators only
-				case "0":
-					$('#drupalgap_button_user_register').hide();
-					break;
-				case 1: // Visitors
-				case "1":
-					break;
-				case 2: // Visitors, but administrator approval is required
-				case "2":
-					break;
+			if (drupalgap_site_settings) {
+				switch (drupalgap_site_settings.variable.user_register) {
+					case 0: // Administrators only
+					case "0":
+						$('#drupalgap_button_user_register').hide();
+						break;
+					case 1: // Visitors
+					case "1":
+						break;
+					case 2: // Visitors, but administrator approval is required
+					case "2":
+						break;
+				}
 			}
         }
         else { // user is logged in...
@@ -35,10 +74,9 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
 		
 	}
 	catch (error) {
-		console.log("drupalgap_page_dashboard");
-		console.log(error);
+		console.log("dashboard_init - " + error);
 	}
-});
+}
 
 $('#drupalgap_button_user_account').live("click",function(){
 	dg_page_user_back_button_destination = "dashboard.html";
@@ -78,4 +116,8 @@ $('#sejlnet_button_gallery').live("click", function(){
 	// Clear out the group id so the gallery add photo page
 	// won't think we are working with a group.
 	sejlnet_group_nid = null;
+});
+
+$('#sejlnet_button_online').live("click", function(){
+	drupalgap_onDeviceReady();
 });

@@ -59,12 +59,7 @@ var drupalgap_services_node_create = {
 		}
 	},
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_node_create - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -134,12 +129,7 @@ var drupalgap_services_node_retrieve = {
 	},
 	
 	"error":function(jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_node_retrieve - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function(data) {
@@ -216,12 +206,7 @@ var drupalgap_services_node_update = {
 	},
 	
 	"error":function(jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_node_update - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function(data) {
@@ -271,12 +256,7 @@ var drupalgap_services_node_delete = {
 	},
 	
 	"error":function(jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_node_delete - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function(data) {

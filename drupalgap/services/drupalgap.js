@@ -66,12 +66,7 @@ var drupalgap_services_resource_system_connect = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_system_connect - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -208,12 +203,7 @@ var drupalgap_services_drupalgap_user_login = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_drupalgap_user_login - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -264,12 +254,7 @@ var drupalgap_services_drupalgap_user_logout = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_drupalgap_user_logout - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -330,12 +315,7 @@ var drupalgap_services_drupalgap_user_register = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_drupalgap_user_register - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {

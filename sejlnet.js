@@ -11,8 +11,6 @@ var sejlnet_location_longitude = 10.986328;
 //var sejlnet_location_latitude = 42.177000;
 //var sejlnet_location_longitude = -83.652000;
 
-
-
 function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
     //Radius of the earth in:  1.609344 miles,  6371 km  | var R = (6371 / 1.609344);
     //var R = 3958.7558657440545; // Radius of earth in Miles

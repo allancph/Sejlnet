@@ -1,0 +1,14 @@
+--- /home/sejlnet-1/captcha.module	2012-07-02 04:34:44.000000000 +0200
++++ /home/sejlnet-1/www/sites/all/modules/captcha/captcha.module	2012-07-02 04:36:35.000000000 +0200
+@@ -308,6 +308,11 @@
+  */
+ function captcha_form_alter(&$form, $form_state, $form_id) {
+ 
++  // Sejlnet.dk - drupalgap patch, user registration from app doesn't need captcha.
++  if (arg(0) == 'drupalgap') {
++    return false;
++  }
++
+   if (arg(0) != 'admin' || variable_get('captcha_allow_on_admin_pages', FALSE)) {
+ 
+     module_load_include('inc', 'captcha');

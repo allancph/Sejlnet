@@ -53,12 +53,7 @@ var drupalgap_services_user_login = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_user_login - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -107,12 +102,7 @@ var drupalgap_services_user_logout = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_user_logout - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -187,12 +177,7 @@ var drupalgap_services_user_retrieve = {
 	},
 	
 	"error":function(jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_user_retrieve - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function(data) {
@@ -304,12 +289,7 @@ var drupalgap_services_user_update = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_user_update - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
@@ -373,12 +353,7 @@ var drupalgap_services_user_register = {
 	},
 	
 	"error":function (jqXHR, textStatus, errorThrown) {
-		if (errorThrown) {
-			alert(errorThrown);
-		}
-		else {
-			alert(textStatus);
-		}
+		console.log("drupalgap_services_user_register - " + textStatus + " - " + errorThrown);
 	},
 	
 	"success":function (data) {
