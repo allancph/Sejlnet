@@ -141,7 +141,7 @@ $('#sejlnet_image_add_upload').live("click", function(){
 	var image_file_name = "" + d.valueOf() + ".jpg";
 	
 	// Clear the image gallery from local storage.
-	window.localStorage.removeItem("get.sejlnet/gallery");
+	window.localStorage.removeItem("get.sejlnet/gallery?page=0");
 	if (sejlnet_group_nid) {
 		window.localStorage.removeItem("get.sejlnet/group/photos/" + sejlnet_group_nid + "?page=0");
 	}

@@ -50,7 +50,7 @@ function sejlnet_harbor_guide_nearby_onSuccess(position) {
                         'Speed: '              + position.coords.speed                 + '<br />';
     $('#sejlnet_harbor_guide_nearby_msg').html(
     	location_message + "<hr />" +
-    	"Location found, searching for nearby harbors..."
+    	"<span>Location found, searching for nearby harbors...</span>"
     );
     
     // Fill in the form with the lat/lng and start the search.
@@ -115,7 +115,6 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 		views_options = {
 				"path":path,
 				"error":function(jqXHR, textStatus, errorThrown) {
-					$('#sejlnet_harbor_guide_nearby_msg').html("");
 					if (errorThrown) {
 						alert(errorThrown);
 					}
@@ -126,8 +125,8 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 					$("#sejlnet_harbor_guide_nearby_content_list").listview("destroy").listview();
 				},
 				"success":function(content) {
+					$('#sejlnet_harbor_guide_nearby_msg span').html("");
 					distance_points = new Array();
-					$('#sejlnet_harbor_guide_nearby_msg').html("");
 					// If there is any content, add each to the list, otherwise show an
 					// empty message.
 					if ($(content.nodes).length > 0) {

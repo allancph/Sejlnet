@@ -23,15 +23,20 @@ $('#node_harbor_comments').live('pageshow',function(){
 				// Show the 'add comment' button.
 				$('#node_harbor_comments_add').show();
 				
-				// If there are any comments, add each to the container, otherwise show an empty message.
-				$.each(results.comments,function(index,obj){
-					
-					// Build comment html.
-					html = drupalgap_services_comment_render(obj.comment);
-					
-					// Add comment html to comment container.
-					$("#node_harbor_comments_list").append(html);
-				});
+				html = "";
+				
+				if (results.comments.length == 0) {
+					html += "There are no comments for this harbor."
+				}
+				else {
+					// If there are any comments, add each to the container, otherwise show an empty message.
+					$.each(results.comments,function(index,obj){
+						
+						// Build comment html.
+						html += drupalgap_services_comment_render(obj.comment);
+					});
+				}
+				$("#node_harbor_comments_list").append(html);
 			},
 		}
 		drupalgap_services_comment_node_comments.resource_call(comment_options);

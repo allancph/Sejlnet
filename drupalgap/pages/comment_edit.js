@@ -177,17 +177,16 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 							
 							// The group's photos.
 							if (sejlnet_group_nid) {
-								sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
+								sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid + "?page=0";
 								window.localStorage.removeItem(sejlnet_local_storage_key);
 							}
 							else {
 								// Gallery photos.
-								sejlnet_local_storage_key = "get.sejlnet/group/photos/" + sejlnet_group_nid;
-								window.localStorage.removeItem("get.sejlnet/gallery");
+								window.localStorage.removeItem("get.sejlnet/gallery?page=0");
 							}
 							break;
 						case "harbour":
-							sejlnet_local_storage_key = "get.views_datasource/drupalgap_comments/" + drupalgap_page_node_harbor_nid;
+							sejlnet_local_storage_key = "get.views_datasource/drupalgap_comments/" + drupalgap_page_node_harbor_nid + "?page=0";
 							window.localStorage.removeItem(sejlnet_local_storage_key);
 							break;
 					}
