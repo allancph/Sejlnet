@@ -65,8 +65,8 @@ function drupalgap_onDeviceReady() {
     		"success":function(){
     			// Go to the dashboard.
     			
-    			// If it isn't our first time loading it (from an offline state)
-    			if (!drupalgap_first_time) {
+    			// If it isn't our first time loading it (from an off-line state)
+    			if (drupalgap_first_time == false) {
     				$.mobile.changePage("dashboard.html", {allowSamePageTransition:true, reloadPage:true});
     			}
     			else {
