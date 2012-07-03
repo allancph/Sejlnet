@@ -69,7 +69,8 @@ function dashboard_init() {
         }
         else { // user is logged in...
         	$('#drupalgap_page_dashboard_navbar_authenticated').show();
-        	$('#drupalgap_page_dashboard_header_user h2').html("Hi " + drupalgap_user.name + "!");
+        	// Say hello.
+        	$('#drupalgap_page_dashboard_header_user h2').html("Hej " + drupalgap_user.name + "!");
         }
 		
 	}
