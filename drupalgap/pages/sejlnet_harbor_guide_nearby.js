@@ -46,7 +46,7 @@ function sejlnet_harbor_guide_nearby_onSuccess(position) {
 	$('#sejlnet_harbor_guide_nearby_get_current_location').show();
     location_message = sejlnet_render_geo_location_info(position);
     $('#sejlnet_harbor_guide_nearby_msg').html(
-    	location_message + "<hr />" +
+    	location_message + "<br />" +
     	"<span>Position fundet, søger efter havne tæt på...</span>"
     );
 	
