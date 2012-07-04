@@ -202,118 +202,125 @@ var drupalgap_services = {
 				
 				// Make the call, synchronously or asynchronously...
 				
-			    if (options.async == false) {
-			    	
-			    	// Synchronously.
-				    $.ajax({
+				if (!drupalgap_online) {
+					// No internet connection...
+					alert("Du mangler internet forbindelse.");
+				}
+				else {
+					// Has an internet connection, proceed...
+					
+					if (options.async == false) {
+				    	
+				    	// Synchronously.
+					    $.ajax({
+						      url: service_resource_call_url,
+						      type: options.type,
+						      data: options.data,
+						      dataType: options.dataType,
+						      contentType:options.contentType,
+						      async: options.async,
+						      error: function (jqXHR, textStatus, errorThrown) {
+					    			result = {
+					    				"jqXHR":jqXHR,
+					    				"textStatus":textStatus,
+					    				"errorThrown":errorThrown,
+					    			};
+						      },
+						      success: function (data) {
+						    	  result = data;
+						      }
+					    });
+					    
+					    // Print service resource call debug info to console.
+					    console.log(JSON.stringify(result));
+					    
+					    // If there wasn't an error from the service call...
+					    if (!result.errorThrown) {
+					    	
+					    	// Save the result to local storage, if necessary.
+					    	if (options.save_to_local_storage == "1") {
+					    		window.localStorage.setItem(options.local_storage_key, JSON.stringify(result));
+					    		console.log("saving service resource to local storage (" + options.local_storage_key +")");
+					    	}
+					    	else {
+					    		console.log("NOT saving service resource to local storage (" + options.local_storage_key +")");
+					    	}
+							
+					    	// Clean up service resource result local storage dependencies.
+					    	drupalgap_services_resource_clean_local_storage_dependencies(options);
+					    	
+					    }
+					    
+					    // Save a copy of the service resource call result in the
+				    	// global variable in case anybody needs it.
+				    	drupalgap_services_resource_call_result = result;
+				    	
+				    	return drupalgap_services_resource_call_result;
+				    	
+					}
+					else {
+						
+						// Asynchronously...
+						
+						// Show the page loading message.
+						$.mobile.showPageLoadingMsg();
+						
+						// Setup ajax options.
+						ajax_options = {
 					      url: service_resource_call_url,
 					      type: options.type,
 					      data: options.data,
 					      dataType: options.dataType,
 					      contentType:options.contentType,
 					      async: options.async,
-					      error: function (jqXHR, textStatus, errorThrown) {
-				    			result = {
-				    				"jqXHR":jqXHR,
-				    				"textStatus":textStatus,
-				    				"errorThrown":errorThrown,
-				    			};
-					      },
-					      success: function (data) {
-					    	  result = data;
-					      }
-				    });
-				    
-				    // Print service resource call debug info to console.
-				    console.log(JSON.stringify(result));
-				    
-				    // If there wasn't an error from the service call...
-				    if (!result.errorThrown) {
-				    	
-				    	// Save the result to local storage, if necessary.
-				    	if (options.save_to_local_storage == "1") {
-				    		window.localStorage.setItem(options.local_storage_key, JSON.stringify(result));
-				    		console.log("saving service resource to local storage (" + options.local_storage_key +")");
-				    	}
-				    	else {
-				    		console.log("NOT saving service resource to local storage (" + options.local_storage_key +")");
-				    	}
+					      error: options.error,
+					      success: options.success
+					    };
 						
-				    	// Clean up service resource result local storage dependencies.
-				    	drupalgap_services_resource_clean_local_storage_dependencies(options);
-				    	
-				    }
-				    
-				    // Save a copy of the service resource call result in the
-			    	// global variable in case anybody needs it.
-			    	drupalgap_services_resource_call_result = result;
-			    	
-			    	return drupalgap_services_resource_call_result;
-			    	
+						// If error/success call back hooks were provided, chain them
+						// onto the error and success call back function options.
+						if (options.hook_error) {
+							ajax_options.error = [options.error,options.hook_error];
+						}
+						if (options.hook_success) {
+							ajax_options.success = [options.success,options.hook_success];
+						}
+						
+						// Add core error and success call backs to front of queue so
+						// local storage can be taken care of properly. If the options
+						// are already arrays, that means chaining has been setup,
+						// otherwise setup an array of call back functions.
+						if (ajax_options.error) {
+							if (Object.prototype.toString.call(ajax_options.error) === '[object Array]') {
+								//console.log("error option was an array, adding default error call back to front");
+								ajax_options.error.unshift(this.resource_call_error);
+							}
+							else {
+								//console.log("error option was NOT array, creating array and adding default error call back to front");
+								ajax_options.error = [this.resource_call_error,options.error];
+							}
+						}
+						if (ajax_options.success) {
+							if (Object.prototype.toString.call(ajax_options.success) === '[object Array]') {
+								//console.log("success option was an array, adding default success call back to front");
+								ajax_options.success.unshift(this.resource_call_success);
+							}
+							else {
+								//console.log("success option was NOT array, creating array and adding default error call back to front");
+								ajax_options.success = [this.resource_call_success,options.success];
+							}
+						}
+						//console.log(JSON.stringify(ajax_options.error));
+						//console.log(JSON.stringify(ajax_options.success));
+						
+						// Append the current options onto the ajax options so they will be available
+						// in the success callback (and not be overwritten by any other async calls)
+						ajax_options.drupalgap_options = options;
+						
+						// Make the asynchronous service call.
+						$.ajax(ajax_options);
+					}
 				}
-				else {
-					
-					// Asynchronously...
-					
-					// Show the page loading message.
-					$.mobile.showPageLoadingMsg();
-					
-					// Setup ajax options.
-					ajax_options = {
-				      url: service_resource_call_url,
-				      type: options.type,
-				      data: options.data,
-				      dataType: options.dataType,
-				      contentType:options.contentType,
-				      async: options.async,
-				      error: options.error,
-				      success: options.success
-				    };
-					
-					// If error/success call back hooks were provided, chain them
-					// onto the error and success call back function options.
-					if (options.hook_error) {
-						ajax_options.error = [options.error,options.hook_error];
-					}
-					if (options.hook_success) {
-						ajax_options.success = [options.success,options.hook_success];
-					}
-					
-					// Add core error and success call backs to front of queue so
-					// local storage can be taken care of properly. If the options
-					// are already arrays, that means chaining has been setup,
-					// otherwise setup an array of call back functions.
-					if (ajax_options.error) {
-						if (Object.prototype.toString.call(ajax_options.error) === '[object Array]') {
-							//console.log("error option was an array, adding default error call back to front");
-							ajax_options.error.unshift(this.resource_call_error);
-						}
-						else {
-							//console.log("error option was NOT array, creating array and adding default error call back to front");
-							ajax_options.error = [this.resource_call_error,options.error];
-						}
-					}
-					if (ajax_options.success) {
-						if (Object.prototype.toString.call(ajax_options.success) === '[object Array]') {
-							//console.log("success option was an array, adding default success call back to front");
-							ajax_options.success.unshift(this.resource_call_success);
-						}
-						else {
-							//console.log("success option was NOT array, creating array and adding default error call back to front");
-							ajax_options.success = [this.resource_call_success,options.success];
-						}
-					}
-					//console.log(JSON.stringify(ajax_options.error));
-					//console.log(JSON.stringify(ajax_options.success));
-					
-					// Append the current options onto the ajax options so they will be available
-					// in the success callback (and not be overwritten by any other async calls)
-					ajax_options.drupalgap_options = options;
-					
-					// Make the asynchronous service call.
-					$.ajax(ajax_options);
-				}
-			    
 			}
 		}
 		catch (error) {

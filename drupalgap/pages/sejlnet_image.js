@@ -39,7 +39,7 @@ $('#sejlnet_image').live('pageshow',function(){
 $('#sejlnet_image_button_comment_edit').live("click",function(){
 	
 	if (drupalgap_user.uid == 0) {
-		if (confirm("You must be logged in to add a comment.")) {
+		if (confirm("Du skal være logged på for at skrive kommentarer.")) {
 			$.mobile.changePage("user_login.html");
 		}
 		else {
@@ -73,6 +73,15 @@ function sejlnet_image_success(json) {
 		// Show image.
 		img = sejlnet_gallery_photo_list_item_render(sejlnet_image);
 		$('#sejlnet_image .content').html(img);
+		
+		// Show body if we have it.
+		body = sejlnet_image.body;
+		if (!body) {
+			body = sejlnet_image.indhold;
+		}
+		if (body != "") {
+			$('#sejlnet_image .content').append(body);
+		}
 		
 		// Image location.
 		// Show the harbor google map.

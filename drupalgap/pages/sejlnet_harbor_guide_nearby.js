@@ -30,15 +30,21 @@ $('#sejlnet_harbor_guide_nearby_get_current_location').live("click",function(){
 });
 
 function sejlnet_harbor_guide_nearby_onDeviceReady() {
-	// Hide the 'get current location' button.
-	$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
-	// Waiting for location...
-	$('#sejlnet_harbor_guide_nearby_msg').html("Venter på position...");
-	navigator.geolocation.getCurrentPosition(
-		sejlnet_harbor_guide_nearby_onSuccess, 
-		sejlnet_harbor_guide_nearby_onError, 
-		{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
-	);
+	if (!drupalgap_online) {
+		// No internet connection...
+		alert("Du mangler internet forbindelse.");
+	}
+	else {
+		// Hide the 'get current location' button.
+		$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
+		// Waiting for location...
+		$('#sejlnet_harbor_guide_nearby_msg').html("Venter på position...");
+		navigator.geolocation.getCurrentPosition(
+			sejlnet_harbor_guide_nearby_onSuccess, 
+			sejlnet_harbor_guide_nearby_onError, 
+			{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
+		);
+	}
 }
 
 function sejlnet_harbor_guide_nearby_onSuccess(position) {
@@ -83,7 +89,7 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 		// Clear the list.
 		$("#sejlnet_harbor_guide_nearby_content_list").html("");
 		
-		kilometer_range = 30;
+		kilometer_range = 1000;
 		path = "views_datasource/harbor_guide/nearby/" + latitude + "," + longitude + "_" + kilometer_range;
 		views_options = {
 				"path":path,
@@ -118,27 +124,37 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 						});
 					}
 					else {
-						html = "Sorry, we were not able to locate any nearby harbors.";
+						html = "Beklager, vi kan ikke finde havne tæt på.";
 						$("#sejlnet_harbor_guide_nearby_content_list").append($("<li></li>",{"html":html}));
 					}
 					
-					// Now that we've pulled out all the distances, let's sort them and list the harbors.
+					// Now that we've pulled out all the distances, let's sort them. 
 					sorted_distance_points = distance_points.sort(function(a,b){return a-b});
+					// Now list the harbors.
+					count = 0;
+					limit = 10;
 					if ($(content.nodes).length > 0) {
 						$.each(sorted_distance_points,function(distance_index,distance_object){
-							$.each(content.nodes,function(index,obj){
-								if (obj.node.distance == distance_object) {
-									// Extract title.
-									title = obj.node.title;
-									if (title == null) {
-										title = obj.node.titel; // the live site uses 'titel' for the field name
+							if (count < limit) {
+								$.each(content.nodes,function(index,obj){
+									if (obj.node.distance == distance_object) {
+										// Extract title.
+										title = obj.node.title;
+										if (title == null) {
+											title = obj.node.titel; // the live site uses 'titel' for the field name
+										}
+										// Add harbor to list.
+										html = "<a href='node_harbor.html' id='" + obj.node.nid + "'>(" + obj.node.distance + " km) " + title + "</a>";
+										$("#sejlnet_harbor_guide_nearby_content_list").append($("<li></li>",{"html":html}));
+										count++;
+										return false;
 									}
-									// Add harbor to list.
-									html = "<a href='node_harbor.html' id='" + obj.node.nid + "'>(" + obj.node.distance + " km) " + title + "</a>";
-									$("#sejlnet_harbor_guide_nearby_content_list").append($("<li></li>",{"html":html}));
-									return false;
-								}
-							});
+								});
+							}
+							else {
+								// We reached the limit, break out.
+								return false;
+							}
 						});
 					}
 					

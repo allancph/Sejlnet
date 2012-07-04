@@ -13,14 +13,16 @@
   	<div data-role="content">
   		<label for="sejlnet_image_add_title">Foto Titel</label>
       	<input type="text" id="sejlnet_image_add_title" />
+      	<label for="sejlnet_image_add_body">Beskrivelse</label>
+      	<textarea id="sejlnet_image_add_body" rows="5"></textarea>
   	</div><!-- /content -->
   	
   	<div data-role="header" data-theme="c">
       <h3>Image File</h3>
     </div><!-- /header -->
     <div data-role="content">
-    	<a href="#" data-role="button" data-icon="star" id="sejlnet_image_add_capture">Capture Photo</a>
-  		<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_from_library">Add From Library</a>
+    	<a href="#" data-role="button" data-icon="star" id="sejlnet_image_add_capture">Tag foto</a>
+  		<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_from_library">Tilføj fra album</a>
     	<div style='text-align: center;'>
     		<div id='largeImage_msg'></div>
     		<img id="largeImage" src="../../images/sejlnet_icon.png" />
@@ -28,17 +30,16 @@
     </div>
     
     <div data-role="header" data-theme="c">
-      <h3>Image Location</h3>
+      <h3>Billede position</h3>
     </div><!-- /header -->
     <div data-role="content">
-    	<a href="#" data-role="button" data-icon="refresh" id="sejlnet_image_add_get_current_location">Get Current Location</a>
+    	<a href="#" data-role="button" data-icon="refresh" id="sejlnet_image_add_get_current_location">Refresh Location</a>
     	<div id="geo_location_msg" style='text-align: center;'></div>
     	<div id="sejlnet_image_add_map_canvas" style="width:100%; height:240px; display: none;"></div>
-    	<a href="#" data-role="button" id="sejlnet_image_add_update" style='display: none;'>Update Map</a>
     	<div id='sejlnet_image_add_location_wrapper'>
-	    	<label for="sejlnet_image_add_latitude">Latitude</label>
+	    	<label for="sejlnet_image_add_latitude">Breddegrad</label>
 	    	<input type="number" id="sejlnet_image_add_latitude" />
-	    	<label for="sejlnet_image_add_longitude">Longitude</label>
+	    	<label for="sejlnet_image_add_longitude">Længdegrad</label>
 	    	<input type="number" id="sejlnet_image_add_longitude" />
 	    	
     	</div>
@@ -46,7 +47,7 @@
     
     <div data-role="content">
     	<hr />
-    	<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_upload">Upload Photo</a>
+    	<a href="#" data-role="button" data-icon="add" id="sejlnet_image_add_upload">Tilføj foto</a>
     </div>
   	
 </div><!-- /page -->
