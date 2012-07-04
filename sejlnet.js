@@ -1,7 +1,7 @@
 var sejlnet_location_timeout = 15000;
 // Denmark Default
-var sejlnet_location_latitude = 55.9492;
-var sejlnet_location_longitude = 10.986328;
+var sejlnet_location_latitude = 56.139428693863266;
+var sejlnet_location_longitude = 12.4365234375;
 
 // Hirksholm Havn
 //var sejlnet_location_latitude = 57.484228;

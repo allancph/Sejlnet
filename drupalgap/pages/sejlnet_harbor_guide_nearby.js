@@ -71,14 +71,17 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 		
 		// If we are located way outside of Denmark (testing in Ann Arbor),
 		// spoof a location somewhere in Denmark.
-		/*if (
+		if (
 				(Math.floor(latitude) > 40 && Math.floor(latitude) < 45) &&
 				(Math.floor(longitude) > -85 && Math.floor(longitude) < 80)
 		) {
 			alert("It appears you are in the Ann Arbor Michigan area, we are going to spoof your location to Denmark.");
 			latitude = sejlnet_location_latitude;
 			longitude = sejlnet_location_longitude;
-		}*/
+		}
+		
+		// Clear the list.
+		$("#sejlnet_harbor_guide_nearby_content_list").html("");
 		
 		kilometer_range = 30;
 		path = "views_datasource/harbor_guide/nearby/" + latitude + "," + longitude + "_" + kilometer_range;
