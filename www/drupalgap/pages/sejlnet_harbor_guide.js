@@ -37,7 +37,8 @@ $('#sejlnet_harbor_guide').live('pageshow',function(){
 					});
 				}
 				else {
-					html = "Sorry, there are no published harbors.";
+					// No harbors.
+					html = "Beklager, der er ingen havne.";
 					$("#sejlnet_harbor_guide_content_list").append($("<li></li>",{"html":html}));
 				}
 				

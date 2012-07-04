@@ -23,7 +23,7 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 			"success":function(harbor){
 				
 				if (harbor.nodes.length == 0) {
-					alert("Failed to load harbor! (" + drupalgap_page_node_harbor_nid + ")");
+					alert("Kan ikke indlæse havn! (" + drupalgap_page_node_harbor_nid + ")");
 					return false;
 				}
 				

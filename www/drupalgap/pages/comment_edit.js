@@ -27,12 +27,12 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 				// Check the status of this node's comments.
 				switch (drupalgap_page_comment_edit_node.comment) {
 					case "0": // Comments hidden.
-						alert("Comments are hidden for this node.");
+						alert("Kommentarer er gemt.");
 						$.mobile.changePage("dashboard.html");
 						return false;
 						break;
 					case "1": // Comments closed.
-						alert("Comments are closed for this node.");
+						alert("Kommentarer er lukket.");
 						$.mobile.changePage("dashboard.html");
 						return false;
 						break;
@@ -59,11 +59,11 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 					options = {
 						"cid":drupalgap_page_comment_edit_cid,
 						"error":function(jqXHR, textStatus, errorThrown) {
-							alert("drupalgap_page_comment_edit - Failed to load comment! (" + drupalgap_page_comment_edit_cid + ")");
+							alert("drupalgap_page_comment_edit - Kan ikke indlæse kommentarer! (" + drupalgap_page_comment_edit_cid + ")");
 						},
 						"success":function(comment) {
 							// Set header text.
-							$('#drupalgap_page_comment_edit h1').html("Edit Comment");
+							$('#drupalgap_page_comment_edit h1').html("Rediger kommentar");
 							
 							// Add comment details to form fields.
 							$('#drupalgap_page_comment_edit_subject').val(comment.subject);
@@ -90,7 +90,7 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 					// New comment.
 					
 					// Set header text.
-					$('#drupalgap_page_comment_edit h1').html("Add Comment");
+					$('#drupalgap_page_comment_edit h1').html("Tilføj kommentar");
 				}
 			},
 		};
@@ -113,12 +113,12 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 	  	
 	  	// Check this comment's node content type comment settings.
 	  	if (drupalgap_page_comment_edit_content_type.comment_subject_field == "1" && !subject) {
-	  		alert("The subject field is required.");
+	  		alert("Emne er påkrævet.");
 	  		return false;
 	  	}
 	  	
 	  	if (!body) {
-	  		alert('No comment entered.'); 
+	  		alert('Ingen kommentar indlæst.'); 
 	  		return false; 
 	  	}
 	  	
@@ -129,7 +129,7 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 	  		options = {
 	  			"cid":drupalgap_page_comment_edit_cid,
 	  			"error":function(jqXHR, textStatus, errorThrown) {
-	  				alert("drupalgap_page_comment_edit_submit - failed to load comment (" + drupalgap_page_comment_edit_cid + ")");
+	  				alert("drupalgap_page_comment_edit_submit - Kan ikke indlæse kommentarer (" + drupalgap_page_comment_edit_cid + ")");
 		  		},
 		  		"success":function(comment) {
 		  			// Comment was retrieved, update its values.
@@ -164,7 +164,7 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 					alert(errorThrown);
 				},
 				"success":function(comment_create_result) {
-					alert("Comment posted!");
+					alert("Kommentar posted!");
 					// If this was an image comment, clear out the local storage dependencies.
 					switch (drupalgap_page_comment_edit_content_type.type) {
 						case "user_image":

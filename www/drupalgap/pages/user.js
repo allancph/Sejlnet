@@ -25,11 +25,11 @@ $('#drupalgap_page_user').live('pageshow',function(){
 		
 		// If the user is looking at their own profile...
 		if (drupalgap_user.uid == drupalgap_page_user_uid) {
-			$('#drupalgap_page_user h1').html("My Account");
+			$('#drupalgap_page_user h1').html("Min konto");
 		}
 		else {
 			// The user is looking at someone else's profile...
-			$('#drupalgap_page_user h1').html("Member");
+			$('#drupalgap_page_user h1').html("Medlem");
 		}
 		
 		// Build service call options to load the user.
@@ -57,9 +57,9 @@ $('#drupalgap_page_user').live('pageshow',function(){
 				// (Drupal's time value(s) must be multiplied by 1000 
 				// since JavaScript deals in milliseconds for the Unix Epoch????)
 				created = new Date(parseInt(user.created)*1000);
-				$('#drupalgap_page_user_created').html(created.toDateString());
+				$('#drupalgap_page_user_created').html(created.toLocaleDateString());
 				last_online = new Date(parseInt(user.access)*1000);
-				$('#drupalgap_page_user_last_online').html(last_online.toDateString());
+				$('#drupalgap_page_user_last_online').html(last_online.toLocaleDateString());
 			},
 		};
 		// Load user via services call.

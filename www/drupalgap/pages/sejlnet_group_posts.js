@@ -7,7 +7,7 @@ $('#sejlnet_group_posts').live('pagebeforeshow',function(){
 		$('#sejlnet_group_posts h1').html(sejlnet_group_node.title);
 		// Append the page count to the title.
 		page_display_number = sejlnet_group_posts_page + 1;
-		$('#sejlnet_group_posts h2').append("Page " + page_display_number);
+		$('#sejlnet_group_posts h2').append("Side " + page_display_number);
 	}
 	catch (error) {
 		alert("sejlnet_group_posts - pagebeforeshow " + error);
@@ -105,7 +105,7 @@ $('#sejlnet_group_posts_prev').live("click",function(){
 
 $('#sejlnet_group_posts_add').live("click", function(){
 	if (drupalgap_user.uid == 0) {
-		if (confirm("You must be logged in to add a post.")) {
+		if (confirm("Du skal være logged på for at skrive indlæg.")) {
 			$.mobile.changePage("user_login.html");
 		}
 		else {

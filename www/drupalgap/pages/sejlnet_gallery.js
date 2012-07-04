@@ -5,7 +5,7 @@ $('#sejlnet_gallery').live('pagebeforeshow',function(){
 	try {
 		// Append the page count to the title.
 		page_display_number = sejlnet_gallery_page + 1;
-		$('#sejlnet_gallery h2').append(" - Page " + page_display_number);
+		$('#sejlnet_gallery h2').append(" - Side " + page_display_number);
 	}
 	catch (error) {
 		alert("sejlnet_gallery - pagebeforeshow - " + error);

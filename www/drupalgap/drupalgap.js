@@ -31,7 +31,7 @@ function drupalgap_onDeviceReady() {
     drupalgap_settings_load();
     
     if (drupalgap_states[networkState] == 'No network connection') {
-    	alert("Missing Internet Connection!");
+    	alert("Du mangler internet forbindelse.");
     	drupalgap_user = {"uid":0};
     	//alert(drupalgap_first_time);
     	if (drupalgap_online == null) {

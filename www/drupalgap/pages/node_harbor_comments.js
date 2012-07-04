@@ -26,7 +26,7 @@ $('#node_harbor_comments').live('pageshow',function(){
 				html = "";
 				
 				if (results.comments.length == 0) {
-					html += "There are no comments for this harbor."
+					html += "Der er ingen kommentarer på denne havn."
 				}
 				else {
 					// If there are any comments, add each to the container, otherwise show an empty message.
@@ -69,7 +69,7 @@ function node_harbor_comments_initialize(lat,lng) {
 
 $('#node_harbor_comments_add').live("click",function(){
 	if (drupalgap_user.uid == 0) {
-		if (confirm("You must be logged in to add a comment.")) {
+		if (confirm("Du skal være logged på for at skrive kommentarer.")) {
 			$.mobile.changePage("user_login.html");
 		}
 		else {

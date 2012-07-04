@@ -9,7 +9,7 @@ $('#sejlnet_group_photos').live('pagebeforeshow',function(){
 		
 		// Append the page count to the title.
 		page_display_number = sejlnet_group_photos_page + 1;
-		$('#sejlnet_group_photos h2').append("Page " + page_display_number);
+		$('#sejlnet_group_photos h2').append("Side " + page_display_number);
 	}
 	catch (error) {
 		alert("sejlnet_group_photos - pagebeforeshow " + error);

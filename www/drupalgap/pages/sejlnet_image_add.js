@@ -16,7 +16,8 @@ $('#sejlnet_image_add').live('pagebeforeshow',function(){
 $('#sejlnet_image_add').live('pageshow',function(){
 	try {
 		document.addEventListener("deviceready",sejlnet_image_add_ready,false);
-		sejlnet_image_add_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
+		sejlnet_image_add_get_location();
+		//sejlnet_image_add_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
 	}
 	catch (error) {
 		alert("sejlnet_image_add - pageshow " + error);
@@ -54,8 +55,7 @@ function sejlnet_image_add_capture() {
 function sejlnet_image_add_get(source) {
 	$('#largeImage_msg').html("Loading image...");
   // Retrieve image file location from specified source
-  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50, 
-    /*destinationType: sejlnet_image_add_destination_type.FILE_URI,*/
+  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50,
 	  destinationType: sejlnet_image_add_destination_type.DATA_URL,
     sourceType: source });
 }
@@ -98,8 +98,8 @@ function sejlnet_image_add_data_success(imageData) {
 	  largeImage.height = new_height;
 	  
 	  // Hide the two photo buttons.
-	  //$('#sejlnet_image_add_capture').hide();
-	  //$('#sejlnet_image_add_from_library').hide();
+	  $('#sejlnet_image_add_capture').hide();
+	  $('#sejlnet_image_add_from_library').hide();
 	  
 	  // Show the photo upload button.
 	  //$('#sejlnet_image_add_upload').show();
@@ -112,13 +112,16 @@ $('#sejlnet_image_add_upload').live("click", function(){
 	// If they didn't enter a title notify them.
 	title = $('#sejlnet_image_add_title').val();
 	if (!title) {
-		alert("Enter the image title.");
+		alert("Tilføj billede titel.");
 		return false;
 	}
 	
+	// Try to extract the image body.
+	body = $('#sejlnet_image_add_body').val();
+	
 	// If they didn't select a photo, notify them.
 	if (!sejlnet_image_add_img_data) {
-		alert("You must select an image.");
+		alert("Du skal vælge et billede.");
 		return false;
 	}
 	
@@ -126,7 +129,7 @@ $('#sejlnet_image_add_upload').live("click", function(){
 	lat = $('#sejlnet_image_add_latitude').val();
 	lng = $('#sejlnet_image_add_longitude').val();
 	if ((lat && !lng) || (lng && !lat)) {
-		alert("Enter both latitude and longitude.");
+		alert("Indtast længde- og breddegrad.");
 		return false;
 	}
 	
@@ -180,6 +183,11 @@ $('#sejlnet_image_add_upload').live("click", function(){
 			"&title=" + encodeURIComponent(title) +
 			"&field_image[0][fid]=" + file_id;
 			
+			// Attach the image body if they provided one.
+			if (body != "") {
+				data += "&body=" + encodeURIComponent(body);
+			}
+			
 			// If we are attaching the image node to a group, set the og data argument.
 			if (sejlnet_group_nid) {
 				data += "&og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
@@ -227,20 +235,13 @@ $('#sejlnet_image_add_upload').live("click", function(){
 
 function sejlnet_image_add_get_location() {
 	// Now let's get the user's current location and show it on the google map.
-	$('#geo_location_msg').html("Waiting for location...");
+	$('#geo_location_msg').html("Venter på position...");
 	navigator.geolocation.getCurrentPosition(sejlnet_image_add_onSuccess, sejlnet_image_add_onError, { timeout: sejlnet_location_timeout, enableHighAccuracy: true });
 }
 
 function sejlnet_image_add_onSuccess(position) {
-    location_message = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                        'Longitude: '          + position.coords.longitude             + '<br />' +
-                        'Altitude: '           + position.coords.altitude              + '<br />' +
-                        'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                        'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                        'Heading: '            + position.coords.heading               + '<br />' +
-                        'Speed: '              + position.coords.speed                 + '<br />';
-    
-    $('#geo_location_msg').html(location_message);
+	
+    $('#geo_location_msg').html(sejlnet_render_geo_location_info(position));
     
     // Fill in the form with the lat/lng and start the search.
     $('#sejlnet_image_add_latitude').val(position.coords.latitude);
@@ -252,17 +253,12 @@ function sejlnet_image_add_onSuccess(position) {
 // onError Callback receives a PositionError object
 //
 function sejlnet_image_add_onError(error) {
-	//alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
-	confirm_msg = "We were unable to determine your current location. " + 
-	"Would you like to try again?";
+	// Unable to determine location, try again?
+	confirm_msg = "Vi kan ikke fastslå din position, vil du prøve igen ?.";
 	if (confirm(confirm_msg)) {
 		sejlnet_image_add_get_location();
 	}
 	else {
-		$('#geo_location_msg').html("If you know your current latitude and longitude you may enter it in the text fields provided.");
-		$('#sejlnet_image_add_update').show();
-		$('#sejlnet_image_add_latitude').val(sejlnet_location_latitude);
-		$('#sejlnet_image_add_longitude').val(sejlnet_location_longitude);
 	}    
 }
 
@@ -283,12 +279,6 @@ function sejlnet_image_add_map_init(lat,lng) {
     var marker = new google.maps.Marker(myMarkerOptions);
 }
 
-$('#sejlnet_image_add_update').live("click", function(){
-	lat = $('#sejlnet_image_add_latitude').val();
-	lng = $('#sejlnet_image_add_longitude').val();
-	sejlnet_image_add_map_init(lat, lng);
-});
-
 $('#sejlnet_image_add_back').live("click", function(){
 	if (sejlnet_group_nid) {
 		$.mobile.changePage("sejlnet_group_photos.html");
@@ -297,55 +287,3 @@ $('#sejlnet_image_add_back').live("click", function(){
 		$.mobile.changePage("sejlnet_gallery.html");
 	}
 });
-
-/*[locations] => Array
-(
-    [0] => Array
-        (
-            [lid] => 2264
-            [name] => 
-            [street] => 
-            [additional] => 
-            [city] => 
-            [province] => 
-            [postal_code] => 
-            [country] => dk
-            [latitude] => 42.177000
-            [longitude] => -83.652000
-            [source] => 1
-            [is_primary] => 0
-            [locpick] => Array
-                (
-                    [user_latitude] => 42.177000
-                    [user_longitude] => -83.652000
-                )
-
-            [province_name] => 
-            [country_name] => Danmark
-        )
-
-)
-
-[location] => Array
-(
-    [lid] => 2264
-    [name] => 
-    [street] => 
-    [additional] => 
-    [city] => 
-    [province] => 
-    [postal_code] => 
-    [country] => dk
-    [latitude] => 42.177000
-    [longitude] => -83.652000
-    [source] => 1
-    [is_primary] => 0
-    [locpick] => Array
-        (
-            [user_latitude] => 42.177000
-            [user_longitude] => -83.652000
-        )
-
-    [province_name] => 
-    [country_name] => Danmark
-)*/

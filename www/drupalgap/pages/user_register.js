@@ -5,7 +5,7 @@
 $('#drupalgap_page_user_register').live('pageshow',function(){
   try {
 	    if (drupalgap_user.uid != 0) {
-          alert("Already logged in!");
+          alert("Du er allerede logget ind!");
           $.mobile.changePage("dashboard.html", "slideup");
         }
   }
@@ -24,18 +24,18 @@ $('#drupalgap_user_register_submit').live('click',function() {
 	  
 	  // Grab name and validate it.
 	  var name = $('#drupalgap_user_register_name').val();
-	  if (!name) { alert('Please enter your user name.'); return false; }
+	  if (!name) { alert('Skriv dit brugernavn.'); return false; }
 	  
 	  // Grab mail and validate it.
 	  var mail = $('#drupalgap_user_register_mail').val();
-	  if (!mail) { alert('Please enter your e-mail address.'); return false; }
+	  if (!mail) { alert('Skriv din email.'); return false; }
 	  
 	  // Grab passwords, compare and validate. 
 	  var pass = $('#drupalgap_user_register_pass').val();
-	  if (!pass) { alert('Please enter your password.'); return false; }
+	  if (!pass) { alert('Skriv dit kodeord.'); return false; }
 	  var pass2 = $('#drupalgap_user_register_confirm_pass').val();
-	  if (!pass2) { alert('Please confirm your password.'); return false; }
-	  if (pass != pass2) { alert("Passwords do not match."); return false; }
+	  if (!pass2) { alert('Bekræft din kodeord.'); return false; }
+	  if (pass != pass2) { alert("Kodeord er ikke ens."); return false; }
 	  
 	  // Build service call options.
 	  //user_registration = drupalgap_services_user_register(name,mail,pass);
@@ -68,14 +68,14 @@ $('#drupalgap_user_register_submit').live('click',function() {
 			  switch (drupalgap_site_settings.variable.user_register) {
 				case 1: // Visitors
 				case "1":
-					alert("Registration complete! Please check your e-mail to verify your new account at " + site_name + ".");
+					alert("Du er registreret. Check din email for aktiveret din konto..");
 					break;
 				case 2: // Visitors, but administrator approval is required
 				case "2":
 					alert("Registration complete! An administrator from " + site_name  + " must now approve your new account.");
 					break;
 				default:
-					alert("Registration complete!"); // TODO - this should be more informative, instruct user what's next.
+					alert("Du er registreret!"); // TODO - this should be more informative, instruct user what's next.
 					break;
 			  }
 			  

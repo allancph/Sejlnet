@@ -20,7 +20,7 @@ $('#sejlnet_group').live('pageshow',function(){
 			"success":function(group){
 				
 				if (group.nodes.length == 0) {
-					alert("Failed to load group! (" + sejlnet_group_nid + ")");
+					alert("Kan ikke indlæse gruppe! (" + sejlnet_group_nid + ")");
 					return false;
 				}
 				

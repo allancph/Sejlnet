@@ -6,7 +6,7 @@ $('#drupalgap_page_user_login').live('pageshow',function(){
   try {
 	  	// if user is already logged in, send them to the dashboard
 	    if (drupalgap_user.uid != 0) {
-          alert("Already logged in!");
+          alert("Du er allerede logget ind!");
           $.mobile.changePage("dashboard.html", "slideup");
           return;
         }
@@ -27,11 +27,11 @@ $('#drupalgap_user_login_submit').live('click',function() {
 	  
 	  // grab name and validate it
 	  var name = $('#drupalgap_user_login_name').val();
-	  if (!name) { alert('Please enter your user name.'); return false; }
+	  if (!name) { alert('Skriv dit brugernavn.'); return false; }
 	  
 	  // grab pass and validate it
 	  var pass = $('#drupalgap_user_login_pass').val();
-	  if (!pass) { alert('Please enter your password.'); return false; }
+	  if (!pass) { alert('Skriv dit kodeord.'); return false; }
 	  
 	  // Make call to the bundled user login service resource.
 	  options = {

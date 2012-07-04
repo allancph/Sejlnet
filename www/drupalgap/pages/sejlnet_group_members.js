@@ -33,7 +33,8 @@ $('#sejlnet_group_members').live('pageshow',function(){
 					});
 				}
 				else {
-					html = "Sorry, there are no members in this group.";
+					// No members.
+					html = "Beklager, ingen medlemmer i denne gruppe.";
 					$("#sejlnet_group_members_list").append($("<li></li>",{"html":html}));
 				}
 				

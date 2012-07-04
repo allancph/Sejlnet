@@ -31,7 +31,7 @@ $('#node_group_post').live('pagebeforeshow',function(){
 $('#node_group_post_button_comment_edit').live("click",function(){
 	
 	if (drupalgap_user.uid == 0) {
-		if (confirm("You must be logged in to add a comment.")) {
+		if (confirm("Du skal være logged på for at skrive kommentarer.")) {
 			$.mobile.changePage("user_login.html");
 		}
 		else {
