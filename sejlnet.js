@@ -1,12 +1,12 @@
 var sejlnet_location_timeout = 15000;
 
 // Denmark Default
-//var sejlnet_location_latitude = 56.139428693863266;
-//var sejlnet_location_longitude = 12.4365234375;
+var sejlnet_location_latitude = 56.139428693863266;
+var sejlnet_location_longitude = 12.4365234375;
 
 // Near Allan...
-var sejlnet_location_latitude = 55.5998232;
-var sejlnet_location_longitude = 12.6553198;
+//var sejlnet_location_latitude = 55.5998232;
+//var sejlnet_location_longitude = 12.6553198;
 
 // Dragor Lystbadehav
 //var sejlnet_location_latitude = 55.590775;
