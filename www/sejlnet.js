@@ -34,5 +34,5 @@ function toRad(Value) {
 function sejlnet_render_geo_location_info (position) {
 	return position.coords.latitude.toFixed(4) + ", " 
             + position.coords.longitude.toFixed(4) + " +/- " 
-            + position.coords.accuracy + "m";
+            + position.coords.accuracy.toFixed(1) + "m";
 }
