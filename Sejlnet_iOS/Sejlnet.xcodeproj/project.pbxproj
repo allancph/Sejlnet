@@ -44,6 +44,7 @@
 		EE58E5F5159F86AD00E134F2 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5F4159F86AD00E134F2 /* MainViewController.xib */; };
 		EE58E5F9159F86AD00E134F2 /* verify.sh in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5F8159F86AD00E134F2 /* verify.sh */; };
 		EE58E600159F87A500E134F2 /* www in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5FF159F87A500E134F2 /* www */; };
+		EE7FEB2C15A77CDD00BADC2E /* Allan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EE7FEB2B15A77CDD00BADC2E /* Allan.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		EE58E5F7159F86AD00E134F2 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		EE58E5F8159F86AD00E134F2 /* verify.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = verify.sh; sourceTree = "<group>"; };
 		EE58E5FF159F87A500E134F2 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		EE7FEB2B15A77CDD00BADC2E /* Allan.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Allan.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				EE58E5EB159F86AD00E134F2 /* Cordova.plist */,
 				EE58E5F4159F86AD00E134F2 /* MainViewController.xib */,
 				EE58E5F8159F86AD00E134F2 /* verify.sh */,
+				EE7FEB2B15A77CDD00BADC2E /* Allan.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				EE402E2C15A38311008023E0 /* Default-Portrait@2x.png in Resources */,
 				EE402E2D15A38311008023E0 /* Default@2x~iphone.png in Resources */,
 				EE402E2E15A38311008023E0 /* Default~iphone.png in Resources */,
+				EE7FEB2C15A77CDD00BADC2E /* Allan.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,7 +388,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Remove the iOS project folder from www, and copy in the iOS cordova js file.\nrm -rf $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/Sejlnet_iOS\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/";
+			shellScript = "#Remove the iOS project folder from www, and copy in the iOS cordova js file.\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/";
 		};
 /* End PBXShellScriptBuildPhase section */
 

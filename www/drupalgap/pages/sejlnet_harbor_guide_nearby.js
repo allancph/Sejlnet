@@ -89,7 +89,7 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 		// Clear the list.
 		$("#sejlnet_harbor_guide_nearby_content_list").html("");
 		
-		kilometer_range = 1000;
+		kilometer_range = 200;
 		path = "views_datasource/harbor_guide/nearby/" + latitude + "," + longitude + "_" + kilometer_range;
 		views_options = {
 				"path":path,
