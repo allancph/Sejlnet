@@ -7,6 +7,13 @@ var drupalgap_content_types_user_permissions;
 var drupalgap_online;
 var drupalgap_states;
 var drupalgap_first_time;
+var drupalgap_user_position;
+//Test for Allan's area...
+/*drupalgap_user_position = {};
+drupalgap_user_position.coords = {};
+drupalgap_user_position.coords.latitude = 55.5998232;
+drupalgap_user_position.coords.longitude = 12.6553198;
+drupalgap_user_position.coords.accuracy = 13;*/
 
 $(document).ready(function() {
 	
@@ -66,7 +73,7 @@ function drupalgap_onDeviceReady() {
     			// Go to the dashboard.
     			
     			// If it isn't our first time loading it (from an off-line state)
-    			if (drupalgap_first_time == false) {
+    			if (drupalgap_first_time && drupalgap_first_time == false) {
     				$.mobile.changePage("dashboard.html", {allowSamePageTransition:true, reloadPage:true});
     			}
     			else {
@@ -76,6 +83,7 @@ function drupalgap_onDeviceReady() {
 	    			//$.mobile.changePage("drupalgap/pages/node_group_image.html");
 	    			//drupalgap_page_node_harbor_nid = 3729;
 	    			//drupalgap_page_node_harbor_nid = 2638; // harbor with comments
+    				//drupalgap_page_node_harbor_nid = 4382;
 	    			//$.mobile.changePage("drupalgap/pages/node_harbor.html");
 	    			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_nearby.html");
 	    			//$.mobile.changePage("drupalgap/pages/sejlnet_harbor_guide_map.html");

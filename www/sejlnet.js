@@ -1,4 +1,5 @@
 var sejlnet_location_timeout = 15000;
+var sejlnet_kilometer_range = 200;
 
 // Denmark Default
 var sejlnet_location_latitude = 56.139428693863266;

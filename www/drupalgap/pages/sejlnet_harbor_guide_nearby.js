@@ -19,6 +19,7 @@ $('#sejlnet_harbor_guide_nearby').live('pageshow',function(){
 });
 
 $('#sejlnet_harbor_guide_nearby_get_current_location').live("click",function(){
+	// User didn't have a position set, let's try to locate them...
 	$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
 	// Waiting for location...
 	$('#sejlnet_harbor_guide_nearby_msg').html("Venter på position...");
@@ -35,19 +36,32 @@ function sejlnet_harbor_guide_nearby_onDeviceReady() {
 		alert("Du mangler internet forbindelse.");
 	}
 	else {
-		// Hide the 'get current location' button.
-		$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
-		// Waiting for location...
-		$('#sejlnet_harbor_guide_nearby_msg').html("Venter på position...");
-		navigator.geolocation.getCurrentPosition(
-			sejlnet_harbor_guide_nearby_onSuccess, 
-			sejlnet_harbor_guide_nearby_onError, 
-			{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
-		);
+		// If the user has a current position, let's use it,
+		// otherwise try to locate them.
+		if (drupalgap_user_position && 
+			drupalgap_user_position.coords && 
+			drupalgap_user_position.coords.latitude && 
+			drupalgap_user_position.coords.longitude) {
+			sejlnet_harbor_guide_nearby_onSuccess(drupalgap_user_position);
+		}
+		else {
+			// Hide the 'get current location' button.
+			$('#sejlnet_harbor_guide_nearby_get_current_location').hide();
+			// Waiting for location...
+			$('#sejlnet_harbor_guide_nearby_msg').html("Venter på position...");
+			navigator.geolocation.getCurrentPosition(
+				sejlnet_harbor_guide_nearby_onSuccess, 
+				sejlnet_harbor_guide_nearby_onError, 
+				{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
+			);
+		}
 	}
 }
 
 function sejlnet_harbor_guide_nearby_onSuccess(position) {
+	// Update drupalgap user position variable.
+	drupalgap_user_position = position;
+	
 	// Location found, search for nearby harbors...
 	$('#sejlnet_harbor_guide_nearby_get_current_location').show();
     location_message = sejlnet_render_geo_location_info(position);
@@ -63,6 +77,8 @@ function sejlnet_harbor_guide_nearby_onError(error) {
 	// Unable to determine current position, try again?
 	confirm_msg = "Vi kan ikke fastslå din position, vil du prøve igen?";
 	if (confirm(confirm_msg)) {
+		// Clear out their last position and try again.
+		drupalgap_user_position = null;
 		sejlnet_harbor_guide_nearby_onDeviceReady();
 	}
 	else {
@@ -82,16 +98,15 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 				(Math.floor(longitude) > -85 && Math.floor(longitude) < 80)
 		) {
 			alert("It appears you are in the Ann Arbor Michigan area, we are going to spoof your location to Denmark.");
-			latitude = sejlnet_location_latitude;
-			longitude = sejlnet_location_longitude;
+			// Set the location somewhere near Allen.
+			latitude = 55.6998232;
+			longitude = 12.7553198;
 		}
 		
 		// Clear the list.
 		$("#sejlnet_harbor_guide_nearby_content_list").html("");
 		
-		kilometer_range = 200;
-		kilometer_range = 100;
-		path = "views_datasource/harbor_guide/nearby/" + latitude + "," + longitude + "_" + kilometer_range;
+		path = "views_datasource/harbor_guide/nearby/" + latitude + "," + longitude + "_" + sejlnet_kilometer_range;
 		views_options = {
 				"path":path,
 				"error":function(jqXHR, textStatus, errorThrown) {

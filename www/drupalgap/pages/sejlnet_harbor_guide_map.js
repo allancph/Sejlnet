@@ -18,12 +18,45 @@ $('#sejlnet_harbor_guide_map').live('pageshow',function(){
 });
 
 function sejlnet_harbor_guide_map_onDeviceReady () {
+	
+	views_datasource_harbor_path = "views_datasource/harbor_guide";
+	
+	// If the user has a current position, let's use it.
+	lat = sejlnet_location_latitude;
+	lng = sejlnet_location_longitude;
+	if (drupalgap_user_position && 
+		drupalgap_user_position.coords.latitude && 
+		drupalgap_user_position.coords.longitude) {
+		lat = drupalgap_user_position.coords.latitude;
+		lng = drupalgap_user_position.coords.longitude;
+		//views_datasource_harbor_path = "views_datasource/harbor_guide/nearby/" + lat + "," + lng + "_" + sejlnet_kilometer_range;
+	}
+	
 	// Load the map
-	sejlnet_harbor_guide_map_init(sejlnet_location_latitude, sejlnet_location_longitude);
+	sejlnet_harbor_guide_map_init(lat, lng);
+	
+	// Place a marker for the user position if it isn't the default position.
+	if (lat != sejlnet_location_latitude && lng != sejlnet_location_longitude) {
+		var pinColor = "34ba46";
+	    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+	        new google.maps.Size(21, 34),
+	        new google.maps.Point(0,0),
+	        new google.maps.Point(10, 34));
+	    var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+	        new google.maps.Size(40, 37),
+	        new google.maps.Point(0, 0),
+	        new google.maps.Point(12, 35));
+	    var marker = new google.maps.Marker({
+	        position: new google.maps.LatLng(lat, lng), 
+	        map: sejlnet_harbor_guide_map_object,
+	        icon: pinImage,
+	        shadow: pinShadow
+	    });
+	}
 	
 	// Retrieve harbors and place on map.
 	views_options = {
-		"path":"views_datasource/harbor_guide",
+		"path":views_datasource_harbor_path,
 		"error":function(jqXHR, textStatus, errorThrown) {
 			if (errorThrown) {
 				alert(errorThrown);
@@ -71,10 +104,15 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 }
 
 function sejlnet_harbor_guide_map_init(lat,lng) {
+	// Set default zoom to out, zoom in if we have a user position.
+	zoom = 5;
+	if (drupalgap_user_position) {
+		zoom = 10;
+	}
 	var myOptions = {
-		zoom: 5,
+		zoom: zoom,
 		center: new google.maps.LatLng(lat, lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.SATELLITE
     };
     sejlnet_harbor_guide_map_object = new google.maps.Map(document.getElementById("sejlnet_harbor_guide_map_canvas"),myOptions);
 }

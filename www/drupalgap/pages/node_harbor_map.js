@@ -28,9 +28,9 @@ $('#node_harbor_map_back').live("click",function(){
 
 function node_harbor_map_initialize(lat,lng) {
 	var myOptions = {
-		zoom: 8,
+		zoom: 16,
 		center: new google.maps.LatLng(lat, lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.SATELLITE
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
     
