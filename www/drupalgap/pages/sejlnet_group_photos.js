@@ -67,7 +67,43 @@ $('#sejlnet_group_photos_add_button').live("click", function(){
 		}
 	}
 	else {
-		$.mobile.changePage("sejlnet_image_add.html");
+		// Make sure the user is a member of the group.
+		views_options = {
+			"path":"sejlnet/group/members/" + sejlnet_group_nid,
+			"error":function(jqXHR, textStatus, errorThrown) {
+				if (errorThrown) {
+					alert(errorThrown);
+				}
+				else {
+					alert(textStatus);
+				}
+			},
+			"success":function(members) {
+				is_a_member = false;
+				if ($(members.users).length > 0) {
+					$.each(members.users,function(index,obj){
+						if (obj.user.uid == drupalgap_user.uid) {
+							is_a_member = true;
+							return false;
+						}
+					});
+				}
+				if (is_a_member) {
+					// They are a member, send them to the image add page.
+					$.mobile.changePage("sejlnet_image_add.html");
+				}
+				else {
+					// Tell the user they are not a member of this group.
+					navigator.notification.alert(
+					    'You must be a member of this group to add a photo, please join the group online at sejlnet.dk',
+					    function(){},
+					    'Not a Member',
+					    'OK'
+					);
+				}
+			},
+		};
+		drupalgap_views_datasource_retrieve.resource_call(views_options);
 	}
 });
 

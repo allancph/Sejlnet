@@ -1,4 +1,5 @@
 var sejlnet_harbor_guide_map_object;
+var sejlnet_harbor_guide_map_info_window;// = new google.maps.InfoWindow();
 
 $('#sejlnet_harbor_guide_map').live('pagebeforeshow',function(){
 	try {
@@ -66,11 +67,6 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 			}
 		},
 		"success":function(content) {
-			// If there is any content, add each to the list, otherwise show an
-			// empty message.
-			
-			var infowindow = new google.maps.InfoWindow();
-			
 			if ($(content.nodes).length > 0) {
 				$.each(content.nodes,function(index,obj){
 					
@@ -86,9 +82,9 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 						title = obj.node.titel; // the live site uses 'titel' for the field name
 					}
 				    google.maps.event.addListener(marker, 'click', function() {
-				    	new google.maps.InfoWindow({
-				    	    content: "<a href='#' id='" + obj.node.nid + "' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>"
-				    	}).open(sejlnet_harbor_guide_map_object,marker);
+				    	html_content = "<a href='#' id='" + obj.node.nid + "' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>";
+				    	sejlnet_harbor_guide_map_info_window.setContent(html_content);
+				    	sejlnet_harbor_guide_map_info_window.open(sejlnet_harbor_guide_map_object, marker);
 			    	});
 				});
 			}
@@ -115,6 +111,7 @@ function sejlnet_harbor_guide_map_init(lat,lng) {
 		mapTypeId: google.maps.MapTypeId.SATELLITE
     };
     sejlnet_harbor_guide_map_object = new google.maps.Map(document.getElementById("sejlnet_harbor_guide_map_canvas"),myOptions);
+    sejlnet_harbor_guide_map_info_window = new google.maps.InfoWindow();
 }
 
 $('.sejlnet_harbor_guide_map_harbor').live("click",function(){

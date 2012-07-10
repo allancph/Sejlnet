@@ -39,7 +39,8 @@ $('#drupalgap_page_user').live('pageshow',function(){
 			"local_storage_expire":drupalgap_page_user_object_expiration,
 			"error":function(jqXHR, textStatus, errorThrown) {
 				alert(drupalgap_page_user.errorThrown);
-				alert("drupalgap_page_user - failed to load user (" + drupalgap_page_user_uid + ")");
+				// Failed to load user.
+				alert("drupalgap_page_user - Kunne ikke indlæse bruger (" + drupalgap_page_user_uid + ")");
 			},
 			"success":function(user){
 				

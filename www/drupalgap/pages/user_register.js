@@ -31,11 +31,11 @@ $('#drupalgap_user_register_submit').live('click',function() {
 	  if (!mail) { alert('Skriv din email.'); return false; }
 	  
 	  // Grab passwords, compare and validate. 
-	  var pass = $('#drupalgap_user_register_pass').val();
+	  /*var pass = $('#drupalgap_user_register_pass').val();
 	  if (!pass) { alert('Skriv dit kodeord.'); return false; }
 	  var pass2 = $('#drupalgap_user_register_confirm_pass').val();
 	  if (!pass2) { alert('Bekræft din kodeord.'); return false; }
-	  if (pass != pass2) { alert("Kodeord er ikke ens."); return false; }
+	  if (pass != pass2) { alert("Kodeord er ikke ens."); return false; }*/
 	  
 	  // Build service call options.
 	  //user_registration = drupalgap_services_user_register(name,mail,pass);

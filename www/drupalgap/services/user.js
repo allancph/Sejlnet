@@ -325,7 +325,10 @@ var drupalgap_services_user_register = {
 			// Build the options for the service call.
 			data = 'name=' + encodeURIComponent(caller_options.name);
 			data += '&mail=' + encodeURIComponent(caller_options.mail);
-			data += '&pass=' + encodeURIComponent(caller_options.pass);
+			if (caller_options.pass && caller_options.pass != "") {
+				data += '&pass=' + encodeURIComponent(caller_options.pass);
+			}
+			
 			//, "save_to_local_storage":"0"
 			options = {
 				"resource_path":this.resource_path,

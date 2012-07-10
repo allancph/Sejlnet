@@ -113,8 +113,44 @@ $('#sejlnet_group_posts_add').live("click", function(){
 		}
 	}
 	else {
-		drupalgap_page_node_edit_type = "group_post";
-		drupalgap_page_node_edit_og = "og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
-		$.mobile.changePage("node_edit.html");
+		// Make sure the user is a member of the group.
+		views_options = {
+			"path":"sejlnet/group/members/" + sejlnet_group_nid,
+			"error":function(jqXHR, textStatus, errorThrown) {
+				if (errorThrown) {
+					alert(errorThrown);
+				}
+				else {
+					alert(textStatus);
+				}
+			},
+			"success":function(members) {
+				is_a_member = false;
+				if ($(members.users).length > 0) {
+					$.each(members.users,function(index,obj){
+						if (obj.user.uid == drupalgap_user.uid) {
+							is_a_member = true;
+							return false;
+						}
+					});
+				}
+				if (is_a_member) {
+					// They are a member, send them to the group post add page.
+					drupalgap_page_node_edit_type = "group_post";
+					drupalgap_page_node_edit_og = "og_groups[" + sejlnet_group_nid + "]=" + sejlnet_group_nid;
+					$.mobile.changePage("node_edit.html");
+				}
+				else {
+					// Tell the user they are not a member of this group.
+					navigator.notification.alert(
+					    'You must be a member of this group to add a post, please join the group online at sejlnet.dk',
+					    function(){},
+					    'Not a Member',
+					    'OK'
+					);
+				}
+			},
+		};
+		drupalgap_views_datasource_retrieve.resource_call(views_options);
 	}
 });
