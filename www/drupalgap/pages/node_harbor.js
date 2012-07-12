@@ -18,7 +18,8 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 		options = {
 			"path":"sejlnet/node/harbor/" + drupalgap_page_node_harbor_nid,
 			"error":function(jqXHR, textStatus, errorThrown) {
-				alert(errorThrown);
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 			},
 			"success":function(harbor){
 				
@@ -48,7 +49,7 @@ $('#drupalgap_page_node_harbor').live('pageshow',function(){
 				if (harbor.map) {
 					image = "";
 					if (harbor.map_full_size) {
-						image += "<a href='" + harbor.map_full_size + "'>";
+						image += "<a href='" + harbor.map_full_size + "' target='_blank'>";
 					}
 					image += "<img src='" + harbor.map + "' />";
 					if (harbor.map_full_size) {

@@ -45,12 +45,8 @@ $('#drupalgap_user_register_submit').live('click',function() {
 		"pass":pass,
 		
 		"error":function(jqXHR, textStatus, errorThrown) {
-			if (errorThrown) {
-				alert(errorThrown);
-			}
-			else {
-				alert(textStatus);
-			}
+		  console.log(JSON.stringify(errorThrown));
+		  console.log(JSON.stringify(textStatus));
 	  	},
 	  	
 		"success":function(data){

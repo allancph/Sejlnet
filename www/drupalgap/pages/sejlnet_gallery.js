@@ -18,12 +18,8 @@ $('#sejlnet_gallery').live('pageshow',function(){
 		views_options = {
 			"path":"sejlnet/gallery?page=" + sejlnet_gallery_page,
 			"error":function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 			},
 			"success":function(images) {
 				// Render the images.

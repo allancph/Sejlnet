@@ -78,12 +78,8 @@ $('#drupalgap_user_edit_submit').live('click',function() {
 		options = {
 			"user":temp_user,
 			"error":function (jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 			},
 			"success":function (data) {
 				if (data.uid) { // user update successful...

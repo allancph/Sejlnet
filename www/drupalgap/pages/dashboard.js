@@ -25,14 +25,6 @@ $('#drupalgap_page_dashboard').live('pageshow',function(){
 function dashboard_init() {
 	try {
 		
-		// If we're offline, show the 'go online' button.
-		if (!drupalgap_online) {
-			$('#sejlnet_button_online').show();
-		}
-		else {
-			$('#sejlnet_button_online').hide();
-		}
-		
 		// Display site name.
 		if (drupalgap_site_settings) {
 			site_name = drupalgap_site_settings.variable.site_name;
@@ -117,8 +109,4 @@ $('#sejlnet_button_gallery').live("click", function(){
 	// Clear out the group id so the gallery add photo page
 	// won't think we are working with a group.
 	sejlnet_group_nid = null;
-});
-
-$('#sejlnet_button_online').live("click", function(){
-	drupalgap_onDeviceReady();
 });

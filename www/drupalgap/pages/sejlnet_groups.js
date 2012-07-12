@@ -14,12 +14,8 @@ $('#sejlnet_groups').live('pageshow',function(){
 		views_options = {
 			"path":"views_datasource/sejlnet/groups",
 			"error":function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 				// Refresh the list.
 				$("#sejlnet_groups_list").listview("destroy").listview();
 			},

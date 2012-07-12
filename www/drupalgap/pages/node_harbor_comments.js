@@ -17,6 +17,8 @@ $('#node_harbor_comments').live('pageshow',function(){
 		comment_options = {
 			"nid":drupalgap_page_node_harbor_nid,
 			"error":function(jqXHR, textStatus, errorThrown) {
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 			},
 			"success":function(results) {
 				

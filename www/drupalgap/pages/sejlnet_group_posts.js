@@ -21,12 +21,8 @@ $('#sejlnet_group_posts').live('pageshow',function(){
 		views_options = {
 			"path":"sejlnet/group/posts/" + sejlnet_group_nid + "?page=" + sejlnet_group_posts_page,
 			"error":function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 				// Refresh the list.
 				$("#sejlnet_group_posts_list").listview("destroy").listview();
 			},
@@ -143,9 +139,9 @@ $('#sejlnet_group_posts_add').live("click", function(){
 				else {
 					// Tell the user they are not a member of this group.
 					navigator.notification.alert(
-					    'You must be a member of this group to add a post, please join the group online at sejlnet.dk',
+					    'Du skal være medlem af denne gruppe for at kunne tilføje et indlæg. Bliv medlem af gruppen ved at besøge sejlnet.dk',
 					    function(){},
-					    'Not a Member',
+					    'Du er ikke medlem',
 					    'OK'
 					);
 				}

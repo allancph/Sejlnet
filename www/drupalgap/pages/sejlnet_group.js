@@ -15,7 +15,8 @@ $('#sejlnet_group').live('pageshow',function(){
 		options = {
 			"path":"sejlnet/node/group/" + sejlnet_group_nid,
 			"error":function(jqXHR, textStatus, errorThrown) {
-				alert(errorThrown);
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 			},
 			"success":function(group){
 				

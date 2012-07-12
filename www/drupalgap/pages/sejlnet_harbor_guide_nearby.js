@@ -31,11 +31,30 @@ $('#sejlnet_harbor_guide_nearby_get_current_location').live("click",function(){
 });
 
 function sejlnet_harbor_guide_nearby_onDeviceReady() {
-	if (!drupalgap_online) {
-		// No internet connection...
-		alert("Du mangler internet forbindelse.");
-	}
-	else {
+	
+	// Let's check for an internet connection here, and prevent any further
+	// execution if we don't have a connection.
+	var networkState = navigator.network.connection.type;
+
+    drupalgap_states = {};
+    drupalgap_states[Connection.UNKNOWN]  = 'Unknown connection';
+    drupalgap_states[Connection.ETHERNET] = 'Ethernet connection';
+    drupalgap_states[Connection.WIFI]     = 'WiFi connection';
+    drupalgap_states[Connection.CELL_2G]  = 'Cell 2G connection';
+    drupalgap_states[Connection.CELL_3G]  = 'Cell 3G connection';
+    drupalgap_states[Connection.CELL_4G]  = 'Cell 4G connection';
+    drupalgap_states[Connection.NONE]     = 'No network connection';
+    
+    if (drupalgap_states[networkState] == 'No network connection') {
+    	// No internet connection...
+    	navigator.notification.alert(
+		    'Du mangler internet forbindelse!',  // message
+		    function(){},         // callback
+		    'Offline',            // title
+		    'OK'                  // buttonName
+		);
+    }
+    else {
 		// If the user has a current position, let's use it,
 		// otherwise try to locate them.
 		if (drupalgap_user_position && 
@@ -55,7 +74,7 @@ function sejlnet_harbor_guide_nearby_onDeviceReady() {
 				{ timeout: sejlnet_location_timeout, enableHighAccuracy: true }
 			);
 		}
-	}
+    }
 }
 
 function sejlnet_harbor_guide_nearby_onSuccess(position) {
@@ -110,12 +129,8 @@ function sejlnet_harbor_guide_nearby_location_search(latitude, longitude) {
 		views_options = {
 				"path":path,
 				"error":function(jqXHR, textStatus, errorThrown) {
-					if (errorThrown) {
-						alert(errorThrown);
-					}
-					else {
-						alert(textStatus);
-					}
+					console.log(JSON.stringify(errorThrown));
+					console.log(JSON.stringify(textStatus));
 					// Refresh the list.
 					$("#sejlnet_harbor_guide_nearby_content_list").listview("destroy").listview();
 				},

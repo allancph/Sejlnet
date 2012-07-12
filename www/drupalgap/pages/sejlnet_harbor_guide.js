@@ -14,12 +14,8 @@ $('#sejlnet_harbor_guide').live('pageshow',function(){
 		views_options = {
 			"path":"views_datasource/harbor_guide",
 			"error":function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 				// Refresh the list.
 				$("#sejlnet_harbor_guide_content_list").listview("destroy").listview();
 			},

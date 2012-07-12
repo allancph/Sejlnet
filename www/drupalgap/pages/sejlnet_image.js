@@ -208,13 +208,14 @@ function sejlnet_gallery_photo_list_item_render(node) {
 		// Build link to image node. If a full size image path was provided in the
 		// JSON use it, otherwise link to the app node type page.
 		link = "";
+		link_attributes = "class='sejlnet_photo_item' nid='" + node.nid + "' node_type='" + node.type + "'";
 		if (node.image_full_size) {
 			link = node.image_full_size;
+			link_attributes += " target='_blank'";
 		}
 		else {
 			link = "sejlnet_image.html";
 		}
-		link_attributes = "class='sejlnet_photo_item' nid='" + node.nid + "' node_type='" + node.type + "'";
 		
 		// Render picture.
 		return "<p style='text-align: center;'>" + 

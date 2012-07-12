@@ -16,12 +16,8 @@ $('#sejlnet_group_members').live('pageshow',function(){
 		views_options = {
 			"path":"sejlnet/group/members/" + sejlnet_group_nid,
 			"error":function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					alert(errorThrown);
-				}
-				else {
-					alert(textStatus);
-				}
+				console.log(JSON.stringify(errorThrown));
+				console.log(JSON.stringify(textStatus));
 				// Refresh the list.
 				$("#sejlnet_group_members_list").listview("destroy").listview();
 			},
