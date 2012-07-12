@@ -1,0 +1,13 @@
+diff --git a/resources/file_resource.inc b/resources/file_resource.inc
+index e39fa90..dc338fc 100644
+--- a/resources/file_resource.inc
++++ b/resources/file_resource.inc
+@@ -361,6 +361,8 @@ function _file_resource_access($op = 'view', $args = array()) {
+       return $file->uid == $user->uid && user_access('get own binary files');
+       break;
+     case 'create':
++      return user_access('save file information');
++      break;
+     case 'delete':
+       return $file->uid == $user->uid && user_access('save file information');
+       break;
