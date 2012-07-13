@@ -111,7 +111,7 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 							title = obj.node.titel; // the live site uses 'titel' for the field name
 						}
 					    google.maps.event.addListener(marker, 'click', function() {
-					    	html_content = "<a href='node_harbor.html' id='" + obj.node.nid + "' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>";
+					    	html_content = "<a href='node_harbor.html' id='" + obj.node.nid + "' style='align: center; font-style: bold; font-size: 30px;' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>";
 					    	sejlnet_harbor_guide_map_info_window.setContent(html_content);
 					    	sejlnet_harbor_guide_map_info_window.open(sejlnet_harbor_guide_map_object, marker);
 				    	});
