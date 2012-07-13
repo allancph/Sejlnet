@@ -7,15 +7,33 @@ $('#drupalgap_page_dashboard').live('pagebeforeshow',function(){
 	}
 });
 
+var dashboard_first_time = true;
 $('#drupalgap_page_dashboard').live('pageshow',function(){
 	try {
 		
 		// If we're offline and this is not our first time visiting the
 		// dashboard, re-initialize it because the pagebeforeshow event
 		// will not be fired again.
-		if (!drupalgap_first_time) {
+		if (!dashboard_first_time) {
+                                    
+            // If they're coming back to the dashboard and were offline, they might 
+            // be online now, try refreshing the site settings
+            if (!drupalgap_site_settings) {
+                console.log("calling system connect to refresh dashboard");
+                options = {
+                    "load_from_local_storage":"0",
+                    "error":function(jqXHR, textStatus, errorThrown){
+                    },
+                    "success":function(){
+                        dashboard_init();
+                    }
+                };
+                drupalgap_services_resource_system_connect.resource_call(options);
+            }
 			dashboard_init();
-		}
+        } else {
+            dashboard_first_time = false;
+        }
 	}
 	catch (error) {
 		console.log("drupalgap_page_dashboard - pageshow - " + error);

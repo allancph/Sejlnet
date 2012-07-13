@@ -33,7 +33,16 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
     drupalgap_states[Connection.CELL_4G]  = 'Cell 4G connection';
     drupalgap_states[Connection.NONE]     = 'No network connection';
 
-    if (drupalgap_states[networkState] == 'No network connection') {
+    // TODO: I don't know why we're doing a compare with a string literal, 
+    //       which requires an extra hash lookup and seems more error-prone than 
+    //       comparing directly to Connection.UNKNOWN, Connection.WIFI, etc.
+    //       Also, this code (and comment) are copy-pasted into 3 locations.  
+    //       Let's factor this out.
+    //       -joe
+    
+    if (drupalgap_states[networkState] == 'No network connection'
+        || drupalgap_states[networkState] == 'Unknown connection') 
+    {
     	// No internet connection...
     	navigator.notification.alert(
 		    'Du mangler internet forbindelse!',  // message
