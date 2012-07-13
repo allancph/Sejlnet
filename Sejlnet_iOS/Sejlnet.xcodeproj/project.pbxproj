@@ -388,7 +388,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Remove the iOS project folder from www, and copy in the iOS cordova js file.\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/";
+			shellScript = "#Copy in the iOS cordova js file.\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/\n\n#Write the git version number into the Info.plist file.\ngit=/usr/bin/git\nversion=`$git describe --long`\nversion=`echo $version | sed 's/[a-zA-Z]*//'`\nversionNum=`echo $version | sed 's/\\-[0-9]*\\-[a-zA-Z0-9]*//'`\n\n#Write the version info into the build Info.plist\nGS_INFO_PLIST_PATH=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Info\"\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleVersion $versionNum\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleShortVersionString $version";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -501,7 +501,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "13A5F183-3421-45E4-BE86-278147F0796E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "42A8E234-0B60-4978-A241-652C2AF87DDD";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
