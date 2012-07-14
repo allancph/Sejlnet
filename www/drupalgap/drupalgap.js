@@ -82,3 +82,14 @@ function drupalgap_settings_save (settings) {
 	drupalgap_settings = settings;
 	return drupalgap_settings;
 }
+
+function isConnected() {
+	var networkState = navigator.network.connection.type;
+	var isIos = (/^iPhone/).test(device.platform) || (/^iPad/).test(device.platform);
+	var isConnected = !(networkState == Connection.NONE || (networkState == Connection.UNKNOWN && isIos));
+//	console.log("networkState = " + networkState);
+//	console.log("device.platform = " + device.platform);
+//	console.log("isIos = " + isIos);
+//	console.log("isConnected = " + isConnected);
+	return isConnected;
+}

@@ -19,10 +19,8 @@ $('#drupalgap_page_dashboard').live('pageshow',function(){
             // If they're coming back to the dashboard and were offline, they might 
             // be online now, try refreshing the site settings
 			// Check for connection.
-			var networkState = navigator.network.connection.type;
-			var hasDataConnection = (!(networkState == Connection.UNKNOWN || networkState == Connection.NONE));
 									
-			if (!drupalgap_site_settings && hasDataConnection) {
+			if (!drupalgap_site_settings && isConnected()) {
                 console.log("calling system connect to refresh dashboard");
                 options = {
                     "load_from_local_storage":"0",

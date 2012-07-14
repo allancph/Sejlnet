@@ -200,27 +200,8 @@ var drupalgap_services = {
 			}
 			else {
 				
-				// Check for connection.
-				var networkState = navigator.network.connection.type;
-
-			    drupalgap_states = {};
-			    drupalgap_states[Connection.UNKNOWN]  = 'Unknown connection';
-			    drupalgap_states[Connection.ETHERNET] = 'Ethernet connection';
-			    drupalgap_states[Connection.WIFI]     = 'WiFi connection';
-			    drupalgap_states[Connection.CELL_2G]  = 'Cell 2G connection';
-			    drupalgap_states[Connection.CELL_3G]  = 'Cell 3G connection';
-			    drupalgap_states[Connection.CELL_4G]  = 'Cell 4G connection';
-			    drupalgap_states[Connection.NONE]     = 'No network connection';
-                
-			    // TODO: I don't know why we're doing a compare with a string literal, 
-                //       which requires an extra hash lookup and seems more error-prone than 
-                //       comparing directly to Connection.UNKNOWN, Connection.WIFI, etc.
-                //       Also, this code (and comment) are copy-pasted into 3 locations.  
-                //       Let's factor this out.
-                //       -joe
-                
-                if (drupalgap_states[networkState] == 'No network connection'
-                    || drupalgap_states[networkState] == 'Unknown connection') 
+				
+                if (!isConnected()) 
                 {
 			    	// No internet connection...
 			    	navigator.notification.alert(
