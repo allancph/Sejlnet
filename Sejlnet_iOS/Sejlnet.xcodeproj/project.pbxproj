@@ -388,7 +388,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Copy in the iOS cordova js file.\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/\n\n#Write the git version number into the Info.plist file.\ngit=/usr/bin/git\nversion=`$git describe --long`\nversion=`echo $version | sed 's/[a-zA-Z]*//'`\nversionNum=`echo $version | sed 's/\\-[0-9]*\\-[a-zA-Z0-9]*//'`\n\n#Write the version info into the build Info.plist\nGS_INFO_PLIST_PATH=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Info\"\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleVersion $versionNum\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleShortVersionString $version";
+			shellScript = "#Copy in the iOS cordova js file.\ncp $PROJECT_DIR/Sejlnet/cordova-1.7.0.js $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/www/\n\n#Write the git version number into the Info.plist file.\ngit=/usr/bin/git\nversion=`$git describe`\nversion=`echo $version | sed 's/[a-zA-Z]*//'`\nversionNum=`echo $version | sed 's/\\-[0-9]*\\-[a-zA-Z0-9]*//'`\n\n#Write the version info into the build Info.plist\nGS_INFO_PLIST_PATH=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Info\"\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleVersion $versionNum\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleShortVersionString $version";
 		};
 /* End PBXShellScriptBuildPhase section */
 
