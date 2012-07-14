@@ -34,9 +34,6 @@
 		EE58E5D4159F86AD00E134F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5D2159F86AD00E134F2 /* Localizable.strings */; };
 		EE58E5D8159F86AD00E134F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5D6159F86AD00E134F2 /* Localizable.strings */; };
 		EE58E5DC159F86AD00E134F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5DA159F86AD00E134F2 /* Localizable.strings */; };
-		EE58E5DF159F86AD00E134F2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5DE159F86AD00E134F2 /* icon.png */; };
-		EE58E5E1159F86AD00E134F2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5E0159F86AD00E134F2 /* icon@2x.png */; };
-		EE58E5E3159F86AD00E134F2 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5E2159F86AD00E134F2 /* icon-72.png */; };
 		EE58E5EA159F86AD00E134F2 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5E9159F86AD00E134F2 /* Capture.bundle */; };
 		EE58E5EC159F86AD00E134F2 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5EB159F86AD00E134F2 /* Cordova.plist */; };
 		EE58E5F0159F86AD00E134F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58E5EF159F86AD00E134F2 /* AppDelegate.m */; };
@@ -45,6 +42,9 @@
 		EE58E5F9159F86AD00E134F2 /* verify.sh in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5F8159F86AD00E134F2 /* verify.sh */; };
 		EE58E600159F87A500E134F2 /* www in Resources */ = {isa = PBXBuildFile; fileRef = EE58E5FF159F87A500E134F2 /* www */; };
 		EE7FEB2C15A77CDD00BADC2E /* Allan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EE7FEB2B15A77CDD00BADC2E /* Allan.gpx */; };
+		EE9C10CA15B1C847008D6EC8 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = EE9C10C715B1C847008D6EC8 /* Icon-72.png */; };
+		EE9C10CB15B1C847008D6EC8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE9C10C815B1C847008D6EC8 /* Icon.png */; };
+		EE9C10CC15B1C847008D6EC8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE9C10C915B1C847008D6EC8 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,9 +78,6 @@
 		EE58E5D3159F86AD00E134F2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE58E5D7159F86AD00E134F2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE58E5DB159F86AD00E134F2 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Resources/se.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE58E5DE159F86AD00E134F2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		EE58E5E0159F86AD00E134F2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		EE58E5E2159F86AD00E134F2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		EE58E5E9159F86AD00E134F2 /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		EE58E5EB159F86AD00E134F2 /* Cordova.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 		EE58E5EE159F86AD00E134F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
@@ -92,6 +89,9 @@
 		EE58E5F8159F86AD00E134F2 /* verify.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = verify.sh; sourceTree = "<group>"; };
 		EE58E5FF159F87A500E134F2 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		EE7FEB2B15A77CDD00BADC2E /* Allan.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Allan.gpx; sourceTree = "<group>"; };
+		EE9C10C715B1C847008D6EC8 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		EE9C10C815B1C847008D6EC8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		EE9C10C915B1C847008D6EC8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,11 +241,12 @@
 		EE58E5DD159F86AD00E134F2 /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				EE58E5DE159F86AD00E134F2 /* icon.png */,
-				EE58E5E0159F86AD00E134F2 /* icon@2x.png */,
-				EE58E5E2159F86AD00E134F2 /* icon-72.png */,
+				EE9C10C715B1C847008D6EC8 /* Icon-72.png */,
+				EE9C10C815B1C847008D6EC8 /* Icon.png */,
+				EE9C10C915B1C847008D6EC8 /* Icon@2x.png */,
 			);
 			name = icons;
+			path = Resources/icons;
 			sourceTree = "<group>";
 		};
 		EE58E5E4159F86AD00E134F2 /* splash */ = {
@@ -343,9 +344,6 @@
 				EE58E5D4159F86AD00E134F2 /* Localizable.strings in Resources */,
 				EE58E5D8159F86AD00E134F2 /* Localizable.strings in Resources */,
 				EE58E5DC159F86AD00E134F2 /* Localizable.strings in Resources */,
-				EE58E5DF159F86AD00E134F2 /* icon.png in Resources */,
-				EE58E5E1159F86AD00E134F2 /* icon@2x.png in Resources */,
-				EE58E5E3159F86AD00E134F2 /* icon-72.png in Resources */,
 				EE58E5EA159F86AD00E134F2 /* Capture.bundle in Resources */,
 				EE58E5EC159F86AD00E134F2 /* Cordova.plist in Resources */,
 				EE58E5F5159F86AD00E134F2 /* MainViewController.xib in Resources */,
@@ -358,6 +356,9 @@
 				EE402E2D15A38311008023E0 /* Default@2x~iphone.png in Resources */,
 				EE402E2E15A38311008023E0 /* Default~iphone.png in Resources */,
 				EE7FEB2C15A77CDD00BADC2E /* Allan.gpx in Resources */,
+				EE9C10CA15B1C847008D6EC8 /* Icon-72.png in Resources */,
+				EE9C10CB15B1C847008D6EC8 /* Icon.png in Resources */,
+				EE9C10CC15B1C847008D6EC8 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
