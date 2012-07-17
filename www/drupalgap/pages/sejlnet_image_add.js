@@ -36,28 +36,31 @@ $('#sejlnet_image_add_get_current_location').live("click",function(){
 	sejlnet_image_add_get_location();
 });
 
-
 function sejlnet_image_add_ready() {
 	sejlnet_image_add_source = navigator.camera.PictureSourceType;
 	sejlnet_image_add_destination_type = navigator.camera.DestinationType;
 }
 
-//A button will call this function
-//
 function sejlnet_image_add_capture() {
-  // Take picture using device camera and retrieve image as base64-encoded string
-  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50,
-    destinationType: sejlnet_image_add_destination_type.DATA_URL });
+	// Take picture using device camera and retrieve image as base64-encoded string
+	photo_options = {
+		quality: 50,
+		destinationType: sejlnet_image_add_destination_type.DATA_URL,
+		correctOrientation: true
+	}
+	navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, photo_options);
 }
 
-// A button will call this function
-//
 function sejlnet_image_add_get(source) {
 	$('#largeImage_msg').html("Loading image...");
-  // Retrieve image file location from specified source
-  navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, { quality: 50,
-	  destinationType: sejlnet_image_add_destination_type.DATA_URL,
-    sourceType: source });
+	// Retrieve image file location from specified source
+	photo_options = {
+		quality: 50,
+		destinationType: sejlnet_image_add_destination_type.DATA_URL,
+		sourceType: source,
+		correctOrientation: true
+	}
+	navigator.camera.getPicture(sejlnet_image_add_data_success, sejlnet_image_add_fail, photo_options);
 }
 
 // Called if something bad happens.
