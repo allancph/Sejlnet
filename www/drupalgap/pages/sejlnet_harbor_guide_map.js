@@ -93,7 +93,10 @@ function sejlnet_harbor_guide_map_onDeviceReady () {
 							title = obj.node.titel; // the live site uses 'titel' for the field name
 						}
 					    google.maps.event.addListener(marker, 'click', function() {
-					    	html_content = "<a href='node_harbor.html' id='" + obj.node.nid + "' style='align: center; font-style: bold; font-size: 30px;' class='sejlnet_harbor_guide_map_harbor'>" + title + "</a>";
+					    	div_attributes = " id='" + obj.node.nid + "' " + 
+					    	" style='border: 1px solid black; padding: 1em; color: blue; text-decoration: underline;' " + 
+					    	" class='sejlnet_harbor_guide_map_harbor' ";
+					    	html_content = "<div " + div_attributes + ">" + title + "</div>";
 					    	sejlnet_harbor_guide_map_info_window.setContent(html_content);
 					    	sejlnet_harbor_guide_map_info_window.open(sejlnet_harbor_guide_map_object, marker);
 				    	});
@@ -130,4 +133,5 @@ $('.sejlnet_harbor_guide_map_harbor').live("click",function(){
 	// Save a reference to the node id.
 	drupalgap_page_node_harbor_nid = $(this).attr('id');
 	drupalgap_page_node_harbor_back = "map";
+	$.mobile.changePage("node_harbor.html");
 });
