@@ -97,4 +97,3 @@ $('#sejlnet_gallery_prev').live("click",function(){
 	}
 	return false;
 });
-

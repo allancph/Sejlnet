@@ -46,3 +46,25 @@ function sejlnet_render_geo_location_info (position) {
             + position.coords.longitude.toFixed(4) + " +/- " 
             + position.coords.accuracy.toFixed(1) + "m";
 }
+
+function onLoad() {
+    document.addEventListener("deviceready", onDeviceReady, false);
+}
+
+function onDeviceReady() {
+    document.addEventListener("backbutton", onBackKey, false);
+}
+
+function onBackKey(e) {
+    switch($.mobile.activePage.attr('id')) {
+      case "drupalgap_page_dashboard":
+    	  navigator.app.exitApp();
+    	break;
+      case "drupalgap_page_user":
+    	  $.mobile.changePage(dg_page_user_back_button_destination);
+    	  break;
+      default:
+    	  history.back(1);
+      	break;
+    }
+}
