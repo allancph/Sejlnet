@@ -47,11 +47,6 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 				// Set node title header text.
 				$('#drupalgap_page_comment_edit h3').html(drupalgap_page_comment_edit_node.title);
 				
-				// Set the visibility on the subject field
-				if (drupalgap_page_comment_edit_content_type.comment_subject_field != "1") {
-					$('#drupalgap_page_comment_edit_subject_container').hide();
-				}
-				
 				if (drupalgap_page_comment_edit_cid) {
 					// Existing comment.
 					
@@ -64,9 +59,6 @@ $('#drupalgap_page_comment_edit').live('pageshow',function(){
 						"success":function(comment) {
 							// Set header text.
 							$('#drupalgap_page_comment_edit h1').html("Rediger kommentar");
-							
-							// Add comment details to form fields.
-							$('#drupalgap_page_comment_edit_subject').val(comment.subject);
 							
 							// Comment body.
 							var body;
@@ -106,16 +98,9 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 	try {
 		
 		// Grab input.
-		var subject = $('#drupalgap_page_comment_edit_subject').val();
 	  	var body = $('#drupalgap_page_comment_edit_body').val();
 	  	
 	  	// Validate input.
-	  	
-	  	// Check this comment's node content type comment settings.
-	  	if (drupalgap_page_comment_edit_content_type.comment_subject_field == "1" && !subject) {
-	  		alert("Emne er påkrævet.");
-	  		return false;
-	  	}
 	  	
 	  	if (!body) {
 	  		alert('Ingen kommentar indlæst.'); 
@@ -133,12 +118,11 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 		  		},
 		  		"success":function(comment) {
 		  			// Comment was retrieved, update its values.
-				  	comment.subject = subject;
 				  	comment.body = body;
 				  	comment_update_options = {
 				  		"comment":comment,
 				  		"error":function(jqXHR, textStatus, errorThrown) {
-				  		alert(result.errorThrown);
+				  			alert(result.errorThrown);
 					  	},
 					  	"success":function(data) {
 					  		// Comment was updated properly.
@@ -158,7 +142,6 @@ $('#drupalgap_page_comment_edit_submit').live('click',function(){
 				"comment":{
 					"nid":drupalgap_page_comment_edit_nid,
 					"body":body,
-					"subject":subject,
 				},
 				"error":function(jqXHR, textStatus, errorThrown) {
 					alert(errorThrown);
@@ -230,7 +213,7 @@ $('#drupalgap_page_comment_edit_delete').live('click',function(){
 				alert("drupalgap_page_comment_edit_delete - failed to comment (" + drupalgap_page_comment_edit_cid + ")");
 			},
 			"success":function(comment) {
-				if (confirm("Are you sure you want to delete \"" + comment.subject + "\"? This cannot be undone.")) {
+				if (confirm("Are you sure you want to delete this comment? This cannot be undone.")) {
 					comment_delete_options = {
 						"cid":comment.cid,
 						"error":function(jqXHR, textStatus, errorThrown) {

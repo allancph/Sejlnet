@@ -368,7 +368,10 @@ function drupalgap_services_comment_render (comment) {
 		}
 		
 		// Build comment html.
-		html = "<div><strong>" + comment.subject + "</strong></div>";
+		html = "";
+		if (comment.subject) {
+			html += "<div><strong>" + comment.subject + "</strong></div>";
+		}
 		html += "<div><p>" + comment.name + "</p></div>";
 		html += "<div><p>" + created + "</p></div>";
 		html += "<div><p>" + body + "</p></div>";
