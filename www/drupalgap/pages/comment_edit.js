@@ -237,7 +237,7 @@ $('#drupalgap_page_comment_edit_delete').live('click',function(){
 });
 
 function drupalgap_page_comment_back() {
-	page = "node.html";
+	var page = "node.html";
 	switch (drupalgap_page_comment_edit_content_type.type) {
 		case "group_image":
 			page = "sejlnet_image.html";
@@ -250,6 +250,9 @@ function drupalgap_page_comment_back() {
 			break;
 		case "harbour":
 			page = "node_harbor_comments.html";
+			break;
+		case "anchorage":
+			page = "node_anchorage_comments.html";
 			break;
 	}
 	$.mobile.changePage(page);

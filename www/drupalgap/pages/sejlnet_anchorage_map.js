@@ -35,7 +35,7 @@ function sejlnet_anchorage_map_onDeviceReady () {
     }
     else {
 	
-		views_datasource_harbor_path = "views_datasource/anchorage";
+		var views_datasource_anchorage_path = "views_datasource/anchorage";
 		
 		// If the user has a current position, let's use it.
 		lat = sejlnet_location_latitude;
@@ -45,7 +45,7 @@ function sejlnet_anchorage_map_onDeviceReady () {
 			drupalgap_user_position.coords.longitude) {
 			lat = drupalgap_user_position.coords.latitude;
 			lng = drupalgap_user_position.coords.longitude;
-			//views_datasource_harbor_path = "views_datasource/harbor_guide/nearby/" + lat + "," + lng + "_" + sejlnet_kilometer_range;
+			//views_datasource_anchorage_path = "views_datasource/harbor_guide/nearby/" + lat + "," + lng + "_" + sejlnet_kilometer_range;
 		}
 		
 		// Load the map
@@ -72,7 +72,7 @@ function sejlnet_anchorage_map_onDeviceReady () {
 		
 		// Retrieve anchorage and place on map.
 		views_options = {
-			"path":views_datasource_harbor_path,
+			"path":views_datasource_anchorage_path,
 			"error":function(jqXHR, textStatus, errorThrown) {
 				console.log(JSON.stringify(errorThrown));
 				console.log(JSON.stringify(textStatus));
@@ -131,7 +131,7 @@ function sejlnet_anchorage_map_init(lat,lng) {
 
 $('.sejlnet_anchorage_map_anchor').live("click",function(){
 	// Save a reference to the node id.
-	drupalgap_page_node_harbor_nid = $(this).attr('id');
-	drupalgap_page_node_harbor_back = "map";
-	$.mobile.changePage("node_harbor.html");
+	drupalgap_page_node_anchorage_nid = $(this).attr('id');
+	drupalgap_page_node_anchorage_back = "map";
+	$.mobile.changePage("node_anchorage.html");
 });
