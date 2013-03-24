@@ -200,22 +200,18 @@ var drupalgap_services = {
 			}
 			else {
 				
-				
-                if (!isConnected()) 
-                {
-			    	// No internet connection...
-			    	navigator.notification.alert(
-		    		    'Du mangler internet forbindelse!',  // message
-		    		    function(){
-		    		    	// If the caller provided an error callback, call it.
-							if (options.hook_error) {
-								options.hook_error();
-							}
-		    		    },         // callback
-		    		    'Offline',            // title
-		    		    'OK'                  // buttonName
-		    		);
-			    }
+				// Check device connection. If the device is offline, warn the user and then
+        // go to the offline page.
+        drupalgap_check_connection();
+        if (!drupalgap.online) {
+          navigator.notification.alert(
+              'Du mangler internet forbindelse!',
+              function(){ },
+              'Offline',
+              'OK'
+          );
+          return false;
+        }
 				else {
 					// Has an internet connection, proceed...
 					

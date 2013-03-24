@@ -1,3 +1,6 @@
+var drupalgap = {
+  'online':false,
+};
 var drupalgap_settings;
 var drupalgap_user;
 var drupalgap_site_settings;
@@ -26,6 +29,19 @@ $(document).ready(function() {
 function drupalgap_onDeviceReady() {
     
     drupalgap_settings_load();
+    
+    // Check device connection. If the device is offline, warn the user and then
+    // go to the offline page.
+    drupalgap_check_connection();
+    if (!drupalgap.online) {
+      navigator.notification.alert(
+          'Du mangler internet forbindelse!',
+          function(){ $.mobile.changePage('drupalgap/pages/offline.html'); },
+          'Offline',
+          'OK'
+      );
+      return false;
+    }
     
 	// Make a call to the DrupalGap bundled system connect resource.
 	// TODO - do something if the system connect fails.
@@ -93,3 +109,31 @@ function isConnected() {
 //	console.log("isConnected = " + isConnected);
 	return isConnected;
 }
+
+/**
+ * Checks the devices connection and sets drupalgap.online to true if the
+ * device has a connection, false otherwise.
+ * @returns A string indicating the type of connection according to PhoneGap.
+ */
+function drupalgap_check_connection() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.NONE]     = 'No network connection';
+    
+    if (states[networkState] == 'No network connection') {
+    	drupalgap.online = false;
+    }
+    else {
+    	drupalgap.online = true;
+    }
+
+    return states[networkState];
+}
+
