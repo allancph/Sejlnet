@@ -1,0 +1,37 @@
+<div data-role="page" data-theme="b" id="drupalgap_page_offline">
+  <script type="text/javascript">
+  function drupalgap_offline_try_again() {
+    drupalgap_check_connection();
+    if (!drupalgap.online) {
+      navigator.notification.alert(
+          'Du mangler internet forbindelse!',
+          function(){ },
+          'Offline',
+          'OK'
+      );
+      return false;
+    }
+    else {
+      // Call the DrupalGap system connect resource and then reload the home page.
+      var options = {
+        "load_from_local_storage":"0",
+        "error":function(jqXHR, textStatus, errorThrown){
+        },
+        "success":function(){
+          $.mobile.changePage("dashboard.html", {reloadPage:true});
+        }
+      };
+      drupalgap_services_resource_system_connect.resource_call(options);
+    }
+  }
+  </script>
+  <div data-role="header">
+    <a href="dashboard.html" data-icon="home" class="ui-btn-left">Hjem</a>
+    <h1>Offline</h1>
+  </div><!-- header -->
+	<div data-role="content">
+		<div style='margin-bottom: 1em; text-align: center;'><img src='../../images/sejlnet_logo.png'/></div>
+		<!-- Go Online -->
+		<a onclick="javascript:drupalgap_offline_try_again();" data-role="button">Gå på internettet</a>
+	</div><!-- /content -->
+</div><!-- /page -->
