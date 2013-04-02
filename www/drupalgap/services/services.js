@@ -339,6 +339,9 @@ var drupalgap_services = {
 	
 	/* Asynchronous ajax error call back function. */
 	"resource_call_error":function (jqXHR, textStatus, errorThrown) {
+	  
+	  // Hide the page loading message.
+		$.mobile.hidePageLoadingMsg();
 
 		// Log the error to the console.
 		result = {
