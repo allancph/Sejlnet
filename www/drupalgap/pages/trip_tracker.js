@@ -4,8 +4,8 @@ var trip_tracker_map = null;
 var trip_tracker_map_initialized = false;
 var trip_tracker_map_markers = [];
 
-$('#drupalgap_trip_tracker').live('pageshow', function(){
-    
+$('#drupalgap_trip_tracker').on('pageshow', function(){
+
 });
 
 function trip_tracker_start() {
@@ -13,8 +13,8 @@ function trip_tracker_start() {
   $('#trip_tracker_stop').show();
   trip_tracker_watch_id = navigator.geolocation.watchPosition(
     trip_tracker_success,
-    trip_tracker_error,
-    {enableHighAccuracy:true}
+    trip_tracker_error/*,
+    {enableHighAccuracy:true}*/
   );
   $('#trip_tracker_message').prepend('<p>Tracking trip...</p>');
   return false;
@@ -59,8 +59,9 @@ function trip_tracker_reset() {
 
 function trip_tracker_success(position) {
   // Add the date and position info to the trip data.
+  var now = new Date(); 
   trip_tracker_data.push({
-      'date':js_yyyy_mm_dd_hh_mm_ss(),
+      'date':now.getTime(),
       'latitude':position.coords.latitude,
       'longitude':position.coords.longitude,
   });
@@ -103,5 +104,58 @@ function trip_tracker_add_position_to_map(lat, lng) {
   var marker = new google.maps.Marker(myMarkerOptions);
   trip_tracker_map.setCenter(myLatLng);
   trip_tracker_map_markers.push(marker);
+}
+
+function trip_tracker_submit() {
+  var trip_tracker_title = $('#trip_tracker_title').val();
+  if (trip_tracker_title == '') {
+    alert('You must enter a title for your trip.');
+    return false;
+  }
+  var trip_tracker_body = $('#trip_tracker_body').val();
+  if (drupalgap_user.uid == 0) {
+		if (confirm("Please login to save your trip.")) {
+		  user_login_destination = 'trip_tracker.html';
+			$.mobile.changePage("user_login.html");
+		}
+	}
+	else {
+	  // Build up the trip log into a text string.
+	  var field_blog_trip = '';
+	  var data = '';
+	  if (trip_tracker_data && trip_tracker_data.length > 0) {
+	    $.each(trip_tracker_data, function(index, object){
+	        // Save the first latitude longitude as the location of the node.
+	        if (index == 0) {
+	          data +=
+	            "locations[0][locpick][user_latitude]=" + object.latitude +
+	            "&locations[0][locpick][user_longitude]=" + object.longitude; 
+	        }
+	        // Append the data, lat and lng to the field_blog_trip.
+          field_blog_trip +=
+            object.date + ':' +
+            object.latitude + ':'+
+            object.longitude + ',';
+      });
+      // Remove the last comma.
+      field_blog_trip = field_blog_trip.substring(0,field_blog_trip.length-1);
+      data += '&field_blog_trip[0][value]=' + encodeURIComponent(field_blog_trip)
+	  }
+		// Create a blog post node with the trip information and attach it to
+		// field_blog_trip.
+		var trip = {
+		  'type':'blog',
+		  'title':trip_tracker_title,
+		  'body':trip_tracker_body
+		};
+		drupalgap_services_node_create.resource_call({
+		    'node':trip,
+		    'data':data,
+		    'success':function(result){
+		      alert('Trip Saved Online!');
+		      $.mobile.changePage("dashboard.html");
+		    },
+		});
+	}
 }
 

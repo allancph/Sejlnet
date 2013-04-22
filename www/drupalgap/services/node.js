@@ -32,6 +32,11 @@ var drupalgap_services_node_create = {
 				data += "&" + caller_options.og; 
 			}
 			
+			// If the caller has any extra data paramaters, add them to the data string.
+			if (caller_options.data) {
+			  data += '&' + caller_options.data;
+			}
+			
 			// Build options for service call.
 			options = {
 				"resource_path":this.resource_path,

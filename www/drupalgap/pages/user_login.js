@@ -1,3 +1,4 @@
+var user_login_destination = '';
 /**
  * Handles the login page show event.
  *
@@ -35,22 +36,27 @@ $('#drupalgap_user_login_submit').live('click',function() {
 	  
 	  // Make call to the bundled user login service resource.
 	  options = {
-		"name":name,
-		"pass":pass,
-		"error":function (jqXHR, textStatus, errorThrown) {
-		  var message = '';
-		  if (jqXHR.responseText) { message += jqXHR.responseText; }
-		  else if (textStatus) { message += textStatus; }
-			$('#drupalgap_page_user_login_messages').html(message).show(); // show user result error msg
-			$('#drupalgap_user_login_pass').val(""); // clear password field
-		},
-		"success":function () {
-			$.mobile.changePage("dashboard.html", "slideup");
-		}
+      "name":name,
+      "pass":pass,
+      "error":function (jqXHR, textStatus, errorThrown) {
+        var message = '';
+        if (jqXHR.responseText) { message += jqXHR.responseText; }
+        else if (textStatus) { message += textStatus; }
+        $('#drupalgap_page_user_login_messages').html(message).show(); // show user result error msg
+        $('#drupalgap_user_login_pass').val(""); // clear password field
+      },
+      "success":function () {
+        if (user_login_destination != '') {
+          var where_to = user_login_destination;
+          user_login_destination = '';
+          $.mobile.changePage(where_to, "slideup");  
+        }
+        else {
+          $.mobile.changePage("dashboard.html", "slideup");
+        }
+      }
 	  };
-	  //drupalgap_services_user_login.resource_call(options);
 	  drupalgap_services_drupalgap_user_login.resource_call(options);
-
 	}
 	catch (error) {
 	  console.log("drupalgap_user_login_submit - " + error);
