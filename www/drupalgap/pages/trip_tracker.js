@@ -13,8 +13,8 @@ function trip_tracker_start() {
   $('#trip_tracker_stop').show();
   trip_tracker_watch_id = navigator.geolocation.watchPosition(
     trip_tracker_success,
-    trip_tracker_error/*,
-    {enableHighAccuracy:true}*/
+    trip_tracker_error,
+    {enableHighAccuracy:true}
   );
   $('#trip_tracker_message').prepend('<p>Tracking trip...</p>');
   return false;
@@ -29,18 +29,39 @@ function trip_tracker_stop() {
   var sailingPathCoordinates = [];
   $.each(trip_tracker_data, function(index, data){
       sailingPathCoordinates.push(new google.maps.LatLng(data.latitude, data.longitude));
-      $('#trip_tracker_message').append('<p>' +
+      /*$('#trip_tracker_message').append('<p>' +
         data.date + '<br >' +
         'Latitude: '  + data.latitude + '<br />' +
         'Longitude: ' + data.longitude + '<hr />' +
-      '</p>');
+      '</p>');*/
   });
+  // Initialize the map if it hasn't been initialized.
+  if (!trip_tracker_map_initialized) {
+    trip_tracker_map_initialize();
+  }
+  // Add the start and end points to the map, and set the map center to the
+  // start point.
+  if (trip_tracker_data.length > 0) {
+    trip_tracker_map.setCenter(sailingPathCoordinates[0]);
+    trip_tracker_add_position_to_map(
+      trip_tracker_data[0].latitude,
+      trip_tracker_data[0].longitude
+    );
+    if (trip_tracker_data.length > 1) {
+      trip_tracker_add_position_to_map(
+        trip_tracker_data[trip_tracker_data.length-1].latitude,
+        trip_tracker_data[trip_tracker_data.length-1].longitude
+      );
+    }
+  }
+  // Draw the trip line(s).
   var sailingPath = new google.maps.Polyline({
     path: sailingPathCoordinates,
     strokeColor: '#FF0000',
     strokeOpacity: 1.0,
     strokeWeight: 2
   });
+  // Add the lines to the map.
   sailingPath.setMap(trip_tracker_map);
   return false;
 }
@@ -59,18 +80,32 @@ function trip_tracker_reset() {
 
 function trip_tracker_success(position) {
   // Add the date and position info to the trip data.
-  var now = new Date(); 
+  var now = new Date();
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  var speed = position.coords.speed; if (speed == null) { speed = 0; }
+  var heading = position.coords.heading; if (heading == null) { heading = 'N/A'; }
+  var created = now.getTime();
   trip_tracker_data.push({
-      'date':now.getTime(),
-      'latitude':position.coords.latitude,
-      'longitude':position.coords.longitude,
+      'date':created,
+      'latitude':lat,
+      'longitude':lng,
   });
+  $('#trip_tracker_message').html(
+    'Latitude: ' + lat +
+    '<br />Longitude: ' + lng + 
+    '<br />Speed: ' + speed +
+    '<br />Heading: ' + heading +
+    '<br />Last Updated: ' + js_yyyy_mm_dd_hh_mm_ss()
+  );
+  /*
   // Initialize the map if it hasn't been initialized.
   if (!trip_tracker_map_initialized) {
     trip_tracker_map_initialize();
   }
   // Update the map.
   trip_tracker_add_position_to_map(position.coords.latitude, position.coords.longitude);
+  */
 }
 
 function trip_tracker_error(error) {
@@ -94,15 +129,13 @@ function trip_tracker_add_position_to_map(lat, lng) {
     trip_tracker_map_markers[0].setMap(null);
     delete(trip_tracker_map_markers[0]);
   }
-  // Create new marker from lat/lng, add it to the map, center the map to the
-  // marker and save the marker.
+  // Create new marker from lat/lng, add it to the map and save the marker.
   var myLatLng = new google.maps.LatLng(lat, lng);
   var myMarkerOptions = {
     position: myLatLng,
     map: trip_tracker_map
   };
   var marker = new google.maps.Marker(myMarkerOptions);
-  trip_tracker_map.setCenter(myLatLng);
   trip_tracker_map_markers.push(marker);
 }
 
