@@ -1,12 +1,14 @@
 <div data-role="page" data-theme="b" id="drupalgap_trip_tracker">
+  <script type="text/javascript" src="trip_tracker.js"></script>
   <div data-role="header">
-    <a href="dashboard.html" data-icon="home" class="ui-btn-left">Hjem</a>
+    <a href="#" data-icon="home" class="ui-btn-left" onclick="javascript:trip_tracker_home_click();">Hjem</a>
     <h1>Trip Tracker</h1>
   </div><!-- header -->
 	<div data-role="content">
 	  <div>
 	    <a href="#" id="trip_tracker_start" data-role="button" onclick="javascript:trip_tracker_start();">Start</a>
 	    <a href="#" id="trip_tracker_stop" data-role="button" onclick="javascript:trip_tracker_stop();" style="display: none;">Stop</a>
+	    <a href="#" id="trip_tracker_resume" data-role="button" onclick="javascript:trip_tracker_start();" style="display: none;">Resume</a>
 	    <a href="#" id="trip_tracker_reset" data-role="button" onclick="javascript:trip_tracker_reset();" style="display: none;">Reset</a>
 	  </div>
 	  <div id="trip_tracker_inputs" style="display: none;">
@@ -15,15 +17,16 @@
         <input type="text" id="trip_tracker_title" />
       </div>
       <div>&nbsp;</div>
-      <div id="trip_tracker_map" style="width:100%; height:320px;"></div>
-      <div>&nbsp;</div>
       <div>
         <label for="trip_tracker_body">Trip Details</label>
         <textarea id="trip_tracker_body" rows="5"></textarea>
       </div>
+      <div>&nbsp;</div>
       <div>
         <div><button type="button" data-theme="b" id="trip_tracker_submit" onclick="trip_tracker_submit();">Save Trip</button></div>
       </div>
+      <div>&nbsp;</div>
+      <div id="trip_tracker_map" style="width:100%; height:320px;"></div>
 	  </div>
 	  <div id="trip_tracker_message"></div>
 	</div><!-- /content -->

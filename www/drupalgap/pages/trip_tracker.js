@@ -3,13 +3,24 @@ var trip_tracker_data = [];
 var trip_tracker_map = null;
 var trip_tracker_map_initialized = false;
 var trip_tracker_map_markers = [];
+var trip_tracker_started = false;
 
-$('#drupalgap_trip_tracker').on('pageshow', function(){
-
+$('#drupalgap_trip_tracker').on('pagebeforeshow', function(){
+    // Is there any trip tracker data saved in local strage?
+    var data = window.localStorage.getItem('trip_tracker_data');
+    console.log(JSON.stringify(data));
+    if (data != null) {
+      $('#trip_tracker_start').hide();
+      $('#trip_tracker_resume').show();
+      $('#trip_tracker_reset').show();
+      trip_tracker_data = JSON.parse(data);
+    }
 });
 
 function trip_tracker_start() {
   $('#trip_tracker_start').hide();
+  $('#trip_tracker_resume').hide();
+  $('#trip_tracker_reset').hide();
   $('#trip_tracker_stop').show();
   trip_tracker_watch_id = navigator.geolocation.watchPosition(
     trip_tracker_success,
@@ -17,6 +28,7 @@ function trip_tracker_start() {
     {enableHighAccuracy:true}
   );
   $('#trip_tracker_message').prepend('<p>Tracking trip...</p>');
+  trip_tracker_started = true;
   return false;
 }
 
@@ -26,14 +38,16 @@ function trip_tracker_stop() {
   $('#trip_tracker_reset').show();
   $('#trip_tracker_inputs').show();
   $('#trip_tracker_message').html('');
+  trip_tracker_started = false;
   var sailingPathCoordinates = [];
   $.each(trip_tracker_data, function(index, data){
+      var date = new Date(data.date);
       sailingPathCoordinates.push(new google.maps.LatLng(data.latitude, data.longitude));
-      /*$('#trip_tracker_message').append('<p>' +
-        data.date + '<br >' +
+      $('#trip_tracker_message').append('<p>' +
+         date.toString() + '<br >' +
         'Latitude: '  + data.latitude + '<br />' +
         'Longitude: ' + data.longitude + '<hr />' +
-      '</p>');*/
+      '</p>');
   });
   // Initialize the map if it hasn't been initialized.
   if (!trip_tracker_map_initialized) {
@@ -68,11 +82,13 @@ function trip_tracker_stop() {
 
 function trip_tracker_reset() {
   $('#trip_tracker_start').show();
+  $('#trip_tracker_resume').hide();
   $('#trip_tracker_reset').hide();
   $('#trip_tracker_message').html('');
   $('#trip_tracker_inputs').hide();
   $('#trip_tracker_title').val('');
   $('#trip_tracker_body').val('');
+  trip_tracker_started = false;
   trip_tracker_data = [];
   trip_tracker_map_markers = [];
   trip_tracker_map_initialize();
@@ -190,5 +206,25 @@ function trip_tracker_submit() {
 		    },
 		});
 	}
+}
+
+function trip_tracker_home_click() {
+  // If the trip tracker is started, or if there is any trip data, warn them
+  // about leaving the tracker.
+  if (trip_tracker_started || trip_tracker_data.length > 0) {
+    if (!confirm('Are you sure you want to leave the trip tracker? Your trip data will be saved locally.')) {
+      return false;
+    }
+    else {
+      // If the trip tracker is started, stop it.
+      if (trip_tracker_started) {
+        navigator.geolocation.clearWatch(trip_tracker_watch_id);
+        trip_tracker_started = false;
+      }
+      // Save the trip data to local storage.
+      window.localStorage.setItem("trip_tracker_data", JSON.stringify(trip_tracker_data));
+    }
+  }
+  $.mobile.changePage('dashboard.html');
 }
 
