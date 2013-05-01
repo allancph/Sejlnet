@@ -133,7 +133,7 @@ $('#sejlnet_button_gallery').live("click", function(){
 
 $('#sejlnet_button_trip_tracker').live('click', function(){
     if (drupalgap_user.uid == 0) {
-      if (confirm('Would you like to login before tracking your trip? This will allow you to save your trip online!')) {
+      if (confirm('Vil du logge på før du starter logbogen ? Eller kan du ikke gemme din tur.')) {
         user_login_destination = 'trip_tracker.html';
         $.mobile.changePage('user_login.html');  
       }

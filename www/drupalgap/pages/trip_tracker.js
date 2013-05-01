@@ -27,7 +27,8 @@ function trip_tracker_start() {
     trip_tracker_error,
     {enableHighAccuracy:true}
   );
-  $('#trip_tracker_message').prepend('<p>Tracking trip...</p>');
+  // Tracking trip...
+  $('#trip_tracker_message').prepend('<p>Logger tur...</p>');
   trip_tracker_started = true;
   return false;
 }
@@ -108,10 +109,10 @@ function trip_tracker_success(position) {
       'longitude':lng,
   });
   $('#trip_tracker_message').html(
-    'Latitude: ' + lat +
-    '<br />Longitude: ' + lng + 
-    '<br />Speed: ' + speed +
-    '<br />Heading: ' + heading +
+    'Breddegrad: ' + lat +
+    '<br />Længdegrad: ' + lng + 
+    '<br />Hastighed: ' + speed +
+    '<br />Kurs: ' + heading +
     '<br />Last Updated: ' + js_yyyy_mm_dd_hh_mm_ss()
   );
   /*
@@ -158,12 +159,14 @@ function trip_tracker_add_position_to_map(lat, lng) {
 function trip_tracker_submit() {
   var trip_tracker_title = $('#trip_tracker_title').val();
   if (trip_tracker_title == '') {
-    alert('You must enter a title for your trip.');
+    alert('Giv dit log indlæg en titel.');
     return false;
   }
   var trip_tracker_body = $('#trip_tracker_body').val();
   if (drupalgap_user.uid == 0) {
-		if (confirm("Please login to save your trip.")) {
+		if (confirm("Du skal logge ind for at gennem dit log indlæg.")) {
+		  // Save the trip data to local storage.
+      window.localStorage.setItem("trip_tracker_data", JSON.stringify(trip_tracker_data));
 		  user_login_destination = 'trip_tracker.html';
 			$.mobile.changePage("user_login.html");
 		}
@@ -201,7 +204,8 @@ function trip_tracker_submit() {
 		    'node':trip,
 		    'data':data,
 		    'success':function(result){
-		      alert('Trip Saved Online!');
+		      // Trip Saved online.
+		      alert('Logindlæg gemt på sejlnet.dk');
 		      $.mobile.changePage("dashboard.html");
 		    },
 		});
