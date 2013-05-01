@@ -1,4 +1,4 @@
-$('#sejlnet_anchorage_nearby').live('pagebeforeshow',function(){
+$('#sejlnet_anchorage_nearby').on('pagebeforeshow',function(){
 	try {
 		// Clear the list.
 		$("#sejlnet_anchorage_nearby_content_list").html("");
@@ -9,7 +9,7 @@ $('#sejlnet_anchorage_nearby').live('pagebeforeshow',function(){
 	}
 });
 
-$('#sejlnet_anchorage_nearby').live('pageshow',function(){
+$('#sejlnet_anchorage_nearby').on('pageshow',function(){
 	try {
 		document.addEventListener("deviceready", sejlnet_anchorage_nearby_onDeviceReady, false);
 	}
@@ -191,7 +191,7 @@ function sejlnet_anchorage_nearby_location_search(latitude, longitude) {
 }
 
 //When a content list item is clicked...
-$('#sejlnet_anchorage_nearby_content_list a').live("click",function(){
+$('#sejlnet_anchorage_nearby_content_list a').on("click",function(){
 	// Save a reference to the node id.
 	drupalgap_page_node_anchorage_nid = $(this).attr('id');
 	drupalgap_page_node_anchorage_back = "nearby";

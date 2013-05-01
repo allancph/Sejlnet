@@ -1,4 +1,4 @@
-$('#node_anchorage_comments').live('pagebeforeshow',function(){
+$('#node_anchorage_comments').on('pagebeforeshow',function(){
 	try {
 		anchorage = drupalgap_page_node_anchorage;
 		// Show the anchorage title.
@@ -9,7 +9,7 @@ $('#node_anchorage_comments').live('pagebeforeshow',function(){
 	}
 });
 
-$('#node_anchorage_comments').live('pageshow',function(){
+$('#node_anchorage_comments').on('pageshow',function(){
 	try {
 		anchorage = drupalgap_page_node_anchorage;
 		
@@ -48,7 +48,7 @@ $('#node_anchorage_comments').live('pageshow',function(){
 	}
 });
 
-$('#node_anchorage_comments_back').live("click",function(){
+$('#node_anchorage_comments_back').on("click",function(){
 	node_anchorage_go_back();
 });
 

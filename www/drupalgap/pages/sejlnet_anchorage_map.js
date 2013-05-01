@@ -1,7 +1,7 @@
 var sejlnet_anchorage_map_object;
 var sejlnet_anchorage_map_info_window;// = new google.maps.InfoWindow();
 
-$('#sejlnet_anchorage_map').live('pagebeforeshow',function(){
+$('#sejlnet_anchorage_map').on('pagebeforeshow',function(){
 	try {
 	}
 	catch (error) {
@@ -9,7 +9,7 @@ $('#sejlnet_anchorage_map').live('pagebeforeshow',function(){
 	}
 });
 
-$('#sejlnet_anchorage_map').live('pageshow',function(){
+$('#sejlnet_anchorage_map').on('pageshow',function(){
 	try {
 		document.addEventListener("deviceready", sejlnet_anchorage_map_onDeviceReady, false);
 	}
@@ -129,7 +129,7 @@ function sejlnet_anchorage_map_init(lat,lng) {
     sejlnet_anchorage_map_info_window = new google.maps.InfoWindow();
 }
 
-$('.sejlnet_anchorage_map_anchor').live("click",function(){
+$('.sejlnet_anchorage_map_anchor').on("click",function(){
 	// Save a reference to the node id.
 	drupalgap_page_node_anchorage_nid = $(this).attr('id');
 	drupalgap_page_node_anchorage_back = "map";

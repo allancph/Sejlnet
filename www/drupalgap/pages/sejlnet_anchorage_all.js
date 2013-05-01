@@ -1,4 +1,4 @@
-$('#sejlnet_anchorage_all').live('pagebeforeshow',function(){
+$('#sejlnet_anchorage_all').on('pagebeforeshow',function(){
 	try {
 		// Clear the list.
 		$("#sejlnet_anchorage_all_content_list").html("");
@@ -8,7 +8,7 @@ $('#sejlnet_anchorage_all').live('pagebeforeshow',function(){
 	}
 });
 
-$('#sejlnet_anchorage_all').live('pageshow',function(){
+$('#sejlnet_anchorage_all').on('pageshow',function(){
 	try {
 		// Build content retrieve resource call options.
 		views_options = {
@@ -51,7 +51,7 @@ $('#sejlnet_anchorage_all').live('pageshow',function(){
 });
 
 // When a content list item is clicked...
-$('#sejlnet_harbor_guide_content_list a').live("click",function(){
+$('#sejlnet_harbor_guide_content_list a').on("click",function(){
 	// Save a reference to the node id.
 	drupalgap_page_node_anchorage_nid = $(this).attr('id');
 	drupalgap_page_node_anchorage_back = "all";

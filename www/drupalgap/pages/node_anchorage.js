@@ -2,7 +2,7 @@ var drupalgap_page_node_anchorage;
 var drupalgap_page_node_anchorage_nid;
 var drupalgap_page_node_anchorage_back;
 
-$('#drupalgap_page_node_anchorage').live('pagebeforeshow',function(){
+$('#drupalgap_page_node_anchorage').on('pagebeforeshow',function(){
 	try {
 		// Clear the list.
 		$("#sejlnet_anchorage_facilities_list").html("");
@@ -12,7 +12,7 @@ $('#drupalgap_page_node_anchorage').live('pagebeforeshow',function(){
 	}
 });
 
-$('#drupalgap_page_node_anchorage').live('pageshow',function(){
+$('#drupalgap_page_node_anchorage').on('pageshow',function(){
 	try {
 		// Load node via services call and then display it.
 		options = {
@@ -135,7 +135,7 @@ $('#drupalgap_page_node_anchorage').live('pageshow',function(){
 	}
 });
 
-$('#drupalgap_page_node_anchorage_back').live("click",function(){
+$('#drupalgap_page_node_anchorage_back').on("click",function(){
 	node_anchorage_go_back();
 });
 

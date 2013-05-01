@@ -1,4 +1,4 @@
-$('#node_anchorage_map').live('pagebeforeshow',function(){
+$('#node_anchorage_map').on('pagebeforeshow',function(){
 	try {
 		anchorage = drupalgap_page_node_anchorage;
 		// Show the anchorage title.
@@ -9,7 +9,7 @@ $('#node_anchorage_map').live('pagebeforeshow',function(){
 	}
 });
 
-$('#node_anchorage_map').live('pageshow',function(){
+$('#node_anchorage_map').on('pageshow',function(){
 	try {
 		anchorage = drupalgap_page_node_anchorage;
 		// Show the anchorage google map.
@@ -22,7 +22,7 @@ $('#node_anchorage_map').live('pageshow',function(){
 	}
 });
 
-$('#node_anchorage_map_back').live("click",function(){
+$('#node_anchorage_map_back').on("click",function(){
 	node_anchorage_go_back();
 });
 
