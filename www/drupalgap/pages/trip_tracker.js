@@ -216,7 +216,7 @@ function trip_tracker_home_click() {
   // If the trip tracker is started, or if there is any trip data, warn them
   // about leaving the tracker.
   if (trip_tracker_started || trip_tracker_data.length > 0) {
-    if (!confirm('Are you sure you want to leave the trip tracker? Your trip data will be saved locally.')) {
+    if (!confirm('Er du sikker på du vil forlade trackeren ? Data bliver gemt lokalt.')) {
       return false;
     }
     else {

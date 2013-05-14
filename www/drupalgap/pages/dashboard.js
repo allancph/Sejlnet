@@ -145,3 +145,4 @@ $('#sejlnet_button_trip_tracker').live('click', function(){
       $.mobile.changePage('trip_tracker.html');
     }
 });
+
