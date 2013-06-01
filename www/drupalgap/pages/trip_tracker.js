@@ -4,6 +4,7 @@ var trip_tracker_map = null;
 var trip_tracker_map_initialized = false;
 var trip_tracker_map_markers = [];
 var trip_tracker_started = false;
+var trip_tracker_accuracy_threshold = 50;
 
 $('#drupalgap_trip_tracker').on('pagebeforeshow', function(){
     // Is there any trip tracker data saved in local strage?
@@ -44,11 +45,11 @@ function trip_tracker_stop() {
   $.each(trip_tracker_data, function(index, data){
       var date = new Date(data.date);
       sailingPathCoordinates.push(new google.maps.LatLng(data.latitude, data.longitude));
-      $('#trip_tracker_message').append('<p>' +
+      /*$('#trip_tracker_message').append('<p>' +
          date.toString() + '<br >' +
-        'Latitude: '  + data.latitude + '<br />' +
-        'Longitude: ' + data.longitude + '<hr />' +
-      '</p>');
+        'Breddegrad: '  + data.latitude + '<br />' +
+        'Længdegrad: ' + data.longitude + '<hr />' +
+      '</p>');*/
   });
   // Initialize the map if it hasn't been initialized.
   if (!trip_tracker_map_initialized) {
@@ -96,10 +97,13 @@ function trip_tracker_reset() {
 }
 
 function trip_tracker_success(position) {
-  // Add the date and position info to the trip data.
+  // Add the date and position info to the trip data if the coordinates are
+  // within the accuracy threshold.
   var now = new Date();
   var lat = position.coords.latitude;
   var lng = position.coords.longitude;
+  var accuracy = position.coords.accuracy;
+  if (accuracy > trip_tracker_accuracy_threshold) { return; }
   var speed = position.coords.speed; if (speed == null) { speed = 0; }
   var heading = position.coords.heading; if (heading == null) { heading = 'N/A'; }
   var created = now.getTime();
@@ -107,12 +111,14 @@ function trip_tracker_success(position) {
       'date':created,
       'latitude':lat,
       'longitude':lng,
+      'accuracy':accuracy,
   });
   $('#trip_tracker_message').html(
     'Breddegrad: ' + lat +
     '<br />Længdegrad: ' + lng + 
     '<br />Hastighed: ' + speed +
     '<br />Kurs: ' + heading +
+    '<br />Nøjagtighed: ' + accuracy +
     '<br />Last Updated: ' + js_yyyy_mm_dd_hh_mm_ss()
   );
   /*
@@ -181,7 +187,8 @@ function trip_tracker_submit() {
           field_blog_trip +=
             object.date + ':' +
             object.latitude + ':'+
-            object.longitude + ',';
+            object.longitude + ':' +
+            object.accuracy + ',';
       });
       // Remove the last comma.
       field_blog_trip = field_blog_trip.substring(0,field_blog_trip.length-1);
