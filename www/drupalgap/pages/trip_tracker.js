@@ -177,12 +177,6 @@ function trip_tracker_submit() {
 	  var data = '';
 	  if (trip_tracker_data && trip_tracker_data.length > 0) {
 	    $.each(trip_tracker_data, function(index, object){
-	        // Save the first latitude longitude as the location of the node.
-	        if (index == 0) {
-	          data +=
-	            "locations[0][locpick][user_latitude]=" + object.latitude +
-	            "&locations[0][locpick][user_longitude]=" + object.longitude; 
-	        }
 	        // Append the data, lat and lng to the field_blog_trip.
           field_blog_trip +=
             object.date + ':' +
