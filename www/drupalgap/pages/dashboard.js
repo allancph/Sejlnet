@@ -132,6 +132,8 @@ $('#sejlnet_button_gallery').live("click", function(){
 });
 
 $('#sejlnet_button_trip_tracker').live('click', function(){
+    // If the user is not logged in, give them a confirmation to login and set
+    // the destination to return to.
     if (drupalgap_user.uid == 0) {
       if (confirm('Vil du logge på før du starter logbogen ? Eller kan du ikke gemme din tur.')) {
         user_login_destination = 'trip_tracker.html';
@@ -145,4 +147,5 @@ $('#sejlnet_button_trip_tracker').live('click', function(){
       $.mobile.changePage('trip_tracker.html');
     }
 });
+
 

@@ -9,13 +9,31 @@ var trip_tracker_accuracy_threshold = 50;
 $('#drupalgap_trip_tracker').on('pagebeforeshow', function(){
     // Is there any trip tracker data saved in local strage?
     var data = window.localStorage.getItem('trip_tracker_data');
-    console.log(JSON.stringify(data));
     if (data != null) {
       $('#trip_tracker_start').hide();
       $('#trip_tracker_resume').show();
       $('#trip_tracker_reset').show();
       trip_tracker_data = JSON.parse(data);
     }
+});
+
+$('#drupalgap_trip_tracker').on('pageshow', function(){
+    // Is GPS enabled? If not, warn the user.
+    var gpsDetect = cordova.require('cordova/plugin/gpsDetectionPlugin');
+    gpsDetect.checkGPS(
+      // success
+      function(on){
+        if (!on) {
+          if (!confirm('GPS is not enabled on your device! Are you sure you want to continue?')) {
+            $.mobile.changePage('dashboard.html');
+          }
+        }
+      },
+      // error
+      function(error){
+        alert('drupalgap_trip_tracker - pagebeforeshow - ' + error);
+      }
+    );
 });
 
 function trip_tracker_start() {
@@ -119,7 +137,7 @@ function trip_tracker_success(position) {
     '<br />Hastighed: ' + speed +
     '<br />Kurs: ' + heading +
     '<br />Nøjagtighed: ' + accuracy +
-    '<br />Last Updated: ' + js_yyyy_mm_dd_hh_mm_ss()
+    '<br />Sidst opdateret: ' + js_yyyy_mm_dd_hh_mm_ss()
   );
   /*
   // Initialize the map if it hasn't been initialized.
