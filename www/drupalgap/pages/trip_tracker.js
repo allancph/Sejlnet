@@ -5,6 +5,7 @@ var trip_tracker_map_initialized = false;
 var trip_tracker_map_markers = [];
 var trip_tracker_started = false;
 var trip_tracker_accuracy_threshold = 50;
+var trip_tracker_background_service = null;
 
 $('#drupalgap_trip_tracker').on('pagebeforeshow', function(){
     // Is there any trip tracker data saved in local strage?
@@ -28,6 +29,33 @@ $('#drupalgap_trip_tracker').on('pageshow', function(){
             $.mobile.changePage('dashboard.html');
           }
         }
+        // Get the background service status.
+        trip_tracker_background_service = cordova.require('cordova/plugin/myService');
+        trip_tracker_background_service.getStatus(
+          function(data){
+            console.log(JSON.stringify(data));
+            if (data.ServiceRunning) {
+              alert('service is running!');
+            }
+            else {
+              // Service is not running, start service.
+              alert('starting service...');
+              trip_tracker_background_service.startService(
+                function(data){
+                  // Service started!
+                  console.log(JSON.stringify(data));
+                  alert('Service started!');
+                },
+                function(error){
+                  alert('trip_tracker_background_service - startService - ' + error);
+                }
+              );
+            }
+          },
+ 					function(error){
+ 					  alert('trip_tracker_background_service - getStatus - ' + error);
+ 					}
+ 			  );
       },
       // error
       function(error){
