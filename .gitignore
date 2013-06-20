@@ -2,3 +2,4 @@
 *.xcuserdatad/
 Sejlnet_Android/bin
 Sejlnet_Android/gen
+www/cordova*.js
