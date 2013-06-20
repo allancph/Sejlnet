@@ -6,15 +6,19 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
 public class MyService extends BackgroundService {
 	
-	private final static String TAG = MyService.class.getSimpleName();
+	//private final static String TAG = MyService.class.getSimpleName();
+	private final static String TAG = "SEJLNET";
 	
 	private String mHelloTo = "World";
+	
+	private ShowLocationActivity locationActivity;
 
 	@Override
 	protected JSONObject doWork() {
@@ -65,7 +69,12 @@ public class MyService extends BackgroundService {
 	@Override
 	protected void onTimerEnabled() {
 		// TODO Auto-generated method stub
-		
+		Log.d("SEJLNET", "creating ShowLocationActivity");
+		//locationActivity = new ShowLocationActivity(this);
+		Intent intent = new Intent(this, ShowLocationActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		Log.d("SEJLNET", "created ShowLocationActivity");
 	}
 
 	@Override

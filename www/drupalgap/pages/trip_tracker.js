@@ -8,14 +8,29 @@ var trip_tracker_accuracy_threshold = 50;
 var trip_tracker_background_service = null;
 
 $('#drupalgap_trip_tracker').on('pagebeforeshow', function(){
+    // Init the background service plugin.
+    trip_tracker_background_service = cordova.require('cordova/plugin/myService');
+    // Get the background service status.
+    trip_tracker_background_service.getStatus(
+      function(data){
+        if (data.ServiceRunning) {
+          $('#trip_tracker_start').hide();
+          $('#trip_tracker_stop').show();
+          $('#trip_tracker_reset').show();
+        }
+      },
+      function(error){
+        alert('getStatus - ' + error);
+      }
+    );
     // Is there any trip tracker data saved in local strage?
-    var data = window.localStorage.getItem('trip_tracker_data');
+    /*var data = window.localStorage.getItem('trip_tracker_data');
     if (data != null) {
       $('#trip_tracker_start').hide();
       $('#trip_tracker_resume').show();
       $('#trip_tracker_reset').show();
       trip_tracker_data = JSON.parse(data);
-    }
+    }*/
 });
 
 $('#drupalgap_trip_tracker').on('pageshow', function(){
@@ -29,33 +44,6 @@ $('#drupalgap_trip_tracker').on('pageshow', function(){
             $.mobile.changePage('dashboard.html');
           }
         }
-        // Get the background service status.
-        trip_tracker_background_service = cordova.require('cordova/plugin/myService');
-        trip_tracker_background_service.getStatus(
-          function(data){
-            console.log(JSON.stringify(data));
-            if (data.ServiceRunning) {
-              alert('service is running!');
-            }
-            else {
-              // Service is not running, start service.
-              alert('starting service...');
-              trip_tracker_background_service.startService(
-                function(data){
-                  // Service started!
-                  console.log(JSON.stringify(data));
-                  alert('Service started!');
-                },
-                function(error){
-                  alert('trip_tracker_background_service - startService - ' + error);
-                }
-              );
-            }
-          },
- 					function(error){
- 					  alert('trip_tracker_background_service - getStatus - ' + error);
- 					}
- 			  );
       },
       // error
       function(error){
@@ -69,11 +57,49 @@ function trip_tracker_start() {
   $('#trip_tracker_resume').hide();
   $('#trip_tracker_reset').hide();
   $('#trip_tracker_stop').show();
-  trip_tracker_watch_id = navigator.geolocation.watchPosition(
+  // Get the background service status.
+  trip_tracker_background_service.getStatus(
+    function(data){
+      if (data.ServiceRunning) {
+        alert('service is ALREADY running, cannot start it!');
+      }
+      else {
+        // Service is not running, start service.
+        alert('starting service...');
+        trip_tracker_background_service.startService(
+          function(data){
+            // Service started!
+            console.log(JSON.stringify(data));
+            alert('Service started! Enabling timer...');
+            // Enable timer on service.
+            trip_tracker_background_service.enableTimer(
+              6000,
+              function(data){
+                alert('timer enabled');
+                console.log('enableTimer');
+                console.log(JSON.stringify(data));
+              },
+              function(error){
+                alert('enableTimer - ' + error);
+              }
+            );
+          },
+          function(error){
+            alert('startService - ' + error);
+          }
+        );
+      }
+    },
+    function(error){
+      alert('getStatus - ' + error);
+    }
+  );
+  // Start watching geo location position.
+  /*trip_tracker_watch_id = navigator.geolocation.watchPosition(
     trip_tracker_success,
     trip_tracker_error,
     {enableHighAccuracy:true}
-  );
+  );*/
   // Tracking trip...
   $('#trip_tracker_message').prepend('<p>Logger tur...</p>');
   trip_tracker_started = true;
@@ -81,21 +107,43 @@ function trip_tracker_start() {
 }
 
 function trip_tracker_stop() {
-  navigator.geolocation.clearWatch(trip_tracker_watch_id);
+  // Disable timer on service.
+  trip_tracker_background_service.disableTimer(
+    function(data){
+      console.log(JSON.stringify(data));
+      alert('disabled timer');
+      // Stop the service.
+      trip_tracker_background_service.stopService(
+        function(data){
+          console.log(JSON.stringify(data));
+          alert('stopped the service!');
+        },
+        function(error){
+          alert('stopService - ' + error);
+        }
+      );
+    },
+    function(error){
+      alert('disableTimer - ' + error);
+    }
+  );
+  // Stop the geo location watcher.
+  //navigator.geolocation.clearWatch(trip_tracker_watch_id);
+  // Set button visibilities.
   $('#trip_tracker_stop').hide();
   $('#trip_tracker_reset').show();
   $('#trip_tracker_inputs').show();
   $('#trip_tracker_message').html('');
   trip_tracker_started = false;
-  var sailingPathCoordinates = [];
+  /*var sailingPathCoordinates = [];
   $.each(trip_tracker_data, function(index, data){
       var date = new Date(data.date);
       sailingPathCoordinates.push(new google.maps.LatLng(data.latitude, data.longitude));
-      /*$('#trip_tracker_message').append('<p>' +
-         date.toString() + '<br >' +
-        'Breddegrad: '  + data.latitude + '<br />' +
-        'Længdegrad: ' + data.longitude + '<hr />' +
-      '</p>');*/
+      //$('#trip_tracker_message').append('<p>' +
+      //   date.toString() + '<br >' +
+      //  'Breddegrad: '  + data.latitude + '<br />' +
+      //  'Længdegrad: ' + data.longitude + '<hr />' +
+      //'</p>');
   });
   // Initialize the map if it hasn't been initialized.
   if (!trip_tracker_map_initialized) {
@@ -125,6 +173,7 @@ function trip_tracker_stop() {
   });
   // Add the lines to the map.
   sailingPath.setMap(trip_tracker_map);
+  */
   return false;
 }
 
@@ -262,7 +311,7 @@ function trip_tracker_submit() {
 function trip_tracker_home_click() {
   // If the trip tracker is started, or if there is any trip data, warn them
   // about leaving the tracker.
-  if (trip_tracker_started || trip_tracker_data.length > 0) {
+  /*if (trip_tracker_started || trip_tracker_data.length > 0) {
     if (!confirm('Er du sikker på du vil forlade trackeren ? Data bliver gemt lokalt.')) {
       return false;
     }
@@ -275,7 +324,7 @@ function trip_tracker_home_click() {
       // Save the trip data to local storage.
       window.localStorage.setItem("trip_tracker_data", JSON.stringify(trip_tracker_data));
     }
-  }
+  }*/
   $.mobile.changePage('dashboard.html');
 }
 
