@@ -6,7 +6,9 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Looper;
 import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
@@ -69,12 +71,19 @@ public class MyService extends BackgroundService {
 	@Override
 	protected void onTimerEnabled() {
 		// TODO Auto-generated method stub
-		Log.d("SEJLNET", "creating ShowLocationActivity");
-		//locationActivity = new ShowLocationActivity(this);
-		Intent intent = new Intent(this, ShowLocationActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-		Log.d("SEJLNET", "created ShowLocationActivity");
+		runOnUiThread(new Runnable() {
+        public void run() {
+            Log.d("SEJLNET", "creating LocationManager");
+            LocationManager mlocManager = (LocationManager)getSystemService(Sejlnet.this.LOCATION_SERVICE);
+            LocationListener mlocListener = new MyLocationListener();
+            mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+            //locationActivity = new ShowLocationActivity(this);
+            /*Intent intent = new Intent(this, ShowLocationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);*/
+            Log.d("SEJLNET", "created LocationManager");
+        }
+    });
 	}
 
 	@Override
@@ -85,3 +94,4 @@ public class MyService extends BackgroundService {
 
 
 }
+

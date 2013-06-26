@@ -10,16 +10,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ShowLocationActivity extends Activity implements LocationListener {
+//public class ShowLocationActivity extends Activity implements LocationListener {
+public class ShowLocationActivity implements LocationListener {
   //private TextView latituteField;
   //private TextView longitudeField;
   private LocationManager locationManager;
   private String provider;
+  
+  private Context context;
 
   
 /** Called when the activity is first created. */
 
-  public void onCreate(Bundle savedInstanceState) {
+  /*public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     //latituteField = (TextView) findViewById(R.id.TextView02);
@@ -50,6 +53,46 @@ public class ShowLocationActivity extends Activity implements LocationListener {
       Log.d("SEJLNET", "Location not available!");
       //latituteField.setText("Location not available");
       //longitudeField.setText("Location not available");
+    }
+  }*/
+  
+  public ShowLocationActivity(Context context) {
+    this.context = context;
+    Log.d("SEJLNET", "Constructor!!!!");
+    
+    // Get the location manager
+    Log.d("SEJLNET", "Creating locaction manager...");
+    locationManager = (LocationManager) context.getSystemService(this.context.LOCATION_SERVICE);
+    Log.d("SEJLNET", "Created locaction manager.");
+    if (locationManager == null) {
+      Log.d("SEJLNET", "location manager was null.");
+    }
+    
+    // Define the criteria how to select the location provider -> use
+    // default
+    
+    Log.d("SEJLNET", "Creating criteria...");
+    Criteria criteria = new Criteria();
+    Log.d("SEJLNET", "Created criteria.");
+    if (criteria == null) {
+      Log.d("SEJLNET", "criteria was null.");
+    }
+    
+    Log.d("SEJLNET", "Creating provider...");
+    provider = locationManager.getBestProvider(criteria, false);
+    Log.d("SEJLNET", "Created provider.");
+    if (provider == null) {
+      Log.d("SEJLNET", "provider was null.");
+    }
+    
+    Log.d("SEJLNET", "Creating locaction...");
+    Location location = locationManager.getLastKnownLocation(provider);
+    Log.d("SEJLNET", "Created locaction.");
+    if (location != null) {
+      Log.d("SEJLNET", "Provider " + provider + " has been selected.");
+      onLocationChanged(location);
+    } else {
+      Log.d("SEJLNET", "Location not available!");
     }
   }
 
@@ -83,15 +126,12 @@ public class ShowLocationActivity extends Activity implements LocationListener {
 
   @Override
   public void onProviderEnabled(String provider) {
-    Toast.makeText(this, "Enabled new provider " + provider,
-        Toast.LENGTH_SHORT).show();
 
   }
 
   @Override
   public void onProviderDisabled(String provider) {
-    Toast.makeText(this, "Disabled provider " + provider,
-        Toast.LENGTH_SHORT).show();
+    
   }
 }
 

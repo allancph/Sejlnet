@@ -65,17 +65,17 @@ function trip_tracker_start() {
       }
       else {
         // Service is not running, start service.
-        alert('starting service...');
+        //alert('starting service...');
         trip_tracker_background_service.startService(
           function(data){
             // Service started!
             console.log(JSON.stringify(data));
-            alert('Service started! Enabling timer...');
+            //alert('Service started! Enabling timer...');
             // Enable timer on service.
             trip_tracker_background_service.enableTimer(
               6000,
               function(data){
-                alert('timer enabled');
+                //alert('timer enabled');
                 console.log('enableTimer');
                 console.log(JSON.stringify(data));
               },
